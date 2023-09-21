@@ -1,0 +1,111 @@
+:root {
+    --image-ratio-mobile: 100px;
+    --image-ratio-desktop: 200px;
+  }
+  
+  .slots-sectionId {
+    display: flex;
+    justify-content: space-between;
+    width: max-content;
+    height: var(--image-ratio-mobile); 
+    gap: 1rem;
+    margin-inline: auto;
+  
+    @media (min-width: 768px) {
+      height: var(--image-ratio-desktop); 
+    }
+  }
+  
+  .slot-sectionId {
+    width: var(--image-ratio-mobile); 
+    overflow: hidden;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+  
+    @media (min-width: 768px) {
+      width: var(--image-ratio-desktop); 
+    }
+  }
+  
+  .slot-sectionId ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    top: 0;
+    transition: top 1.5s ease-out;
+  }
+  
+  .slot-sectionId ul li {
+    height: var(--image-ratio-mobile); 
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    background-color: #f9f9f9;
+    position: relative;
+  
+    @media (min-width: 768px) {
+      height: var(--image-ratio-desktop); 
+    }
+  }
+  
+  .slot-sectionId ul li img {
+    display: flex;
+    height: 100%; 
+    width: 100%;  
+  }
+  #spinButton-sectionId{
+    display: block;
+    text-align: center;
+  }
+  #spinButton-sectionId img{
+width: 80px;
+height: auto;
+@media (min-width: 768px) {
+    width: 100px;
+}
+  }
+  section.m-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+     @media (min-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+
+    }
+  }
+  .slot-sectionId ul li .slot-item-details {
+    position: absolute;
+    inset: 0;
+    top: unset;
+    background: #f0f8ff78;
+}
+h5.product-title {
+    margin: 10px;
+    line-height: 1;
+    color: #000;
+
+}
+
+p.product-price {
+    margin: 10px;
+    line-height: 1;
+    color: #000;
+}
+
+h5.product-title a {
+    color: currentColor;
+    text-decoration: unset;
+}
+button#add-to-cart-button {
+    background: #000;
+    color: #fff;
+    border: none;
+    height: 40px;
+    padding-inline: 3rem;
+    text-transform: uppercase;
+    border-radius: 5px;
+}
+.text-center{
+    text-align: center;
+}
