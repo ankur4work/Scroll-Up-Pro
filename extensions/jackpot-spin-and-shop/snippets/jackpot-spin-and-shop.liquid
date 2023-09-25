@@ -183,6 +183,7 @@ h2.m-heading {
   font-size: 16px;
   max-width: 280px;
   margin-inline: auto;
+  color:#efb357;
 }
 @media(min-width:768px){
   .sub-heading {
@@ -218,7 +219,7 @@ h2.m-heading.main-heading.text-center {
               class="product-image-{{-block.id-}}"
               width="200"
               height="200"
-              src="https://img.freepik.com/premium-photo/oily-paints-light-strokes-realistic-beautiful-cute-squirrel-dancing-branch_933786-1747.jpg"
+              src="{{product.featured_image | image_url : width: 500 }}"
               loading="lazy">
             <div class="slot-item-details-{{- block.id -}}">
               <h5 class="product-title">{{ product.title | link_to: product.url }}</h5>
@@ -246,7 +247,7 @@ h2.m-heading.main-heading.text-center {
               class="product-image-{{-block.id-}}"
               width="200"
               height="200"
-              src="https://img.freepik.com/premium-photo/oily-paints-light-strokes-realistic-beautiful-cute-squirrel-dancing-branch_933786-1747.jpg"
+              src="{{product.featured_image | image_url : width: 500 }}"
               loading="lazy">
             <div class="slot-item-details-{{- block.id -}}">
               <h5 class="product-title">{{ product.title | link_to: product.url }}</h5>
@@ -275,7 +276,7 @@ h2.m-heading.main-heading.text-center {
               width=""
               height=""
               alt=""
-              src="https://img.freepik.com/premium-photo/oily-paints-light-strokes-realistic-beautiful-cute-squirrel-dancing-branch_933786-1747.jpg"
+              src="{{product.featured_image | image_url : width: 500 }}"
               loading="lazy">
             <div class="slot-item-details-{{- block.id -}}">
               <h5 class="product-title">{{ product.title | link_to: product.url }}</h5>
@@ -318,7 +319,7 @@ h2.m-heading.main-heading.text-center {
 
   <div class="jackpot-product-details">
     <div class="mrp-price"><span id="mrp-price-{{-block.id}}"></span></div>
-    <div class="deal-price">Deal Price : ₹<span id="deal-price-{{-block.id}}">15.98
+    <div class="deal-price">Jackpot Price : ₹<span id="deal-price-{{-block.id}}">16.92
   </span></div>
     <div class="save-price"><span id="save-price-{{-block.id}}"></span></div>
 </div>
@@ -412,12 +413,17 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-setTimeout(()=>{
+setTimeout(() => {
   const spin_btn = document.querySelector("#spinButton-{{-block.id-}}");
   if (spin_btn) {
     spin_btn.click();
+    
+    setTimeout(() => {
+      spin_btn.click();
+    }, 1000);
   }
-},1000);
+}, 1000);
+
 
 
 document.querySelector("#spinButton-{{-block.id-}}").addEventListener("touchstart", function(event) {
@@ -441,44 +447,43 @@ document.querySelector("#spinButton-{{-block.id-}}").addEventListener("mouseup",
 });
 </script>
 
-{% comment %} =============== Add to cart Ajax call =============== {% endcomment %}
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-const addToCartButton = document.querySelector("#add-to-cart-button-{{-block.id-}}");
-addToCartButton.addEventListener('click', async (event) => {
-  try {
-    addToCartButton.classList.add("active")
-    const props = {};
-    const selectedProducts = document.querySelectorAll(".activeProduct-{{-block.id-}}");
-    selectedProducts.forEach((product, index) => {
-      const propTitle = product.getAttribute("data-title");
-      props[`Product ${index + 1}`] = `${propTitle}`;
-    });
-    const requestData = {
-      quantity: 1,
-      id: 44937506423083,
-      properties: props
-    };
-
-    const response = await fetch('/cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestData)
-    });
-    console.log("Merox Data", response)
-    if (response.ok) {
-      const data = await response.json();
-      console.log("Merox Data", data)
-      addToCartButton.classList.remove("active")
-      window.location.href = '/cart';
-    } else {
-      console.error('Error:', response.statusText);
+  document.addEventListener("DOMContentLoaded", function() {
+  const addToCartButton = document.querySelector("#add-to-cart-button-{{-block.id-}}");
+  addToCartButton.addEventListener('click', async (event) => {
+    try {
+      addToCartButton.classList.add("active")
+      const props = {};
+      const selectedProducts = document.querySelectorAll(".activeProduct-{{-block.id-}}");
+      selectedProducts.forEach((product, index) => {
+        const propTitle = product.getAttribute("data-title");
+        props[`Product ${index + 1}`] = `${propTitle}`;
+      });
+      const requestData = {
+        quantity: 1,
+        id: 45337746669867,
+        properties: props
+      };
+  
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
+      if (response.ok) {
+        const data = await response.json();
+        addToCartButton.classList.remove("active");
+        window.location.href = '/cart';
+      } else {
+        addToCartButton.classList.remove("active");
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
-  } catch (error) {
-    console.error('Error:', error);
-  }
-});
-})
-</script>
+  });
+  })
+  </script>
+   
