@@ -7,13 +7,13 @@ import react from "@vitejs/plugin-react";
 process.env = {...process.env, ...loadEnv("", process.cwd())};
 
 
-console.log("API key: ", process.env.VITE_SHOPIFY_API_KEY);
-console.log("Host: ", process.env.VITE_HOST);
+console.log("API key: ", process.env.SHOPIFY_API_KEY);
+console.log("Host: ", process.env.HOST);
 
 if (
   process.env.npm_lifecycle_event === "build" &&
   !process.env.CI &&
-  !process.env.VITE_SHOPIFY_API_KEY
+  !process.env.SHOPIFY_API_KEY
 ) {
   console.warn(
     "\nBuilding the frontend app without an API key. The frontend build will not run without an API key. Set the SHOPIFY_API_KEY environment variable when running the build command.\n"
@@ -27,8 +27,8 @@ const proxyOptions = {
   ws: false,
 };
 
-const host = process.env.VITE_HOST
-  ? process.env.VITE_HOST.replace(/https?:\/\//, "")
+const host = process.env.HOST
+  ? process.env.HOST.replace(/https?:\/\//, "")
   : "localhost";
 
 let hmrConfig;
@@ -52,7 +52,7 @@ export default defineConfig({
   root: dirname(fileURLToPath(import.meta.url)),
   plugins: [react()],
   define: {
-    "process.env.SHOPIFY_API_KEY": JSON.stringify(process.env.VITE_SHOPIFY_API_KEY),
+    "process.env.SHOPIFY_API_KEY": JSON.stringify(process.env.SHOPIFY_API_KEY),
   },
   resolve: {
     preserveSymlinks: true,
