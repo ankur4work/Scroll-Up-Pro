@@ -1,3 +1,27 @@
-# This file stores configurations for your Shopify app.
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-scopes = "write_products"
+name = "animesh-dev-jackpot"
+client_id = "8bdb5503a0e9f163585dbd479879b0e5"
+application_url = "https://routes-telling-arrivals-increased.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+
+[auth]
+redirect_urls = [
+  "https://routes-telling-arrivals-increased.trycloudflare.com/auth/callback",
+  "https://routes-telling-arrivals-increased.trycloudflare.com/auth/shopify/callback",
+  "https://routes-telling-arrivals-increased.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-07"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "animesh-development.myshopify.com"
