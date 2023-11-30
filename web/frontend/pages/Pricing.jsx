@@ -148,21 +148,6 @@ export default function Pricing() {
                         <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
 
                     </div>
-
-                    <div className="main-icon-2"><Button onClick={gotoInstallPage} plain monochrome removeUnderline fullWidth >
-                        <div className="m-icon-show-2"><Icon source={ChecklistMajor} /><span className="m-hover-text-2"> <h1>Installation</h1></span></div></Button>
-
-                    </div>
-
-                    <div className="main-icon-3"><Button onClick={gotoPricingPage} plain monochrome removeUnderline fullWidth >
-                        <div className="m-icon-show-3"><Icon source={CashDollarMajor} /><span className="m-hover-text-3"> <h1>Pricing</h1></span></div></Button>
-                    </div>
-
-                    <div className="main-icon-4"><Button onClick={gotoSupportPage} plain monochrome removeUnderline fullWidth >
-                        <div className="m-icon-show-4"><Icon source={QuestionMarkMajor} /><span className="m-hover-text-4"> <h1>Support</h1></span></div></Button>
-
-                    </div>
-
                 </div>
             }
 

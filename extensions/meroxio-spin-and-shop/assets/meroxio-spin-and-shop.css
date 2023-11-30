@@ -12,6 +12,9 @@
   [data-block-handle="jackpot-spin-and-shop"] {
     padding: 30px;
 }
+.slots-jackpot{
+max-width: 650px;
+}
 }
 .slots-jackpot{
   display: flex;
@@ -68,6 +71,7 @@ li.product-jackpot{
   display: flex;
   height: auto;
   width: 100%;
+  aspect-ratio: 1;
 }
 
 #spinButton-jackpot{
@@ -169,15 +173,15 @@ button#add-to-cart-button-jackpot{
     text-align: center;
 }
 .mrp-price {
-    color: red;
+    color: var(--compare-price-color);
 }
 
 .save-price {
-    color: green;
+    color: var(--saving-price-color);
 }
 
 .deal-price {
-    color: #d5932e;
+    color: var(--final-price-color);
 }
 #add-to-cart-button-jackpot.active .atc-name{
   display:none;
@@ -220,7 +224,7 @@ h2.m-heading.main-heading.text-center {
     bottom: 0;
     left: 0;
     z-index: 5;
-    background: #eeb256;
+    background: var(--button-bg);
     outline: none;
     border: none;
     width: 100%;

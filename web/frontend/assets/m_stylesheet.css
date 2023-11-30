@@ -457,12 +457,10 @@ table.Polaris-DataTable__Table thead th {
     margin-bottom: 3em;
 }
 
-.m-mediacard-container-1 {
-    width: 50%;
-}
 
-.m-mediacard-container-2 {
-    width: 50%;
+.m-mediacard-container > div {
+    max-width: 300px;
+    width: 100%;
 }
 
 .m-mediacard-container .Polaris-MediaCard__MediaContainer {

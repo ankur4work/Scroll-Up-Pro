@@ -5,11 +5,14 @@ document.addEventListener("DOMContentLoaded", function() {
   const listContainer = document.querySelector(".list-jackpot");
   const listItems = listContainer.querySelectorAll("li");
   const totalItems = listItems.length;
-  let dealPrice = document.querySelector("#deal-price-jackpot").textContent
+  let dealPrice = document.querySelector("#spin-and-shop").getAttribute("data--price")
   const addToCartButton = document.querySelector("#add-to-cart-button-jackpot");
 
+  const dealPriceJackpot = document.querySelector("#deal-price-jackpot");
+  dealPriceJackpot.textContent = `${Shopify.currency.active}  ${parseInt(dealPrice)}`;
+  
   let totalPrice = 0;
-  let itemHeight = 200;
+  let itemHeight = 270;
   if (window.innerWidth < 768) {
     itemHeight = 180;
   }
@@ -48,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
           });
           const slotComparePrice = document.querySelector("#mrp-price-jackpot");
           if (slotComparePrice) {
-            slotComparePrice.textContent = `MRP : ₹${totalPrice}`;
+            slotComparePrice.textContent = `${comparedPriceText} : ${Shopify.currency.active} ${totalPrice}`;
           }
           const normalPrice = document.querySelector(".normalPrice-jackpot");
           if (normalPrice) {
@@ -65,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
           const finalDiscountPercentage = discountPercentage * 100;
           const slotSaveAmt = document.querySelector("#save-price-jackpot");
           if (slotSaveAmt) {
-            slotSaveAmt.textContent = `You Save : ₹${Math.ceil(saveAmt)} (${Math.ceil(finalDiscountPercentage)}% Off)`;
+            slotSaveAmt.textContent = `${savedPriceText} : ${Shopify.currency.active} ${Math.ceil(saveAmt)} (${Math.ceil(finalDiscountPercentage)}% off)`;
           }
           addToCartButton.removeAttribute("disabled")
 

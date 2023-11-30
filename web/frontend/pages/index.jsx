@@ -175,22 +175,6 @@ export default function HomePage() {
           <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
           <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
         </div>
-
-        <div className="main-icon-2"><Button onClick={gotoInstallPage} plain monochrome removeUnderline fullWidth >
-          <div className="m-icon-show-2"><Icon source={ChecklistMajor} /><span className="m-hover-text-2"> <h1>Merox Installation</h1></span></div></Button>
-        </div>
-
-        <div className="main-icon-3"><Button onClick={gotoPricingPage} plain monochrome removeUnderline fullWidth >
-          <div className="m-icon-show-3"><Icon source={CashDollarMajor} /><span className="m-hover-text-3"> <h1>Pricing</h1></span></div></Button>
-        </div>
-
-        <div className="main-icon-4"><Button onClick={gotoSupportPage} plain monochrome removeUnderline fullWidth >
-          <div className="m-icon-show-4"><Icon source={QuestionMarkMajor} /><span className="m-hover-text-4"> <h1>Support</h1></span></div></Button>
-        </div>
-
-
-
-
         </div>
       }
 
@@ -216,14 +200,6 @@ export default function HomePage() {
       <Page>
         {toastMarkup}
         <Layout>
-          <Layout.Section>
-            <ActiveSubscription />
-          </Layout.Section>
-
-          {/* <Layout.Section>
-            <ThemeValidate />
-          </Layout.Section> */}
-
 
           <Layout.Section>
 
@@ -298,16 +274,7 @@ export default function HomePage() {
 
           <Layout.Section>
 
-            {/* m-iconkeyfeature-calling-function-define */}
-
-            <div className="m-keyfeature-container-1">
-              <Iconkeyfeature imagespeed="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/install.png?v=1665828891" productname="Easy to install" description="No manual installation and coding is required. Single click install app." />
-              <Iconkeyfeature imagespeed="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/speedperformance.png?v=1665832938" productname="High speed performance" description="Optimized for maximum performance. It is highly optimized, lightweight, fast and easy to use." />
-              <Iconkeyfeature imagespeed="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/responsive.png?v=1665833458" productname="Fully responsive" description=" Our lookbook application is fully responsive on mobile and tablet and especially supportive in both IOS and Android." />
-              <Iconkeyfeature imagespeed="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/visitors.png?v=1665833458" productname="Boost customer's visit" description="Engage with customers on your online store and inspire them to purchase." />
-              <Iconkeyfeature imagespeed="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/customize.png?v=1665833377" productname="Easy to customize" description="You'll create something that not only looks great, but that also inspires potential customers." />
-              <Iconkeyfeature imagespeed="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/boost-1_9338cf62-00ac-42c6-833a-c175ef71e064.png?v=1665834143" productname=" Boost your sales" description=" By featuring certain products that can generate interest and sales for those items. Our application is 2.0 compatible. " />
-            </div>
+         
 
             <div className="planComparison">
               <Card title="Plan Comparison" sectioned
