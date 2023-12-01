@@ -2,11 +2,13 @@ document.addEventListener("DOMContentLoaded", function() {
 "use strict";
 
 
-  const maxClicks = 10; // Set this to whatever limit you want
+  const maxClicks = limitCount; // Set this to whatever limit you want
 
   const spin_btn = document.querySelector("#spinButton-jackpot");
   const limitMessage = document.getElementById("limit_message");
   const listContainer = document.querySelector(".list-jackpot");
+  const sectionRight = document.querySelector(".section-right");
+
   const listItems = listContainer.querySelectorAll("li");
   const totalItems = listItems.length;
   let dealPrice = document.querySelector("#spin-and-shop").getAttribute("data--price")
@@ -29,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Check if the maximum number of clicks has been reached
   if (spinCount >= maxClicks) {
-    spin_btn.style.display = 'none';
+    spin_btn.disabled = true;
+    sectionRight.classList.add("section-right-disabled");
     limitMessage.style.display = 'block'; 
     return;
   }
@@ -95,7 +98,10 @@ document.addEventListener("DOMContentLoaded", function() {
       });
 
       if (spinCount >= maxClicks) {
-        spin_btn.style.display = 'none';
+        spin_btn.disabled = true;
+        sectionRight.classList.add("section-right-disabled");
+
+
         limitMessage.style.display = 'block'; 
       }
   
