@@ -5,8 +5,8 @@
   border-radius: 20px;
   border:1px solid #f1f1f1;
 }
-.section-left {
-  /* flex-grow: 1; */
+button#spinButton-jackpot[disabled] {
+  opacity: .7;
 }
 @media(min-width:768px){
   [data-block-handle="jackpot-spin-and-shop"] {
@@ -80,6 +80,10 @@ li.product-jackpot{
   height:60px;
   position:relative;
   margin-top:5px;
+    width: 100px;
+    border: none;
+    background: transparent;
+    margin-inline: auto;
 }
 
 
@@ -91,8 +95,14 @@ img.spin-images {
   inset: 0;
   top: auto;
 }
+
 @media(min-width: 768px) {
   #spinButton-jackpot{
+    display: block;
+    width: 120px;
+    border: none;
+    background: transparent;
+    margin-inline: auto;
     height:70px;
   }
   img.spin-images {
@@ -119,7 +129,14 @@ section.m-container {
 }
 
 @media(max-width: 767px) {
-
+  .section-right{
+    position: relative;
+  }
+  .section-right-disabled:after  {
+    content: '';
+    position: absolute;
+    inset: 0 0 130px 0;
+}
 h5.product-title{
   text-overflow: ellipsis;
     white-space: normal;
@@ -285,7 +302,11 @@ div#minimize-btn {
   display: block;
 }
 button#add-to-cart-button-jackpot[disabled] {
-  opacity: .8;
+  opacity: .4;
+}
+div#limit_message {
+  text-align: center;
+  color: red;
 }
 @media(max-width:767px){
   .section-right {
@@ -368,3 +389,4 @@ button#jackpot-icon {
   display: none;
 }
 }
+
