@@ -54,11 +54,11 @@ export default function HomePage() {
   const activator = <Button onClick={handleChange}>Quick Setup Guide</Button>;
 
 
-  const {
-    data,
-  } = useAppQuery({
-    url: "/api/getshop",
-  });
+  // const {
+  //   data,
+  // } = useAppQuery({
+  //   url: "/api/getshop",
+  // });
 
   const template = 'index'; // Replace with your actual template value
   const uuid = '51b1bbbc-cc5e-42e6-9b97-899741c85f10'; // Replace with your actual UUID
@@ -66,11 +66,11 @@ export default function HomePage() {
   const reviewUrl = "https://apps.shopify.com/meroxio-product-video-feed"
 
 
-  function openThemeEditor() {
-    console.log("Shop: " + data?.shop);
-    const url = `https://${data?.shop}/admin/themes/current/editor?context=apps&template=${template}&activateAppId=${uuid}/${handle}`;
-    window.open(url);
-  }
+  // function openThemeEditor() {
+  //   console.log("Shop: " + data?.shop);
+  //   const url = `https://${data?.shop}/admin/themes/current/editor?context=apps&template=${template}&activateAppId=${uuid}/${handle}`;
+  //   window.open(url);
+  // }
 
   function openReviewPage() {
     window.open(reviewUrl);
@@ -188,7 +188,7 @@ export default function HomePage() {
         {toastMarkup}
         <Layout>
           <Layout.Section>
-            <div className="custom-callout-container">
+            {/* <div className="custom-callout-container">
               <CalloutCard
                 title="Activate Jackpot Spin and Shop"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
@@ -199,7 +199,7 @@ export default function HomePage() {
                   Ready to enhance your store's experience? Click 'Enable' to activate the Jackpot Spin and Shop feature. Once enabled, you can easily customize settings and personalize the app to match your store's style. Elevate your customer's shopping journey today!
                 </p>
               </CalloutCard>
-            </div>
+            </div> */}
           </Layout.Section>
           <Layout.Section>
 
@@ -236,14 +236,14 @@ export default function HomePage() {
                 </Modal.Section>
               </Modal>
 
-
+{/* 
               <Button plain onClick={openThemeEditor} style={{ marginLeft: "auto" }}>
                 <div className="appEnableBtn"><span>Enable Now</span>
                   <Icon
                     source={ExternalMinor}
                     color="base"
                   /></div>
-              </Button>
+              </Button> */}
             </div>
           </Layout.Section>
 
