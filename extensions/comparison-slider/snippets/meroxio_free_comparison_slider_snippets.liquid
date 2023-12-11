@@ -1,39 +1,49 @@
 <style>
-    .m-compare-show-both{
-      display: block;
-      }
-  .m-compare-show-desktop{
-  display: block;
+  #meroxio-comparison-slider-free .m-compare-show-both {
+    display: block;
   }
-  .m-compare-show-mobile{
+  
+  #meroxio-comparison-slider-free .m-compare-show-desktop {
+    display: block;
+  }
+  
+  #meroxio-comparison-slider-free .m-compare-show-mobile {
     display: none;
-    }
-    .m-compare-bottom{
-      bottom: 2%;
-      }
-  .m-image-comparison-heading{
+  }
+  
+  #meroxio-comparison-slider-free .m-compare-bottom {
+    bottom: 2%;
+  }
+  
+  #meroxio-comparison-slider-free .m-image-comparison-heading {
     text-align: center;
   }
-  .m-image-comparison-heading h2{
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin: 0;
-      padding-bottom: 15px;
-      font-weight: 600;
+  
+  #meroxio-comparison-slider-free .m-image-comparison-heading h2 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+    padding-bottom: 15px;
+    font-weight: 600;
   }
-  .m-compare-border-radius{
+  
+  #meroxio-comparison-slider-free .m-compare-border-radius {
     border-radius: 5px;
   }
-  .m-image-scroll-btn{
+  
+  #meroxio-comparison-slider-free .m-image-scroll-btn {
     background-color: {{block.settings.primary}};
   }
-  .m-image-comparison-heading-text-color h2{
+  
+  #meroxio-comparison-slider-free .m-image-comparison-heading-text-color h2 {
     color: {{ block.settings.primary }};
   }
-  .m_image_comparison_slider_bg {
+  
+  #meroxio-comparison-slider-free .m_image_comparison_slider_bg {
     background: {{ block.settings.comparison-bg }};
   }
-  .m_powered_our_logo{
+  
+  #meroxio-comparison-slider-free .m_powered_our_logo {
     position: absolute;
     top: 0;
     right: 0;
@@ -43,23 +53,26 @@
     color: white;
     overflow: hidden;
     z-index: 2;
-}
-.m_powered_our_logo img{
-  position: relative;
+  }
+  
+  #meroxio-comparison-slider-free .m_powered_our_logo img {
+    position: relative;
     top: 7%;
     left: 60%;
-}
-  @media(max-width: 678px){
-    .m-compare-show-desktop{
-      display: none;
-      }
-      .m-compare-show-mobile{
-        display: block;
-        }
   }
+  @media (max-width: 678px) {
+    #meroxio-comparison-slider-free .m-compare-show-desktop {
+      display: none;
+    }
+  
+    #meroxio-comparison-slider-free .m-compare-show-mobile {
+      display: block;
+    }
+  }
+  
 </style>
 {{ block.settings['m-compare-custom'] }}
-
+<div id="meroxio-comparison-slider-free">
 <div class="m-image-comparison m_image_comparison_slider_bg {{ block.settings.m-compare-show-device }}" data-component="m-image-comparison-slider">
   <div class="m-image-comparison-heading m-image-comparison-heading-text-color">
     <h2>{{ block.settings['main-heading'] }}</h2>
@@ -95,7 +108,7 @@
                 <img
                   width="900"
                   height="200"
-                  src="https://cdn.shopify.com/s/files/1/0629/5522/5264/files/1.png?v=1701753358"
+                  src="https://cdn.shopify.com/s/files/1/0629/5522/5264/files/1_f06299f1-a2c0-4b68-8666-b57f28ada8bb.png?v=1702297583"
                   class="m-image-comparison__image"
                   loading="lazy"
                 >
@@ -134,7 +147,7 @@
               <img
                 width="900"
                 height="200"
-                src="https://cdn.shopify.com/s/files/1/0629/5522/5264/files/2.png?v=1701753357"
+                src="https://cdn.shopify.com/s/files/1/0629/5522/5264/files/2_7818fa62-1e52-4946-a36f-4b01e6bc871a.png?v=1702297583"
                 class="m-image-comparison__image {% if block.settings.m-compare-images-radius != false %} m-compare-images-radius {% endif %}"
                 loading="lazy"
               >
@@ -148,4 +161,5 @@
     </div>
   </div>
   <p class="m_powered_massage">Powered By MeroxIO</p>
+</div>
 </div>

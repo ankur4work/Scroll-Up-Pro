@@ -44,7 +44,7 @@
             "type": "image_picker",
             "id": "image-1",
             "label": "Comparison Image",
-            "info": "Recommended Size (900x600)px"
+            "info": "Recommended Size (2000x1000)px"
           },
           {
             "type": "range",
@@ -70,7 +70,7 @@
             "type": "image_picker",
             "id": "image-2",
             "label": "Comparison Image",
-            "info": "Recommended Size (900x600)px"
+            "info": "Recommended Size (2000x1000)px"
           },
           {
             "type": "range",
@@ -141,8 +141,14 @@
       },
       {
         "type": "checkbox",
+        "id": "details_text_show",
+        "label": "Details Text - Show",
+        "default": true
+      },
+      {
+        "type": "checkbox",
         "id": "m-compare-images-radius",
-        "label": "Image Rounded Corner",
+        "label": "Button Rounded Corner",
         "default": true
       },
       {
@@ -173,12 +179,6 @@
           "type": "html",
           "id": "m-compare-custom",
           "label": "Custom CSS"
-        },
-        {
-          "type": "checkbox",
-          "id": "details_text_show",
-          "label": "Details text - Show",
-          "default": true
         }
     ]
   }

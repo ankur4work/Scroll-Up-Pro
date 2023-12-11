@@ -127,13 +127,12 @@ export default function HomePage() {
 
   const rows = [
     ['Cost', 'Free', '$9.99/month'],
-    ['Daily Spin Limit per Customer', '5 spins', 'Unlimited spins'],
+    ['Interactive Visual Comparison', 'Basic', 'Enhanced'],
     ['No Powered By MeroxIO Branding', '-', tickIcon],
-    ['Interactive Spin-to-Win Mechanism', tickIcon, tickIcon],
-    ['Exciting Product Discovery', tickIcon, tickIcon],
-    ['Exclusive Discount Offers', tickIcon, tickIcon],
-    ['Customizable Spin Experience', '-', tickIcon],
+    ['Customizable Overlay Settings', 'Limited', tickIcon],
+    ['Effortless Integration', 'Standard', 'Priority'],
     ['Responsive Design', tickIcon, tickIcon],
+    ['Details Text', '-', tickIcon],
     ['Priority Email/Chat Support', '-', tickIcon]
   ];
   
@@ -148,7 +147,7 @@ export default function HomePage() {
     height: 90,
 
     topBarSource:
-      `https://cdn.shopify.com/s/files/1/0749/4638/0075/files/MeroxIOBYOB.png`,
+      `https://cdn.shopify.com/s/files/1/0629/5522/5264/files/MeroxIO_Comparison_Slider.png?v=1702290807`,
     url: '/',
     accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0627/5727/3793/files/lookbook_logo.png?v=1666164778',
 
@@ -209,15 +208,15 @@ export default function HomePage() {
             <TextContainer>
               <DisplayText size="Large"><span>Introduction</span></DisplayText>
 
-              <p>Welcome to MeroxIO Jackpot Spin and Shop! Our innovative app revolutionizes the shopping experience on your Shopify store. MeroxIO Jackpot Spin and Shop offers a unique and interactive way for customers to discover and purchase products. Inspired by the excitement of slot machines, this app allows customers to spin a virtual wheel and land on a set of three random products from your store's offerings.</p>
+              <p>Welcome to a new era of dynamic and captivating product presentation with Comparison Slider – the innovative solution designed to transform your Shopify store. Developed by MeroxIO, our app redefines the way you showcase products, offering an engaging blend of visual comparison and informative text elements.</p>
 
               <h2><b>Key Features:</b></h2>
               <ul className="appFeatures">
-                <li><strong>Interactive Spin-to-Win Mechanism:</strong> Customers can click the 'spin' button to start the slot machine, randomly selecting three products from your inventory.</li>
-                <li><strong>Exciting Product Discovery:</strong> Each spin showcases different products, offering a new and thrilling way to explore your catalog.</li>
-                <li><strong>Exclusive Discount Offers:</strong> Products selected by the spin come with special discounted rates, set by the shop admin, encouraging immediate purchases.</li>
-                <li><strong>Customizable Spin Experience:</strong> Tailor the look and feel of the spin mechanism to match your store's branding and aesthetics.</li>
-                <li><strong>Responsive Design:</strong> Optimized for a seamless experience across desktop, tablet, and mobile devices.</li>
+                <li><strong>Interactive Comparison:</strong> Engage customers seamlessly with an interactive slider for dynamic image comparisons, enhancing your product showcase.</li>
+                <li><strong>Brand-Focused Customization:</strong> Tailor the slider's appearance to match your brand effortlessly, ensuring a consistent and branded look that resonates with your identity.</li>
+                <li><strong>Effortless Setup:</strong> Easily integrate into your Shopify store for a hassle-free user experience, no complex coding required.</li>
+                <li><strong>Responsive Design:</strong> Provide a consistent and visually appealing experience across devices - desktops, tablets, and smartphones.</li>
+                <li><strong>Comprehensive Information:</strong> Combine visual impact with essential product details through integrated text features, offering a thorough and informative product exploration.</li>
               </ul>
 
 
