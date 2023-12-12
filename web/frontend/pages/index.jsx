@@ -57,21 +57,21 @@ export default function HomePage() {
   const activator = <Button onClick={handleChange}>Quick Setup Guide</Button>;
 
 
-  // const {
-  //   data,
-  // } = useAppQuery({
-  //   url: "/api/getshop",
-  // });
+  const {
+    data,
+  } = useAppQuery({
+    url: "/api/getshop",
+  });
 
   const template = 'index'; // Replace with your actual template value
-  const uuid = '51b1bbbc-cc5e-42e6-9b97-899741c85f10'; // Replace with your actual UUID
-  const handle = 'meroxio-spin-and-shop'; // Replace with your actual handle
+  const uuid = '0f3ce9d4-4972-47a6-b59e-82dff59be994'; // Replace with your actual UUID
+  const handle = 'meroxio_comparison_slider'; // Replace with your actual handle
   const reviewUrl = "https://apps.shopify.com/meroxio-product-video-feed"
 
 
   function openThemeEditor() {
     console.log("Shop: " + data?.shop);
-    const url = `https://${data?.shop}/admin/themes/current/editor?context=apps&template=${template}&activateAppId=${uuid}/${handle}`;
+    const url =  `https://${data?.shop}/admin/themes/current/editor?template=${template}`;
     window.open(url);
   }
 
@@ -126,7 +126,7 @@ export default function HomePage() {
 
 
   const rows = [
-    ['Cost', 'Free', '$9.99/month'],
+    ['Cost', 'Free', '$4.99/month'],
     ['Interactive Visual Comparison', 'Basic', 'Enhanced'],
     ['No Powered By MeroxIO Branding', '-', tickIcon],
     ['Customizable Overlay Settings', 'Limited', tickIcon],
@@ -255,7 +255,7 @@ export default function HomePage() {
           <Layout.Section secondary>
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
-                {/* <ReactPlayer
+                <ReactPlayer
                   url={"https://cdn.shopify.com/videos/c/o/v/e4c7dbfe52234119b9339b1778d94889.mp4"}
                   playing={true}
                   controls={true}
@@ -263,7 +263,7 @@ export default function HomePage() {
                   muted={true}
                   playsinline={true}
 
-                /> */}
+                />
 
               </div>
             </Card>
