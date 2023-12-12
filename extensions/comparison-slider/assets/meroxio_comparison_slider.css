@@ -5,6 +5,7 @@
 .m-image-comparison__slider-wrapper {
   position: relative;
   width: 100%;
+  height: 100%;
 }
 
 .m-image-comparison__label {
@@ -147,8 +148,9 @@
 }
 
 .m-image-comparison__caption-body {
-  max-width: 40vmin;
+  /* max-width: 40vmin; */
   padding: 6px 12px;
+  max-width: max-content;
 }
 
 .m-image-comparison__slider {
