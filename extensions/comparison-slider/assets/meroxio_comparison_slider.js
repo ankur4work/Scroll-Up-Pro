@@ -1,57 +1,79 @@
-'use strict'
-const imageComparisonSlider = document.querySelector('[data-component="m-image-comparison-slider"]')
+function initializeImageComparisonSlider(imageComparisonSlider) {
+  'use strict';
 
-function setSliderstate(e, element) {
-  const sliderRange = element.querySelector('[data-m-image-comparison-range]');
-
-  if (e.type === 'input') {
-    sliderRange.classList.add('m-image-comparison__range--active');
+  if (!imageComparisonSlider) {
+    console.warn('ImageComparisonSlider element is not provided.');
     return;
   }
 
-  sliderRange.classList.remove('m-image-comparison__range--active');
-  element.removeEventListener('mousemove', moveSliderThumb);
-}
+  const sliderRange = imageComparisonSlider.querySelector('[data-m-image-comparison-range]');
+  const thumb = imageComparisonSlider.querySelector('[m-image-comparison-thumb]');
+  const slider = imageComparisonSlider.querySelector('[data-m-image-comparison-slider]');
+  const imageWrapperOverlay = imageComparisonSlider.querySelector('[data-m-image-comparison-overlay]');
+  let isMoving = false;
 
-function moveSliderThumb(e) {
-  const sliderRange = document.querySelector('[data-m-image-comparison-range]');
-  const thumb = document.querySelector('[m-image-comparison-thumb]');
-  let position = e.layerY - 20;
-
-  if (e.layerY <= sliderRange.offsetTop) {
-    position = -20;
+  function setSliderState(active) {
+    if (active) {
+      sliderRange.classList.add('m-image-comparison__range--active');
+    } else {
+      sliderRange.classList.remove('m-image-comparison__range--active');
+    }
   }
 
-  if (e.layerY >= sliderRange.offsetHeight) {
-    position = sliderRange.offsetHeight - 20;
+  function moveSliderThumb(e) {
+    if (!isMoving) return;
+
+    let position = (e.layerY || e.clientY) - 20;
+    position = Math.max(position, -20);
+    position = Math.min(position, sliderRange.offsetHeight - 20);
+
+    // Update thumb position here if needed
   }
 
-  // thumb.style.transition = 'width 0.1s ease-in-out';
-}
+  function moveSliderRange(e) {
+    const value = e.target.value;
 
-function moveSliderRange(e, element) {
-  const value = e.target.value;
-  const slider = element.querySelector('[data-m-image-comparison-slider]');
-  const imageWrapperOverlay = element.querySelector('[data-m-image-comparison-overlay]');
+    slider.style.left = `${value}%`;
+    imageWrapperOverlay.style.width = `${value}%`;
 
-  slider.style.left = `${value}%`;
-  imageWrapperOverlay.style.width = `${value}%`;
-  imageWrapperOverlay.style.transition = 'width';
-
-  element.addEventListener('mousemove', moveSliderThumb);
-  setSliderstate(e, element);
-}
-
-function init(element) {
-  const sliderRange = element.querySelector('[data-m-image-comparison-range]');
-
-  if ('ontouchstart' in window === false) {
-    sliderRange.addEventListener('mouseup', e => setSliderstate(e, element));
-    sliderRange.addEventListener('mousedown', moveSliderThumb);
+    setSliderState(e.type === 'input');
   }
 
-  sliderRange.addEventListener('input', e => moveSliderRange(e, element));
-  sliderRange.addEventListener('change', e => moveSliderRange(e, element));
+  function addEventListeners(element, eventType, handler) {
+    element.addEventListener(eventType, handler);
+    element.addEventListener(`touch${eventType}`, handler);
+  }
+
+  function init() {
+    addEventListeners(sliderRange, 'input', moveSliderRange);
+    addEventListeners(sliderRange, 'change', moveSliderRange);
+
+    if ('ontouchstart' in window) {
+      addEventListeners(sliderRange, 'start', () => { isMoving = true; });
+      addEventListeners(window, 'end', () => { isMoving = false; });
+      addEventListeners(window, 'move', e => {
+        if (isMoving) {
+          window.requestAnimationFrame(() => moveSliderThumb(e.touches[0]));
+        }
+      });
+    } else {
+      sliderRange.addEventListener('mousedown', () => { isMoving = true; });
+      window.addEventListener('mouseup', () => { isMoving = false; });
+      window.addEventListener('mousemove', e => {
+        if (isMoving) {
+          window.requestAnimationFrame(() => moveSliderThumb(e));
+        }
+      });
+    }
+  }
+
+  init();
 }
 
-init(imageComparisonSlider);
+// Initialize sliders for each block with a unique ID
+document.addEventListener('DOMContentLoaded', function() {
+  const sliders = document.querySelectorAll('[id^="mcsp-"]');
+  sliders.forEach(slider => {
+    initializeImageComparisonSlider(slider);
+  });
+});
