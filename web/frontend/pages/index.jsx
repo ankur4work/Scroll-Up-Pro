@@ -233,7 +233,7 @@ export default function HomePage() {
                 <Modal.Section>
                   <div>
 
-                    <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/f51fa15242a64c3aba2fc26f724fe462.mp4?portrait=0&loop=1&title=0&byline=0&sidedock=0&h=881b23983c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
+                    <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/cf61027e625d4f5b90c5fea31bc2de2e.mp4" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
                   </div>
                 </Modal.Section>
               </Modal>
@@ -256,7 +256,7 @@ export default function HomePage() {
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
                 <ReactPlayer
-                  url={"https://cdn.shopify.com/videos/c/o/v/e4c7dbfe52234119b9339b1778d94889.mp4"}
+                  url={"https://cdn.shopify.com/videos/c/o/v/ebf447344ab14bcc95b526034be22691.mp4"}
                   playing={true}
                   controls={true}
                   loop={true}
