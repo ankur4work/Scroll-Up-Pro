@@ -193,8 +193,8 @@ app.get("/api/hasActiveSubscription", async (req, res) => {
               {
                 namespace: MEROXIO,
                 key: PREMIUM_PLAN_KEY,
-                type: "single_line_text_field",
-                value: "active",
+                type: "boolean",
+                value: "true",
                 ownerId: ownerId
               }
             ],
