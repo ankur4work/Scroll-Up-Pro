@@ -46,8 +46,8 @@ app.use(express.json());
 
 const PREMIUM_PLAN = 'MeroxIO Premium';
 const MEROXIO = "meroxio";
-const PREMIUM_PLAN_KEY = "comparison_premium";
-const IS_TEST = false;
+const PREMIUM_PLAN_KEY = "mobile_menu_premium";
+const IS_TEST = true;
 
 
 
