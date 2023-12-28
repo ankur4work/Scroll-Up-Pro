@@ -1,0 +1,36 @@
+
+.m-sticky-menu{
+    display: none;
+   }
+
+   @media(max-width: 600px){
+     .m-sticky-menu{
+    display: block;
+   }
+   .m-menu-container{
+     display: flex;
+     justify-content: space-evenly;
+     text-align: center;
+     padding: 10px 0;
+     width: 100%;
+     position: fixed;
+     bottom: 0;
+     box-shadow: 0px -2px 6px rgb(0 0 0 / 8%);
+     z-index: 99;
+     left: 0;
+   }
+   .m-icon-main{
+     width: auto;
+   }
+   .m-icon-main a{
+     text-decoration: none;
+     color: #000;
+   }
+   .m-icon{
+     display: flex;
+     flex-direction: column;
+   }
+   .m-icon img{ 
+     margin: auto;
+   }
+   }

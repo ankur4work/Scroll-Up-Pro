@@ -1,0 +1,27 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "MeroxIO Mobile Sticky Menu"
+client_id = "f96bc03ead5e41febbc7722ac35fbbbc"
+application_url = "https://bug-telephony-buffer-camera.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+use_legacy_install_flow = true
+
+[auth]
+redirect_urls = [
+  "https://bug-telephony-buffer-camera.trycloudflare.com/auth/callback",
+  "https://bug-telephony-buffer-camera.trycloudflare.com/auth/shopify/callback",
+  "https://bug-telephony-buffer-camera.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2022-10"
+
+[pos]
+embedded = false
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "shailendra-development-store-meroxio.myshopify.com"

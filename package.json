@@ -14,6 +14,7 @@
   "dependencies": {
     "@shopify/app": "^3.52.0",
     "@shopify/cli": "^3.52.0",
+    "@shopify/ui-extensions": "2023.10.0",
     "dotenv": "^8.2.0"
   },
   "author": "Shivam Merothiya"
