@@ -127,12 +127,14 @@ export default function HomePage() {
 
   const rows = [
     ['Cost', 'Free', '$4.99/month'],
-    ['Interactive Visual Comparison', 'Basic', 'Enhanced'],
-    ['No Powered By MeroxIO Branding', '-', tickIcon],
-    ['Customizable Overlay Settings', 'Limited', tickIcon],
-    ['Effortless Integration', 'Standard', 'Priority'],
-    ['Responsive Design', tickIcon, tickIcon],
-    ['Details Text', '-', tickIcon],
+    ['Customizable Mobile Menu', 'Basic', 'Enhanced'],
+    ['Icons for Home, Categories, Gift, Cart, and Account', tickIcon, tickIcon],
+    ['Dynamic Content Rendering', 'Limited', tickIcon],
+    ['Show/Hide Specific Icons', 'Standard', 'Priority'],
+    ['Change Icon ', tickIcon, tickIcon],
+    ['Set Custom URLs', tickIcon, tickIcon],
+    ['Sticky Structure', tickIcon, tickIcon],
+    ['Styling Options ', tickIcon, tickIcon],
     ['Priority Email/Chat Support', '-', tickIcon]
   ];
   
@@ -198,7 +200,7 @@ export default function HomePage() {
 
               >
                 <p>
-                Are you prepared to upgrade your store's display? Click 'Enable' to activate the MeroxIO Comparison Slider. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
+                Are you prepared to upgrade your store's display? Click 'Enable' to activate the MeroxIO Sticky Mobile Menu. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
                 </p>
               </CalloutCard>
             </div>
@@ -208,15 +210,15 @@ export default function HomePage() {
             <TextContainer>
               <DisplayText size="Large"><span>Introduction</span></DisplayText>
 
-              <p>Welcome to a new era of dynamic and captivating product presentation with Comparison Slider – the innovative solution designed to transform your Shopify store. Developed by MeroxIO, our app redefines the way you showcase products, offering an engaging blend of visual comparison and informative text elements.</p>
+              <p>Welcome to Sticky Mobile Menu by MeroxIO! – Unleash the power of dynamic, customizable navigation. Elevate your Shopify store with Sticky Mobile Menu – where style meets functionality. Dive into a world of seamless experiences!</p>
 
               <h2><b>Key Features:</b></h2>
               <ul className="appFeatures">
-                <li><strong>Interactive Comparison:</strong> Engage customers seamlessly with an interactive slider for dynamic image comparisons, enhancing your product showcase.</li>
-                <li><strong>Brand-Focused Customization:</strong> Tailor the slider's appearance to match your brand effortlessly, ensuring a consistent and branded look that resonates with your identity.</li>
-                <li><strong>Effortless Setup:</strong> Easily integrate into your Shopify store for a hassle-free user experience, no complex coding required.</li>
-                <li><strong>Responsive Design:</strong> Provide a consistent and visually appealing experience across devices - desktops, tablets, and smartphones.</li>
-                <li><strong>Comprehensive Information:</strong> Combine visual impact with essential product details through integrated text features, offering a thorough and informative product exploration.</li>
+                <li><strong>Effortless Navigation:</strong> Streamline the shopping experience with an intuitive and easy-to-use mobile menu.</li>
+                <li><strong>Branded Customization:</strong> Personalize your mobile menu with unique SVG icons, aligning it seamlessly with your brand.</li>
+                <li><strong>Dynamic Content Display:</strong> Showcase promotions and categories dynamically, grabbing your customers' attention instantly.</li>
+                <li><strong>Sticky Accessibility:</strong> Keep essential links always accessible at the top for a frustration-free shopping journey.</li>
+                <li><strong>Mobile Excellence:</strong> Designed exclusively for mobile, our menu ensures a responsive and visually appealing layout.</li>
               </ul>
 
 
@@ -233,7 +235,7 @@ export default function HomePage() {
                 <Modal.Section>
                   <div>
 
-                    <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/cf61027e625d4f5b90c5fea31bc2de2e.mp4" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
+                    <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/df56f2120323436db9459c9809f936f9.mp4" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
                   </div>
                 </Modal.Section>
               </Modal>
@@ -255,15 +257,17 @@ export default function HomePage() {
           <Layout.Section secondary>
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
-                <ReactPlayer
-                  url={"https://cdn.shopify.com/videos/c/o/v/ebf447344ab14bcc95b526034be22691.mp4"}
-                  playing={true}
-                  controls={true}
-                  loop={true}
-                  muted={true}
-                  playsinline={true}
-
-                />
+              <video
+                  src="https://cdn.shopify.com/videos/c/o/v/29cb01695bcb4697a82c69ca79b71b9e.mp4"
+                  controls
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  style={{ width: '100%', height: 'auto' }}
+                >
+                  Your browser does not support the video tag.
+                </video>
 
               </div>
             </Card>

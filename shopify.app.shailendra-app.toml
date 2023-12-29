@@ -2,7 +2,7 @@
 
 name = "shailendra-app"
 client_id = "f6f421a4a5e893bb324b63f7d96719cf"
-application_url = "https://wp-buddy-surplus-hurricane.trycloudflare.com"
+application_url = "https://candle-bob-restricted-subsequently.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = ""
 
 [auth]
 redirect_urls = [
-  "https://wp-buddy-surplus-hurricane.trycloudflare.com/auth/callback",
-  "https://wp-buddy-surplus-hurricane.trycloudflare.com/auth/shopify/callback",
-  "https://wp-buddy-surplus-hurricane.trycloudflare.com/api/auth/callback"
+  "https://candle-bob-restricted-subsequently.trycloudflare.com/auth/callback",
+  "https://candle-bob-restricted-subsequently.trycloudflare.com/auth/shopify/callback",
+  "https://candle-bob-restricted-subsequently.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
