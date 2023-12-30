@@ -2,7 +2,7 @@
 
 name = "shailendra-app"
 client_id = "f6f421a4a5e893bb324b63f7d96719cf"
-application_url = "https://candle-bob-restricted-subsequently.trycloudflare.com"
+application_url = "https://driver-dispatch-opposition-currently.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = ""
 
 [auth]
 redirect_urls = [
-  "https://candle-bob-restricted-subsequently.trycloudflare.com/auth/callback",
-  "https://candle-bob-restricted-subsequently.trycloudflare.com/auth/shopify/callback",
-  "https://candle-bob-restricted-subsequently.trycloudflare.com/api/auth/callback"
+  "https://driver-dispatch-opposition-currently.trycloudflare.com/auth/callback",
+  "https://driver-dispatch-opposition-currently.trycloudflare.com/auth/shopify/callback",
+  "https://driver-dispatch-opposition-currently.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

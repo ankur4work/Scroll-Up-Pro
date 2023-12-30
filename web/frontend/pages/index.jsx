@@ -127,14 +127,10 @@ export default function HomePage() {
 
   const rows = [
     ['Cost', 'Free', '$4.99/month'],
+    ['Powered By MeroxIO', '-', tickIcon],
     ['Customizable Mobile Menu', 'Basic', 'Enhanced'],
-    ['Icons for Home, Categories, Gift, Cart, and Account', tickIcon, tickIcon],
-    ['Dynamic Content Rendering', 'Limited', tickIcon],
-    ['Show/Hide Specific Icons', 'Standard', 'Priority'],
-    ['Change Icon ', tickIcon, tickIcon],
+    ['Show/Hide Specific Icons', tickIcon, tickIcon],
     ['Set Custom URLs', tickIcon, tickIcon],
-    ['Sticky Structure', tickIcon, tickIcon],
-    ['Styling Options ', tickIcon, tickIcon],
     ['Priority Email/Chat Support', '-', tickIcon]
   ];
   
@@ -149,7 +145,7 @@ export default function HomePage() {
     height: 90,
 
     topBarSource:
-      `https://cdn.shopify.com/s/files/1/0629/5522/5264/files/MeroxIO_Comparison_Slider.png?v=1702290807`,
+      `https://cdn.shopify.com/s/files/1/0629/5522/5264/files/MeroxIO_Comparison_Slider_e567d068-a9dc-4a7d-be5d-19adfc056400.png?v=1703919712`,
     url: '/',
     accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0627/5727/3793/files/lookbook_logo.png?v=1666164778',
 
@@ -194,7 +190,7 @@ export default function HomePage() {
           <Layout.Section>
             <div className="custom-callout-container">
               <CalloutCard
-                title="Activate MeroxIO Comaprison Slider"
+                title="Activate MeroxIO Sticky Mobile Menu"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
                 primaryAction={{ content: 'Enable Now ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now' }}
 
@@ -258,7 +254,7 @@ export default function HomePage() {
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
               <video
-                  src="https://cdn.shopify.com/videos/c/o/v/29cb01695bcb4697a82c69ca79b71b9e.mp4"
+                  src="https://cdn.shopify.com/videos/c/o/v/b11f227af4cd4c5581f8aaae079b0029.mp4"
                   controls
                   autoPlay
                   loop
