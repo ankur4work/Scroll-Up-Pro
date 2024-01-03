@@ -54,10 +54,10 @@
                 loading="lazy"
                 width="30"
                 height="30"
-                src="{{ block.settings.m-icon-1 | img_url: '200x' }}"
+                src="{{ block.settings.m-icon-1 | image_url: width: 30 }}"
               >
             {% else %}
-             {{  home-1 }}
+             {{ home-1 }}
             {%- endif %}
           </div>
           <div class="m-icon-name">
@@ -76,7 +76,7 @@
                 loading="lazy"
                 width="30"
                 height="30"
-                src="{{ block.settings.m-icon-2 | img_url: '200x' }}"
+                src="{{ block.settings.m-icon-2 | image_url: width: 30 }}"
               >
             {% else %}
               {{ categories-1 }}
@@ -98,10 +98,10 @@
                 loading="lazy"
                 width="30"
                 height="30"
-                src="{{ block.settings.m-icon-5 | img_url: '200x' }}"
+                src="{{ block.settings.m-icon-5 | image_url: width: 30 }}"
               >
                 {% else %}
-              {{ gift-1}}
+              {{ gift-1 }}
             {% endif %}
           </div>
           <div class="m-icon-name">
@@ -120,7 +120,7 @@
                 loading="lazy"
                 width="30"
                 height="30"
-                src="{{ block.settings.m-icon-3 | img_url: '200x' }}"
+                src="{{ block.settings.m-icon-3 | image_url: width: 30 }}"
               >
             {% else %}
              {{ cart-1 }}
@@ -142,7 +142,7 @@
                 loading="lazy"
                 width="30"
                 height="30"
-                src="{{ block.settings.m-icon-4 | img_url: '200x' }}"
+                src="{{ block.settings.m-icon-4 | image_url: width: 30 }}"
               >
             {% else %}
               {{ account-1 }}
