@@ -1,0 +1,23 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "MeroxIO Sticky Mobile Menu Bar"
+client_id = "dc75a1bf2141b01176fa64ec2b11214c"
+application_url = "https://naples-fails-milk-assumes.trycloudflare.com"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+
+[auth]
+redirect_urls = [
+  "https://naples-fails-milk-assumes.trycloudflare.com/auth/callback",
+  "https://naples-fails-milk-assumes.trycloudflare.com/auth/shopify/callback",
+  "https://naples-fails-milk-assumes.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2023-10"
+
+[pos]
+embedded = false

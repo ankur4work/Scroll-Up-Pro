@@ -13,7 +13,7 @@ dotenv.config();
 const billingConfig = {
   "MeroxIO Premium": {
     // This is an example configuration that would do a one-time charge for $5 (only USD is currently supported)
-    amount: 4.99,
+    amount: 2.99,
     currencyCode: "USD",
     trialDays: 7,
     interval: BillingInterval.Every30Days,

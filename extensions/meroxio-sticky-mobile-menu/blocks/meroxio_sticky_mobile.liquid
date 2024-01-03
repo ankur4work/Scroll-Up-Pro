@@ -1,9 +1,10 @@
 {% render "meroxio_sticky_mobile_menu_snippets" %}
 {% schema %}
   {
-    "name": "Sticky Mobile Menu Bar",
+    "name": "Mobile Menu[Paid] ",
     "target": "body",
     "stylesheet": "meroxio_sticky_mobile_menu_bar.css",
+    "available_if": "{{ app.metafields.meroxio.mobile_menu_premium }}",
     "settings": [
         
         
@@ -158,12 +159,6 @@
             "id": "m-background",
             "label": "Background Color",
             "default": "#ffffff"
-        },
-        {
-            "type": "color",
-            "id": "svg_color",
-            "label": "Icon Color",
-            "default": "#000000"
         },
         {
             "type": "range",

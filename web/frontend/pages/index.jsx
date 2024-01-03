@@ -64,14 +64,20 @@ export default function HomePage() {
   });
 
   const template = 'index'; // Replace with your actual template value
-  const uuid = '0f3ce9d4-4972-47a6-b59e-82dff59be994'; // Replace with your actual UUID
-  const handle = 'meroxio_comparison_slider'; // Replace with your actual handle
+  const uuid = '84d854f1-f68b-49cb-9ad2-63c9187b29f5'; // Replace with your actual UUID
+  const handlePaid = 'meroxio_sticky_mobile'; // Replace with your actual handle
+  const handleFree = 'meroxio_sticky_mobile_free';
   const reviewUrl = "https://apps.shopify.com/meroxio-comparison-slider#modal-show=WriteReviewModal"
 
 
   function openThemeEditor() {
     console.log("Shop: " + data?.shop);
-    const url =  `https://${data?.shop}/admin/themes/current/editor?template=${template}`;
+    const url = `https://${data?.shop}/admin/themes/current/editor?context=apps&template=${template}&activateAppId=${uuid}/${handlePaid}`;
+    window.open(url);
+  }
+
+  function enableFreePlan() {
+    const url = `https://${data?.shop}/admin/themes/current/editor?context=apps&template=${template}&activateAppId=${uuid}/${handleFree}`;
     window.open(url);
   }
 
@@ -126,7 +132,7 @@ export default function HomePage() {
 
 
   const rows = [
-    ['Cost', 'Free', '$4.99/month'],
+    ['Cost', 'Free', '$2.99/month'],
     ['Powered By MeroxIO', '-', tickIcon],
     ['Customizable Mobile Menu', 'Basic', 'Enhanced'],
     ['Show/Hide Specific Icons', tickIcon, tickIcon],
@@ -192,11 +198,12 @@ export default function HomePage() {
               <CalloutCard
                 title="Activate MeroxIO Sticky Mobile Menu"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
-                primaryAction={{ content: 'Enable Now ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now' }}
-
+                primaryAction={{ content: 'Activate Now - Gold Plan ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Gold Plan' }}
+                secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}
               >
                 <p>
                 Are you prepared to upgrade your store's display? Click 'Enable' to activate the MeroxIO Sticky Mobile Menu. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
+                <br/><b>NOTE: Make sure you have subscribed to Gold if you Activate the Gold Plan.</b>
                 </p>
               </CalloutCard>
             </div>
