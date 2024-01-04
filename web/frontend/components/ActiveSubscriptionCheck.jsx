@@ -40,8 +40,8 @@ import {
   
         {isLoadingCount ? "" :
           data?.hasActiveSubscription ?
-            <Banner title="Current Plan: MeroxIO Gold" status="success" onDismiss={() => { handleDismiss() }}>
-              <p>Congratulations🎉🎉, You are now our pro <strong>MeroxIO Gold</strong> customer and can access all features of this app without any limitation.</p>
+            <Banner title="Current Plan: MeroxIO Premium" status="success" onDismiss={() => { handleDismiss() }}>
+              <p>Congratulations🎉🎉, You are now our pro <strong>MeroxIO Premium</strong> customer and can access all features of this app without any limitation.</p>
               <p><strong>Enable Steps: </strong> Open Theme Customization &gt; Select Add Section &gt; MeroxIO Comparison Slider - Pro</p>
   
             </Banner>
@@ -50,7 +50,7 @@ import {
               <p>- You are currently on Free plan with limited features.</p>
               <p>- <strong>Enable Steps: </strong> Open Theme Customization &gt; Select Add Section &gt; MeroxIO Comparison Slider - Free</p>
               <p>- Compare plans below for better insights. </p>
-              <p>- We are running 7 days free trial for <strong>MeroxIO Gold</strong> plan, Grab the deal now!!</p>
+              <p>- We are running 7 days free trial for <strong>MeroxIO Premium</strong> plan, Grab the deal now!!</p>
   
             </Banner>
         }

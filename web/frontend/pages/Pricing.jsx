@@ -176,7 +176,7 @@ export default function Pricing() {
                             <Card title="Plan Comparison" sectioned
 
                                 primaryFooterAction={{
-                                    content: 'Subscribe to MeroxIO Gold',
+                                    content: 'Subscribe to MeroxIO Premium',
                                     onAction: () => {
                                         subscribePlan()
                                     },
@@ -202,7 +202,7 @@ export default function Pricing() {
                                     headings={[
                                         'Features',
                                         'Free version',
-                                        'MeroxIO Gold',
+                                        'MeroxIO Premium',
                                     ]}
                                     rows={rows}
                                     increasedTableDensity

@@ -166,9 +166,7 @@ export default function HomePage() {
     <TopBar.Menu
       activatorContent={
         <div className="main-icon">
-          <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
-            <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
-          </div>
+
         </div>
       }
 
@@ -198,12 +196,12 @@ export default function HomePage() {
               <CalloutCard
                 title="Activate MeroxIO Sticky Mobile Menu"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
-                primaryAction={{ content: 'Activate Now - Gold Plan ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Gold Plan' }}
+                primaryAction={{ content: 'Activate Now - Premium Plan ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Premium Plan' }}
                 secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}
               >
                 <p>
                 Are you prepared to upgrade your store's display? Click 'Enable' to activate the MeroxIO Sticky Mobile Menu. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
-                <br/><b>NOTE: Make sure you have subscribed to Gold if you Activate the Gold Plan.</b>
+                <br/><b>NOTE: Make sure you have subscribed to Premium if you Activate the Premium Plan.</b>
                 </p>
               </CalloutCard>
             </div>
@@ -284,7 +282,7 @@ export default function HomePage() {
               <Card title="Plan Comparison" sectioned
 
                 primaryFooterAction={{
-                  content: 'Subscribe to MeroxIO Gold',
+                  content: 'Subscribe to MeroxIO Premium',
                   onAction: () => {
                     subscribePlan()
                   },
@@ -309,7 +307,7 @@ export default function HomePage() {
                   headings={[
                     'Features',
                     'Free version',
-                    'MeroxIO Gold',
+                    'MeroxIO Premium',
                   ]}
                   rows={rows}
                   increasedTableDensity
