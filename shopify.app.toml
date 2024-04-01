@@ -2,7 +2,7 @@
 
 name = "Staging"
 client_id = "bfb95502aa8f4f718b14d09136fef838"
-application_url = "https://success-navigate-received-announcements.trycloudflare.com"
+application_url = "https://hostels-sponsorship-eos-supervisor.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,22 +11,21 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://success-navigate-received-announcements.trycloudflare.com/auth/callback",
-  "https://success-navigate-received-announcements.trycloudflare.com/auth/shopify/callback",
-  "https://success-navigate-received-announcements.trycloudflare.com/api/auth/callback"
+  "https://hostels-sponsorship-eos-supervisor.trycloudflare.com/auth/callback",
+  "https://hostels-sponsorship-eos-supervisor.trycloudflare.com/auth/shopify/callback",
+  "https://hostels-sponsorship-eos-supervisor.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
 api_version = "2022-10"
 
 [app_proxy]
-url = "https://success-navigate-received-announcements.trycloudflare.com//app/createBundle"
-subpath = "createBundle"
+url = "https://impressed-harbor-intervals-ages.trycloudflare.com/api/atc-clicked"
+subpath = "atc-clicked"
 prefix = "apps"
 
 [pos]
 embedded = false
 
 [build]
-automatically_update_urls_on_dev = true
-dev_store_url = "shailendra-development-store-meroxio.myshopify.com"
+dev_store_url = "shivam-development-store.myshopify.com"

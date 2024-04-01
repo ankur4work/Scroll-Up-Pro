@@ -63,6 +63,10 @@ export default function HomePage() {
     url: "/api/getshop",
   });
 
+  const { data: storeDetailsData } = useAppQuery({
+    url: "/api/store-details",
+  });
+
   const template = 'index'; // Replace with your actual template value
   const uuid = '9ecd77b5-8137-4afd-8057-ddc8f300e22b'; // Replace with your actual UUID
   const handlePaid = 'meroxio_sticky_mobile'; // Replace with your actual handle

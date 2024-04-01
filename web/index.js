@@ -49,6 +49,8 @@ const MEROXIO = "meroxio";
 const PREMIUM_PLAN_KEY = "mobile_menu_premium";
 const IS_TEST = false;
 
+const APP_NAME = "MeroxIO Sticky Mobile Menu"
+
 
 
 app.get("/api/createSubscription", async (req, res) => {
@@ -242,6 +244,75 @@ app.get("/api/getshop", async (req, res) => {
   }
   
 });
+
+const shopDetailsQuery = `
+{
+  shop {
+    name
+    email
+    primaryDomain {
+      url
+      host
+    }
+    plan {
+      displayName
+    }
+  }
+}`;
+
+app.get("/api/store-details", async (req, res) => {
+  console.log("Request received for store details via GraphQL");
+  const session = res.locals.shopify.session;
+  if (!session) {
+    console.log('No active session found');
+    return res.status(401).send({ error: 'No active session' });
+  }
+
+  try {
+    const client =  new shopify.api.clients.Graphql({ session });
+    const response = await client.query({
+      data: shopDetailsQuery,
+    });
+
+    const { name, email,primaryDomain, plan } = response.body.data.shop;
+    //console.log("Shop Details:", { name, email,primaryDomain, plan });
+
+    storeShopDetails({
+      appName: APP_NAME,
+      storeUrl: primaryDomain.url,
+      name: name,
+      email: email,
+      plan: plan.displayName
+    });
+    
+    res.status(200).send({ message: 'Shop details fetched successfully', data: { name,email, primaryDomain, plan }});
+  } catch (error) {
+    console.error('Failed to fetch shop details via GraphQL:', error);
+    res.status(500).send({ error: 'Internal Server Error' });
+  }
+});
+
+
+async function storeShopDetails(shopDetails) {
+  try {
+    const response = await fetch('https://app.meroxio.com/app-installation-data-store/storedata', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(shopDetails),
+    });
+    
+    if (!response.ok) throw new Error('Network response was not ok.');
+    
+    const data = await response.json();
+    //console.log('Success:', data);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
