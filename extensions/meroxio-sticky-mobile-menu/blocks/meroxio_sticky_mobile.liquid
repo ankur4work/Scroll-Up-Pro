@@ -1,4 +1,28 @@
-{% render "meroxio_sticky_mobile_menu_snippets" %}
+{% if block.settings.display_index %}
+    {% if template.name == "index" %}
+    {% render "meroxio_sticky_mobile_menu_snippets" %}
+    {% endif %}
+{% endif %}
+{% if block.settings.display_collection %}
+    {% if template.name == "collection" %}
+    {% render "meroxio_sticky_mobile_menu_snippets" %}
+    {% endif %}
+{% endif %}
+{% if block.settings.display_product %}
+    {% if template.name == "product" %}
+    {% render "meroxio_sticky_mobile_menu_snippets" %}
+    {% endif %}
+{% endif %}
+{% if block.settings.display_page %}
+    {% if template.name == "page" %}
+    {% render "meroxio_sticky_mobile_menu_snippets" %}
+    {% endif %}
+{% endif %}
+{% if block.settings.display_cart %}
+    {% if template.name == "cart" %}
+    {% render "meroxio_sticky_mobile_menu_snippets" %}
+    {% endif %}
+{% endif %}
 {% schema %}
   {
     "name": "Mobile Menu[Paid] ",
@@ -7,27 +31,21 @@
     "available_if": "{{ app.metafields.meroxio.mobile_menu_premium }}",
     "settings": [
         
-        
+
         {
             "type": "header",
             "content": "Icon Settings - 1"
         },
         {
-            "type": "checkbox",
-            "id": "show-home",
-            "label": "Show Icon",
-            "default": true
+            "type": "text",
+            "id": "m-icon-text-1",
+            "label": "Title",
+            "default": "Home"
         },
         {
             "type": "image_picker",
             "id": "m-icon-1",
-            "label": "Icon"
-        },
-        {
-            "type": "text",
-            "id": "m-icon-text-1",
-            "label": "Name",
-            "default": "Home"
+            "label": "Custom Icon"
         },
         {
             "type": "url",
@@ -38,27 +56,17 @@
             "type": "header",
             "content": "Icon Settings - 2"
         },
-        
-        {
-            "type": "checkbox",
-            "id": "show-categories",
-            "label": "Show Icon ",
-            "default": true
-        },
-    
-        
-        {
-            "type": "image_picker",
-            "id": "m-icon-2",
-            "label": "Icon"
-        },
         {
             "type": "text",
             "id": "m-icon-text-2",
-            "label": "Name",
+            "label": "Title",
             "default": "Categories"
         },
-        
+        {
+            "type": "image_picker",
+            "id": "m-icon-2",
+            "label": "Custom Icon"
+        },
         {
             "type": "url",
             "id": "categories",
@@ -69,23 +77,16 @@
             "type": "header",
             "content": "Icon Settings - 3"
         },
-        
         {
-            "type": "checkbox",
-            "id": "show-custom-icon-1",
-            "label": "Show Icon ",
-            "default": true
+            "type": "text",
+            "id": "m-icon-title-5",
+            "label": "Title",
+            "default": "Gift"
         },
         {
             "type": "image_picker",
             "id": "m-icon-5",
-            "label": "Icon"
-        },
-        {
-            "type": "text",
-            "id": "m-icon-title-5",
-            "label": "Name",
-            "default": "Gift"
+            "label": "Custom Icon"
         },
         {
             "type": "url",
@@ -96,24 +97,16 @@
             "type": "header",
             "content": "Icon Settings -4"
         },
-        
-        {
-            "type": "checkbox",
-            "id": "show-cart",
-            "label": "Show Icon",
-            "default": true
-        },
-        
-        {
-            "type": "image_picker",
-            "id": "m-icon-3",
-            "label": "Cart"
-        },
         {
             "type": "text",
             "id": "m-icon-text-5",
-            "label": "Name",
+            "label": "Title",
             "default": "Cart"
+        },
+        {
+            "type": "image_picker",
+            "id": "m-icon-3",
+            "label": "Custom Icon"
         },
         {
             "type": "url",
@@ -124,36 +117,56 @@
             "type": "header",
             "content": "Icon Settings -5"
         },
-        
-        {
-            "type": "checkbox",
-            "id": "show-account",
-            "label": "Show Icon",
-            "default": true
-        },
-        
-        {
-            "type": "image_picker",
-            "id": "m-icon-4",
-            "label": "Icon"
-        },
         {
             "type": "text",
             "id": "m-icon-text-6",
-            "label": "Name",
+            "label": "Title",
             "default": "Account"
+        },
+        {
+            "type": "image_picker",
+            "id": "m-icon-4",
+            "label": "Custom Icon"
         },
         {
             "type": "url",
             "id": "icon_url_6",
             "label": "Link"
         },
-
+        {
+            "type": "checkbox",
+            "id": "display_index",
+            "label": "Show on Home Page",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "display_collection",
+            "label": "Show on Collection Page",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "display_product",
+            "label": "Show on Product Page",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "display_page",
+            "label": "Show on Custom Pages",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "display_cart",
+            "label": "Show on Cart Page",
+            "default": true
+          },
         {
             "type": "header",
             "content": "Design Settings"
         },
-
         {
             "type": "color",
             "id": "m-background",
@@ -161,23 +174,27 @@
             "default": "#ffffff"
         },
         {
+            "type": "color",
+            "id": "m-icon-border-color",
+            "label": "Icon Border Color",
+            "default": "#000000"
+        },
+        {
             "type": "range",
             "id": "svg_size",
             "label": "Icon Size",
             "min": 10,
-            "max": 40,
+            "max": 50,
             "step": 1,
             "unit": "px",
-            "default": 16
+            "default": 30
           },
-
           {
             "type": "color",
             "id": "m_text_color",
             "label": "Text Color",
             "default": "#000000"
         },
-        
         {
              "type": "range",
              "id": "m-font",

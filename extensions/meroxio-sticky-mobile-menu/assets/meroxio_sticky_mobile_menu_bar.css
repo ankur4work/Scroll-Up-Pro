@@ -1,13 +1,13 @@
 
-.m-sticky-menu{
+#meroxio-sticky-mobile-menu-paid .m-sticky-menu{
     display: none;
    }
 
    @media(max-width: 600px){
-     .m-sticky-menu{
+    #meroxio-sticky-mobile-menu-paid .m-sticky-menu{
     display: block;
    }
-   .m-menu-container{
+   #meroxio-sticky-mobile-menu-paid .m-menu-container{
      display: flex;
      justify-content: space-evenly;
      text-align: center;
@@ -19,18 +19,18 @@
      z-index: 99;
      left: 0;
    }
-   .m-icon-main{
+   #meroxio-sticky-mobile-menu-paid .m-icon-main{
      width: auto;
    }
-   .m-icon-main a{
+   #meroxio-sticky-mobile-menu-paid .m-icon-main a{
      text-decoration: none;
      color: #000;
    }
-   .m-icon{
+   #meroxio-sticky-mobile-menu-paid .m-icon{
      display: flex;
      flex-direction: column;
    }
-   .m-icon img{ 
+   #meroxio-sticky-mobile-menu-paid .m-icon img{ 
      margin: auto;
    }
    }
