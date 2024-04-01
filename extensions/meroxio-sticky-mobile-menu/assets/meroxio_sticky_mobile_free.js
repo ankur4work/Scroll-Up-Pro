@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Create a new anchor element
         var poweredByLink = document.createElement("a");
         poweredByLink.textContent = "Powered By MeroxIO";
-        poweredByLink.href = "https://www.meroxio.com"; // Set the href attribute
+        poweredByLink.href = "https://apps.shopify.com/meroxio-sticky-mobile-menu-bar"; // Set the href attribute
         poweredByLink.style.textDecoration = "none"; // Apply the CSS property
         poweredByLink.style.display = "block"; // Apply the CSS property
         poweredByLink.style.setProperty("display", "block", "important");
