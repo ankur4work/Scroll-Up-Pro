@@ -2,7 +2,7 @@
 
 name = "shailendra-app"
 client_id = "f6f421a4a5e893bb324b63f7d96719cf"
-application_url = "https://assessed-words-audit-relying.trycloudflare.com"
+application_url = "https://sheriff-mali-earned-marina.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,9 +11,9 @@ scopes = ""
 
 [auth]
 redirect_urls = [
-  "https://assessed-words-audit-relying.trycloudflare.com/auth/callback",
-  "https://assessed-words-audit-relying.trycloudflare.com/auth/shopify/callback",
-  "https://assessed-words-audit-relying.trycloudflare.com/api/auth/callback"
+  "https://sheriff-mali-earned-marina.trycloudflare.com/auth/callback",
+  "https://sheriff-mali-earned-marina.trycloudflare.com/auth/shopify/callback",
+  "https://sheriff-mali-earned-marina.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
