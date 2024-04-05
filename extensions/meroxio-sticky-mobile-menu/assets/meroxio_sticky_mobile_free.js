@@ -11,13 +11,17 @@ document.addEventListener("DOMContentLoaded", function() {
         poweredByLink.href = "https://apps.shopify.com/meroxio-sticky-mobile-menu-bar"; // Set the href attribute
         poweredByLink.style.textDecoration = "none"; // Apply the CSS property
         poweredByLink.style.display = "block"; // Apply the CSS property
+        poweredByLink.style.visibility = "visible";
         poweredByLink.style.setProperty("display", "block", "important");
+        poweredByLink.style.setProperty("visibility", "visible", "important");
         
         // Append the anchor element to the parent element
         parentElement.appendChild(poweredByLink);
 
         // Set display: block; to .company_name
         parentElement.style.display = "block";
+        parentElement.style.visibility = "visible";
         parentElement.style.setProperty("display", "block", "important");
+        parentElement.style.setProperty("visibility", "visible", "important");
     }
   });
