@@ -2,7 +2,7 @@
 
 name = "Staging"
 client_id = "bfb95502aa8f4f718b14d09136fef838"
-application_url = "https://hostels-sponsorship-eos-supervisor.trycloudflare.com"
+application_url = "https://adam-expenditures-hawaii-nsw.trycloudflare.com"
 embedded = true
 
 [access_scopes]
@@ -11,16 +11,16 @@ use_legacy_install_flow = true
 
 [auth]
 redirect_urls = [
-  "https://hostels-sponsorship-eos-supervisor.trycloudflare.com/auth/callback",
-  "https://hostels-sponsorship-eos-supervisor.trycloudflare.com/auth/shopify/callback",
-  "https://hostels-sponsorship-eos-supervisor.trycloudflare.com/api/auth/callback"
+  "https://adam-expenditures-hawaii-nsw.trycloudflare.com/auth/callback",
+  "https://adam-expenditures-hawaii-nsw.trycloudflare.com/auth/shopify/callback",
+  "https://adam-expenditures-hawaii-nsw.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]
 api_version = "2022-10"
 
 [app_proxy]
-url = "https://impressed-harbor-intervals-ages.trycloudflare.com/api/atc-clicked"
+url = "https://adam-expenditures-hawaii-nsw.trycloudflare.com/api/atc-clicked"
 subpath = "atc-clicked"
 prefix = "apps"
 
@@ -29,3 +29,4 @@ embedded = false
 
 [build]
 dev_store_url = "shivam-development-store.myshopify.com"
+automatically_update_urls_on_dev = true
