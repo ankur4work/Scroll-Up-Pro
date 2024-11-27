@@ -1,0 +1,169 @@
+<h1>Your Wishlist</h1>
+
+<div id="wishlist-items">
+  <!-- Placeholder for dynamic wishlist items -->
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const wishlistItemsContainer = document.getElementById("wishlist-items");
+
+  // Fetch wishlist from localStorage
+  let wishlistHandles = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  if (wishlistHandles.length === 0) {
+    wishlistItemsContainer.innerHTML ="<p>Your wishlist is empty.</p>";
+    return;
+  }
+
+  // Function to update localStorage and re-render if a handle is invalid
+  const updateWishlist = (handleToRemove) => {
+    wishlistHandles = wishlistHandles.filter((handle) => handle !== handleToRemove);
+    localStorage.setItem("wishlist", JSON.stringify(wishlistHandles));
+    if (wishlistHandles.length === 0) {
+      wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty.</p>";
+    }
+  };
+
+  // Fetch product data for each handle
+  const productPromises = wishlistHandles.map((handle) =>
+    fetch(`${window.Shopify.routes.root}products/${handle}.js`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`Product not found: ${handle}`);
+        }
+        return response.json();
+      })
+      .then((product) => {
+        const formattedPrice = new Intl.NumberFormat('en-US', {
+          style: product.variants[0].price_currency, // Adjust currency as needed
+        }).format(product.variants[0].price / 100); // Price is in cents
+
+        return `
+            <div class="wishlist-item" data-handle="${handle}">
+              <a href="/products/${handle}" class="wishlist-link">
+                <img src="${product.featured_image}" alt="${product.title}" />
+              </a>
+              <a href="/products/${handle}" class="wishlist-link">
+                <h3>${product.title}</h3>
+              </a>
+              <p>${formattedPrice}</p>
+              <button class="aadd-to-cart" data-handle="${handle}">Add to Cart</button>
+              <button class="remove-from-wishlist" data-handle="${handle}"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#5f6368"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>
+            </div>
+          `;
+
+      })
+      .catch((error) => {
+        console.error(error.message);
+        updateWishlist(handle); // Remove invalid handle
+        return null; // Exclude invalid product from rendering
+      })
+  );
+
+  Promise.all(productPromises).then((products) => {
+    // Remove null values and render valid products
+    const validProductsHTML = products.filter((html) => html !== null).join("");
+
+    wishlistItemsContainer.innerHTML = validProductsHTML;
+
+    // Add event listeners for buttons
+    wishlistHandles.forEach((handle) => {
+      const addToCartButton = wishlistItemsContainer.querySelector(`[data-handle="${handle}"] .aadd-to-cart`);
+      addToCartButton?.addEventListener("click", () => addToCart(handle));
+
+      const removeFromWishlistButton = wishlistItemsContainer.querySelector(`[data-handle="${handle}"] .remove-from-wishlist`);
+      removeFromWishlistButton?.addEventListener("click", () => removeFromWishlist(handle));
+    });
+  });
+});
+
+// Function to add item to the cart
+const addToCart = (handle) => {
+  fetch(`${window.Shopify.routes.root}products/${handle}.js`)
+    .then((response) => response.json())
+    .then((product) => {
+      const variantId = product.variants[0].id; // Get the first variant's ID
+
+      return fetch(`${window.Shopify.routes.root}cart/add.js`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: [
+            {
+              quantity: 1,
+              id: variantId,
+            },
+          ],
+        }),
+      });
+    })
+    .then((response) => response.json())
+    .then(() => {
+      updateCartBubble();
+      // Find the button and update its text
+      const addToCartButton = document.querySelector(`[data-handle="${handle}"] .aadd-to-cart`);
+      if (addToCartButton) {
+        const originalText = addToCartButton.textContent; // Store the original text
+        addToCartButton.textContent = "Added !"; // Change to success text
+
+        // Revert text after 2 seconds
+        setTimeout(() => {
+          addToCartButton.textContent = originalText;
+        }, 2000);
+      }
+    })
+    .catch((error) => console.error("Error adding to cart:", error));
+};
+
+const updateCartBubble = () => {
+  fetch(`${window.Shopify.routes.root}cart.js`)
+    .then((response) => response.json())
+    .then((cart) => {
+      const cartBubble = document.querySelector(".cart-count-bubble"); // Update with your cart bubble selector
+      if (cartBubble) {
+        if (cart.item_count > 0) {
+          cartBubble.textContent = cart.item_count;
+        } else {
+          cartBubble.style.display = "none"; // Hide the bubble if cart is empty
+        }
+      }
+    })
+    .catch((error) => console.error("Error updating cart bubble:", error));
+};
+
+
+// Function to remove item from wishlist
+const removeFromWishlist = (handle) => {
+  let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+  wishlist = wishlist.filter((item) => item !== handle);
+  localStorage.setItem("wishlist", JSON.stringify(wishlist));
+  
+  // Remove item from the DOM
+  const itemToRemove = document.querySelector(`[data-handle="${handle}"]`);
+  itemToRemove?.remove();
+  updateWishlistCount();
+
+  if (wishlist.length === 0) {
+    const wishlistItemsContainer = document.getElementById("wishlist-items");
+    wishlistItemsContainer.innerHTML = "<p>Your wishlist is empty.</p>";
+  }
+};
+
+
+</script>
+
+
+
+{% schema %}
+    {
+      "name": "Wishlist items",
+      "target": "section",
+      "stylesheet": "wishlist_block.css",   
+      "settings": [
+       
+      ]
+    }
+{% endschema %}

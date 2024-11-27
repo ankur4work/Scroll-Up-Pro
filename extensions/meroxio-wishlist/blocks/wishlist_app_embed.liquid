@@ -1,0 +1,280 @@
+<div class="mobile-wishist-drawer">
+
+</div>
+
+
+
+
+<script>
+ // Wishlist Management Functions
+const Wishlist = {
+  addToWishlist: (handle) => {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    if (!wishlist.includes(handle)) {
+      wishlist.push(handle);
+      localStorage.setItem('wishlist', JSON.stringify(wishlist));
+      updateWishlistCount();
+    }
+  },
+  removeFromWishlist: (handle) => {
+    let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+    wishlist = wishlist.filter(item => item !== handle);
+    localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    updateWishlistCount();
+  },
+  getWishlistItems: () => {
+    return JSON.parse(localStorage.getItem('wishlist')) || [];
+  },
+  isInWishlist: (handle) => {
+    return Wishlist.getWishlistItems().includes(handle);
+  }
+};
+
+
+// 1. add content into header 
+document.addEventListener("DOMContentLoaded", () => {
+  // Target class where the HTML should be appended
+  const targetClass = '.wishlist-icon'; 
+
+  // Define the HTML to append
+  const htmlContent = `
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path 
+          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
+          fill="none" stroke="black" stroke-width="2"/>
+      </svg>
+      <div class="wishlist-count">0</div>
+    </div>
+  `;
+
+  // Get the target element(s) and append the HTML content
+  const targetElements = document.querySelectorAll(targetClass);
+
+  targetElements.forEach((element) => {
+    element.innerHTML = htmlContent; // Append the HTML inside each target element
+  });
+});
+
+
+// 2. add content into product-grid 
+document.addEventListener("DOMContentLoaded", () => {
+  // Target class where the HTML should be appended
+  const targetClass = '.wishlist-engine'; 
+
+  // Define the HTML to append
+  const htmlContent = `
+    <div>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+        <path 
+          d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
+          fill="none" stroke="black" stroke-width="2"/>
+      </svg>
+    </div>
+  `;
+
+  // Get the target element(s) and append the HTML content
+  const targetElements = document.querySelectorAll(targetClass);
+
+  targetElements.forEach((element) => {
+    element.innerHTML = htmlContent; // Append the HTML inside each target element
+  });
+});
+
+
+// 3. append button in cart 
+document.addEventListener('DOMContentLoaded', () => {
+  const moveToWishlistDivs = document.getElementsByClassName('move-to-wishlist'); 
+
+  // Loop through each element in the collection
+  Array.from(moveToWishlistDivs).forEach((div) => {
+    // Create a new button element
+    const cartButton = document.createElement("button");
+    cartButton.className = "move-to-wishlist-btn";
+    cartButton.textContent = "Move to Wishlist";
+  
+    // Append the button to the current div
+    div.appendChild(cartButton);
+  });
+});
+
+
+
+// add wishlist-filled class with add the product in whishlist
+document.addEventListener("DOMContentLoaded", () => {
+  const wishlistButtons = document.querySelectorAll(".wishlist-engine, .wishlist-engine-product-page");
+
+  // Toggle Wishlist State
+  const toggleWishlist = (handle) => {
+    if (Wishlist.isInWishlist(handle)) {
+      Wishlist.removeFromWishlist(handle);
+      updateWishlistButtons(handle, false); // Update all buttons for this handle
+    } else {
+      Wishlist.addToWishlist(handle);
+      updateWishlistButtons(handle, true); // Update all buttons for this handle
+    }
+  };
+
+  // Update Wishlist Buttons
+  const updateWishlistButtons = (handle, isInWishlist) => {
+    wishlistButtons.forEach((button) => {
+      const productHandle = button.getAttribute("data-product-handle");
+      if (productHandle === handle) {
+        if (isInWishlist) {
+          button.classList.add("wishlist-filled");
+        } else {
+          button.classList.remove("wishlist-filled");
+        }
+      }
+    });
+  };
+
+  // Initialize Wishlist Buttons
+  wishlistButtons.forEach((button) => {
+    const productHandle = button.getAttribute("data-product-handle");
+
+    // Skip initialization if no handle is provided
+    if (!productHandle) {
+      console.error("Wishlist button is missing 'data-product-handle'");
+      return;
+    }
+
+    // Set Initial State
+    if (Wishlist.isInWishlist(productHandle)) {
+      button.classList.add("wishlist-filled");
+    }
+
+    // Add Click Event Listener
+    button.addEventListener("click", () => toggleWishlist(productHandle));
+  });
+});
+
+
+
+
+
+
+
+// cart wishlist btn script
+
+const moveToWishlist = (productId, handle, button) => {
+ 
+  // Add the product to the wishlist
+  Wishlist.addToWishlist(handle);
+
+  // Add a 'wishlist-filled' class to the button for visual feedback
+  button.classList.add("wishlist-filled");
+
+  // Update Shopify cart to remove the product
+ // Update Shopify cart to remove the product
+fetch(`${window.Shopify.routes.root}cart/update.js`, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    updates: {
+      [productId]: 0, // Set quantity to 0 to remove the item
+    },
+  }),
+})
+  .then((response) => response.json())
+  .then((cartData) => {
+    // Confirm the product has been removed from the cart
+    const remainingItem = cartData.items.find((item) => item.id === parseInt(productId, 10));
+    if (!remainingItem) {
+      console.log("Product removed from the cart.");
+
+      // Remove the item from the cart DOM
+      const cartItem = button.closest(".cart-item"); // Adjust the selector to your theme's cart structure
+      if (cartItem) {
+        cartItem.remove();
+      }
+
+      // Reload the cart to update the cart total and all cart-related elements
+      window.location.reload();
+    } else {
+      console.error("Error: Product was not fully removed from the cart.");
+    }
+  })
+  .catch((error) => {
+    console.error("Error updating the cart:", error);
+  });
+};
+
+// Attach event listeners to the "Move to Wishlist" buttons
+document.addEventListener("DOMContentLoaded", () => {
+  const moveToWishlistButtons = document.querySelectorAll(".move-to-wishlist");
+
+
+  moveToWishlistButtons.forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault(); // Prevent default link behavior if it's a link
+
+      const handle = button.getAttribute("data-handle");
+      const productId = button.getAttribute("data-id");
+
+      if (!handle || !productId) {
+        console.error("Product handle or ID is missing for the wishlist button.");
+        return;
+      }
+
+      // Call the function to move the item to the wishlist
+      moveToWishlist(productId, handle, button);
+    });
+  });
+});
+
+
+
+
+// wishlist header icon js 
+// Function to update the wishlist count on the page
+const updateWishlistCount = () => {
+  const wishlistItems = JSON.parse(localStorage.getItem("wishlist")) || [];
+  const wishlistCount = wishlistItems.length; // Get the length of the wishlist array
+  console.log("wishlistCount: "+ wishlistCount);
+  const wishlistCountElement = document.querySelector(".wishlist-count"); // Select the element showing the count
+
+  // Update the wishlist count on the icon
+  if (wishlistCountElement) {
+    wishlistCountElement.textContent = wishlistCount; // Update the count
+  }
+};
+
+// Initialize wishlist count when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+  updateWishlistCount(); // Update wishlist count on page load
+
+  // Optional: Add event listener to update the count when items are added or removed
+  const addToWishlistButtons = document.querySelectorAll(".add-to-wishlist, .move-to-wishlist"); // Adjust the selector to your wishlist button class
+  addToWishlistButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      updateWishlistCount(); // Update the count after any wishlist button click
+    });
+  });
+});
+
+
+
+</script>
+
+
+{% schema %}
+  {
+    "name": "Wishlist Embed",
+    "target": "body",
+    "stylesheet": "wishlist_block.css",
+    "settings": [
+      {
+        "type": "text",
+        "id": "btn-cart-text",
+        "label" : "Button Text",
+        "default": "Add to Wishlist"
+      }
+    ]
+  }
+  {% endschema %}
+  
+    
+    
