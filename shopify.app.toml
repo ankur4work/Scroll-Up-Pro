@@ -1,32 +1,34 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-name = "Staging"
 client_id = "bfb95502aa8f4f718b14d09136fef838"
-application_url = "https://adam-expenditures-hawaii-nsw.trycloudflare.com"
+application_url = "https://meetings-richardson-toolkit-utilize.trycloudflare.com"
 embedded = true
+name = "Staging"
+handle = "staging-76"
 
-[access_scopes]
-# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-use_legacy_install_flow = true
-
-[auth]
-redirect_urls = [
-  "https://adam-expenditures-hawaii-nsw.trycloudflare.com/auth/callback",
-  "https://adam-expenditures-hawaii-nsw.trycloudflare.com/auth/shopify/callback",
-  "https://adam-expenditures-hawaii-nsw.trycloudflare.com/api/auth/callback"
-]
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "shivam-development-store.myshopify.com"
 
 [webhooks]
 api_version = "2022-10"
 
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = ""
+use_legacy_install_flow = true
+
+[auth]
+redirect_urls = [
+  "https://meetings-richardson-toolkit-utilize.trycloudflare.com/auth/callback",
+  "https://meetings-richardson-toolkit-utilize.trycloudflare.com/auth/shopify/callback",
+  "https://meetings-richardson-toolkit-utilize.trycloudflare.com/api/auth/callback"
+]
+
 [app_proxy]
-url = "https://adam-expenditures-hawaii-nsw.trycloudflare.com/api/atc-clicked"
-subpath = "atc-clicked"
+url = "https://meetings-richardson-toolkit-utilize.trycloudflare.com/api/meroxio-proxy"
+subpath = "meroxio-proxy"
 prefix = "apps"
 
 [pos]
 embedded = false
-
-[build]
-dev_store_url = "shivam-development-store.myshopify.com"
-automatically_update_urls_on_dev = true

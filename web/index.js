@@ -8,8 +8,10 @@ import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import cancelSubscription from "./cancel-subscription.js";
 import GDPRWebhookHandlers from "./gdpr.js";
+import crypto from "crypto";
 import dotenv from "dotenv";
 
+import { connectToMongoDB } from "./mongodb.js"; // Import the MongoDB utility
 
 dotenv.config();
 
@@ -40,9 +42,6 @@ app.post(
 // If you are adding routes outside of the /api path, remember to
 // also add a proxy rule for them in web/frontend/vite.config.js
 
-app.use("/api/*", shopify.validateAuthenticatedSession());
-
-app.use(express.json());
 
 const PREMIUM_PLAN = 'MeroxIO Premium';
 const MEROXIO = "meroxio";
@@ -50,6 +49,48 @@ const PREMIUM_PLAN_KEY = "wishlist_premium";
 const IS_TEST = true;
 
 const APP_NAME = "Move to Wishlist"
+
+
+app.get("/api/meroxio-proxy/hasSubscription", async (req, res) => {
+  try {
+    const { shop } = req.query;
+
+    // Validate `shop` parameter
+    if (!shop) {
+      console.warn("Missing 'shop' parameter in request");
+      return res.status(400).send({ error: "Missing 'shop' parameter" });
+    }
+
+    console.log(`Request received from shop: ${shop}`);
+
+    // Fetch session from MongoDB
+    const collection = await connectToMongoDB();
+    const session = await collection.findOne({ shop });
+
+    if (!session) {
+      console.warn(`No session found for shop: ${shop}`);
+      return res.status(401).send({ error: "Unauthorized: Session not found" });
+    }
+
+    // Check subscription status
+    const hasPayment = await shopify.api.billing.check({
+      session,
+      plans: [PREMIUM_PLAN],
+      isTest: IS_TEST,
+    });
+
+    console.log(`Subscription status for shop ${shop}: ${hasPayment ? "Active" : "Inactive"}`);
+    return res.status(200).send({ hasActiveSubscription: !!hasPayment });
+  } catch (error) {
+    console.error("Error in hasSubscription:", error.message);
+    return res.status(500).send({ error: "Failed to fetch subscription" });
+  }
+});
+
+app.use("/api/*", shopify.validateAuthenticatedSession());
+
+app.use(express.json());
+
 
 
 
