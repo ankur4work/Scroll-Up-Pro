@@ -35,6 +35,8 @@ import { Redirect } from "@shopify/app-bridge/actions";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { Toast } from "@shopify/app-bridge-react";
 import { Iconkeyfeature } from "../components/Iconkeyfeature";
+import { TotalWishlists } from "../components/TotalWishlists";
+
 
 
 export default function HomePage() {
@@ -336,15 +338,13 @@ export default function HomePage() {
                 onAction: openReviewPage
               }}
             >
-              <p>🌟 "We're always striving to make our App better for you, and your feedback lights the way! 🚀 Your thoughts and experiences are invaluable to us. If you've enjoyed using our app, we'd be thrilled if you could share your positive experiences with a ⭐⭐⭐⭐⭐ review on the Shopify App Store. Your support not only motivates our team but also helps other merchants discover the benefits of our App! Thank you for being an amazing part of our journey!" 🙌</p>
+              <p>🌟"We're always striving to make our App better for you, and your feedback lights the way! 🚀 Your thoughts and experiences are invaluable to us. If you've enjoyed using our app, we'd be thrilled if you could share your positive experiences with a ⭐⭐⭐⭐⭐ review on the Shopify App Store. Your support not only motivates our team but also helps other merchants discover the benefits of our App! Thank you for being an amazing part of our journey!" 🙌</p>
             </CalloutCard>
 
 
           </Layout.Section>
 
         </Layout>
-
-
 
 
 

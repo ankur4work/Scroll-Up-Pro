@@ -11,6 +11,8 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import crypto from "crypto";
 import dotenv from "dotenv";
 
+
+import createDbConnection  from './analytics-db.js'; // Database initialization
 import { connectToMongoDB } from "./mongodb.js"; // Import the MongoDB utility
 
 dotenv.config();
@@ -47,8 +49,13 @@ const PREMIUM_PLAN = 'MeroxIO Premium';
 const MEROXIO = "meroxio";
 const PREMIUM_PLAN_KEY = "wishlist_premium";
 const IS_TEST = true;
-
 const APP_NAME = "Move to Wishlist"
+const ANALYTICS_DB_PREFIX = "wishlist"
+const HTTP_STATUS = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, INTERNAL_SERVER_ERROR: 500 };
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Handles URL-encoded data
+
 
 
 app.get("/api/meroxio-proxy/hasSubscription", async (req, res) => {
@@ -87,11 +94,54 @@ app.get("/api/meroxio-proxy/hasSubscription", async (req, res) => {
   }
 });
 
+// Function to log events to the generic analytics table
+app.post("/api/meroxio-proxy/:event", async (req, res) => {
+  try {
+    const { event } = req.params; // Event type (e.g., wishlist_add, wishlist_remove)
+    const { merchantId, ...eventData } = req.body; // Extract merchantId and other event data from the body
+
+    // Validate required parameters
+    if (!merchantId) {
+      console.warn("Missing 'merchantId' parameter in request");
+      return res.status(400).send({ error: "Missing 'merchantId' parameter" });
+    }
+
+    console.log(`Event received: ${event} for merchant: ${merchantId} with data:`, eventData);
+
+    // Create a dynamic DB connection based on the app name (ANALYTICS_DB_PREFIX is fixed)
+    const db = createDbConnection(ANALYTICS_DB_PREFIX);
+
+    // Prepare the event data as a JSON string
+    const eventDataString = JSON.stringify(eventData);
+
+    // Log the event to the dynamic table for the specific app
+    db.run(
+      `INSERT INTO ${ANALYTICS_DB_PREFIX}_events (event_type, merchant_id, event_data) VALUES (?, ?, ?)`,
+      [event, merchantId, eventDataString],
+      function (err) {
+        if (err) {
+          console.error("Error logging event:", err.message);
+          return res.status(500).send({ error: "Failed to log event" });
+        }
+        console.log("Event logged successfully:", this.lastID);
+        res.status(200).send({ success: true, eventId: this.lastID });
+      }
+    );
+  } catch (error) {
+    console.error("Error handling event:", error.message);
+    res.status(500).send({ error: "Failed to handle event" });
+  }
+});
+
+
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
-app.use(express.json());
 
-
+// Utility Function for Error Response
+const handleError = (res, statusCode, message) => {
+  console.error(message);
+  res.status(statusCode).send({ error: message });
+};
 
 
 app.get("/api/createSubscription", async (req, res) => {
@@ -301,57 +351,83 @@ const shopDetailsQuery = `
   }
 }`;
 
-app.get("/api/store-details", async (req, res) => {
-  console.log("Request received for store details via GraphQL");
+// Route: Fetch Store Details
+app.get('/api/store-details', async (req, res) => {
+  console.log('Fetching store details via GraphQL...');
   const session = res.locals.shopify.session;
-  if (!session) {
-    console.log('No active session found');
-    return res.status(401).send({ error: 'No active session' });
-  }
+
+  if (!session) return handleError(res, HTTP_STATUS.UNAUTHORIZED, 'No active session found.');
 
   try {
-    const client =  new shopify.api.clients.Graphql({ session });
-    const response = await client.query({
-      data: shopDetailsQuery,
-    });
+    const client = new shopify.api.clients.Graphql({ session });
+    const response = await client.query({ data: shopDetailsQuery });
 
-    const { name, email,primaryDomain, plan } = response.body.data.shop;
-    //console.log("Shop Details:", { name, email,primaryDomain, plan });
+    const { name, email, primaryDomain, plan } = response.body.data.shop;
 
+    // Store shop details in external service
     storeShopDetails({
       appName: APP_NAME,
       storeUrl: primaryDomain.url,
-      name: name,
-      email: email,
-      plan: plan.displayName
+      name,
+      email,
+      plan: plan.displayName,
     });
-    
-    res.status(200).send({ message: 'Shop details fetched successfully', data: { name,email, primaryDomain, plan }});
+
+    console.log('Shop details fetched successfully.');
+    res.status(HTTP_STATUS.OK).send({
+      message: 'Shop details fetched successfully',
+      data: { name, email, primaryDomain, plan },
+    });
   } catch (error) {
-    console.error('Failed to fetch shop details via GraphQL:', error);
-    res.status(500).send({ error: 'Internal Server Error' });
+    handleError(res, HTTP_STATUS.INTERNAL_SERVER_ERROR, `Failed to fetch store details: ${error.message}`);
   }
 });
 
-
+// Utility Function: Store Shop Details
 async function storeShopDetails(shopDetails) {
   try {
     const response = await fetch('https://app.meroxio.com/app-installation-data-store/storedata', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(shopDetails),
     });
-    
+
     if (!response.ok) throw new Error('Network response was not ok.');
-    
-    const data = await response.json();
-    //console.log('Success:', data);
+    console.log('Shop details stored successfully.');
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Failed to store shop details:', error.message);
   }
 }
+
+app.get("/api/total-wishlists", async (req, res) => {
+  const session = res.locals.shopify.session;
+
+  // Validate session
+  if (!session) {
+      console.warn("No active session found");
+      return res.status(401).send({ error: "Unauthorized: No session found" });
+  }
+
+  const merchantId = session.shop; // Extract merchant/shop ID from the session
+  const db = createDbConnection(ANALYTICS_DB_PREFIX); // Use the generic DB connection
+
+  // Query the total wishlists for this merchant
+  db.get(
+      `SELECT COUNT(*) AS total FROM ${ANALYTICS_DB_PREFIX}_events WHERE event_type = 'wishlist_add' AND merchant_id = ?`,
+      [merchantId],
+      (err, row) => {
+          if (err) {
+              console.error("Error fetching total wishlists:", err.message);
+              return res.status(500).send({ error: "Failed to fetch total wishlists" });
+          }
+
+          // If no rows are found, return total as 0
+          const totalWishlists = row?.total || 0;
+
+          res.status(200).send({ totalWishlists });
+      }
+  );
+});
 
 
 
