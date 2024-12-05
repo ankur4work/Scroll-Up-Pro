@@ -489,27 +489,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // add wishlist-filled class with add the product in whishlist
 document.addEventListener("DOMContentLoaded", () => {
-  updateWishlistText();
-  const initializeWishlistButtons = () => {
-    const wishlistButtons = document.querySelectorAll(".wishlist-engine, .wishlist-engine-product-page");
+  const initializeWishlistButton = (button) => {
+    console.log("initilaizing:" + button)
+    // Prevent duplicate initialization
+    if (button.dataset.initialized === "true") return;
 
-    wishlistButtons.forEach((button) => {
-      const productHandle = button.getAttribute("data-product-handle");
+    // Mark as initialized
+    button.dataset.initialized = "true";
 
-      // Skip initialization if no handle is provided
-      if (!productHandle) {
+    const productHandle = button.getAttribute("data-product-handle");
+
+    if (!productHandle) {
         console.error("Wishlist button is missing 'data-product-handle'");
         return;
-      }
+    }
 
-      // Set Initial State
-      if (Wishlist.isInWishlist(productHandle)) {
+    // Set Initial State
+    if (Wishlist.isInWishlist(productHandle)) {
         button.classList.add("wishlist-filled");
-      }
+    }
 
-      // Add Click Event Listener
-      button.addEventListener("click", () => toggleWishlist(productHandle));
-    });
+    // Ensure no duplicate event listeners
+    button.removeEventListener("click", handleWishlistClick); // Clean up first
+    button.addEventListener("click", handleWishlistClick);
+
+    // Define the click handler function
+    function handleWishlistClick(event) {
+        event.preventDefault(); // Prevent default action if necessary
+        toggleWishlist(productHandle);
+    }
   };
 
   // Toggle Wishlist State
@@ -541,9 +549,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initialize Wishlist Buttons on Page Load
-  initializeWishlistButtons();
+  //initializeWishlistButtons();
 
-  // Use MutationObserver to watch for changes in the product grid
+  {% comment %} // Use MutationObserver to watch for changes in the product grid
   const observer = new MutationObserver(() => {
     initializeWishlistButtons(); // Reinitialize buttons when DOM changes
   });
@@ -554,31 +562,55 @@ document.addEventListener("DOMContentLoaded", () => {
     observer.observe(productGridContainer, { childList: true, subtree: true });
   } else {
     console.error("Product grid container not found. Ensure the correct selector is used.");
-  }
+  } {% endcomment %}
+
+{% comment %} 
+  document.body.addEventListener("click", function (event) {
+    const wishlistElement = event.target.closest(".wishlist-engine");
+    if (wishlistElement) {
+        // Add your wishlist logic here
+        console.log("Wishlist engine element or its child clicked:", wishlistElement);
+    }
+}); {% endcomment %}
+
+
+const observeWishlistButtons = () => {
+  const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+          mutation.addedNodes.forEach((node) => {
+              if (node.nodeType === 1) {
+                  // If the node itself matches
+                  if (node.matches(".wishlist-engine, .wishlist-engine-product-page")) {
+                      console.log("node matched");
+                      initializeWishlistButton(node);
+                  }
+
+                  // If child nodes contain wishlist buttons
+                  const buttons = node.querySelectorAll?.(".wishlist-engine, .wishlist-engine-product-page");
+                  buttons.forEach((button) => initializeWishlistButton(button));
+              }
+          });
+      });
+  });
+
+  // Start observing the entire body for changes
+  observer.observe(document.body, {
+      childList: true, // Detect direct children added or removed
+      subtree: true,   // Detect changes deep within the DOM
+  });
+};
+
+// Initial Run for Existing Buttons
+document.querySelectorAll(".wishlist-engine, .wishlist-engine-product-page").forEach((button) => {
+  initializeWishlistButton(button);
+});
+
+// Start Observing DOM Changes
+observeWishlistButtons();
+
 });
 
 
-function updateWishlistText() {
-    // Select the element with the 'wishlist-engine-product-page' class
-    const wishlistElement = document.querySelector('.wishlist-engine-product-page');
-
-    // Check if the element contains the 'wishlist-filled' class
-    if (wishlistElement) {
-        const wishlistTextElement = wishlistElement.querySelector('.wishlist-text');
-
-        if (wishlistElement.classList.contains('wishlist-filled')) {
-            // If 'wishlist-filled' class is present, update the text
-            if (wishlistTextElement) {
-                wishlistTextElement.innerText = 'Added to Wishlist';
-            }
-        } else {
-            // If 'wishlist-filled' class is not present, revert to the original text
-            if (wishlistTextElement) {
-                wishlistTextElement.innerText = 'Add to Wishlist';
-            }
-        }
-    }
-}
 
 
 
