@@ -217,16 +217,19 @@ export default function HomePage() {
             <TextContainer>
               <DisplayText size="Large"><span>Introduction</span></DisplayText>
 
-              <p>Welcome to Sticky Mobile Menu by MeroxIO! – Unleash the power of dynamic, customizable navigation. Elevate your Shopify store with Sticky Mobile Menu – where style meets functionality. Dive into a world of seamless experiences!</p>
+              <p>Welcome to Wishlist by MeroxIO! – Redefine the way customers shop and save their favorite products. Elevate your Shopify store with Wishlist – where convenience meets engagement. Create a shopping experience your customers will love and keep them coming back for more!</p>
 
               <h2><b>Key Features:</b></h2>
               <ul className="appFeatures">
-                <li><strong>Effortless Navigation:</strong> Streamline the shopping experience with an intuitive and easy-to-use mobile menu.</li>
-                <li><strong>Branded Customization:</strong> Personalize your mobile menu with unique SVG icons, aligning it seamlessly with your brand.</li>
-                <li><strong>Dynamic Content Display:</strong> Showcase promotions and categories dynamically, grabbing your customers' attention instantly.</li>
-                <li><strong>Sticky Accessibility:</strong> Keep essential links always accessible at the top for a frustration-free shopping journey.</li>
-                <li><strong>Mobile Excellence:</strong> Designed exclusively for mobile, our menu ensures a responsive and visually appealing layout.</li>
+                <li><strong>Effortless Wishlist Management:</strong> Provide your customers with an easy-to-use wishlist feature that enhances their shopping experience.</li>
+                <li><strong>Mobile Drawer:</strong> Enjoy a sleek and responsive wishlist drawer for mobile, ensuring seamless navigation and accessibility.</li>
+                <li><strong>Floating Icon:</strong> A customizable floating icon allows customers to access their wishlist anytime, anywhere on your store.</li>
+                <li><strong>Wishlist Integration Everywhere:</strong> Enable wishlist functionality across product pages, product grids, and other key sections of your store.</li>
+                <li><strong>Move to Wishlist from Cart:</strong> Give customers the ability to move items from their cart to their wishlist, simplifying decision-making and saving favorites.</li>
+                <li><strong>Dedicated Wishlist Page:</strong> Feature a beautifully designed wishlist page where customers can add items to their cart with variants or remove items as needed.</li>
+                <li><strong>Enhanced Shopping Journey:</strong> Encourage repeat visits and customer loyalty with a wishlist that fits perfectly into your store’s user experience.</li>
               </ul>
+
 
 
             </TextContainer>
