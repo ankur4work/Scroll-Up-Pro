@@ -35,9 +35,9 @@ export default function Installation() {
         width: 450,
         height: 90,
         topBarSource:
-            `https://cdn.shopify.com/s/files/1/0629/5522/5264/files/MeroxIO_Comparison_Slider.png?v=1702290807`,
+            `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537`,
         url: '/',
-        accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0627/5727/3793/files/lookbook_logo.png?v=1666164778',
+        accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537',
     };
 
     const gotoHomePage = () => {

@@ -27,7 +27,7 @@ import { shopifyBackground } from "../assets";
 import ReactPlayer from "react-player";
 import {
   ExternalMinor,
-  CircleTickMinor, HomeMajor
+  CircleTickMinor, HomeMajor,ChecklistMajor
 } from '@shopify/polaris-icons';
 
 import { useNavigate } from "react-router-dom";
@@ -149,7 +149,7 @@ export default function HomePage() {
   ];
   
 
-  // m-lookbook-hearder-part-starting
+  // m-hearder-part-starting
 
   const navigate = useNavigate();
 
@@ -159,28 +159,38 @@ export default function HomePage() {
     height: 90,
 
     topBarSource:
-      `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO_Comparison_Slider_1.png?v=1733589020`,
+      `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537`,
     url: '/',
-    accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0627/5727/3793/files/lookbook_logo.png?v=1666164778',
+    accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537',
 
   };
 
   const gotoHomePage = () => {
     navigate("/");
   }
+  
+  const gotoInstallPage = () => {
+    navigate("/install");
 
+}
+  
   
 
   const secondaryMenuMarkup = (
     <TopBar.Menu
       activatorContent={
-        <div className="main-icon">
-          <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
-              <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
+                <div className="main-icon">
+                    <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
+                        <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
 
-          </div>
-          
-        </div>
+                    </div>
+
+                    <div className="main-icon-2"><Button onClick={gotoInstallPage} plain monochrome removeUnderline fullWidth >
+                        <div className="m-icon-show-2"><Icon source={ChecklistMajor} /><span className="m-hover-text-2"> <h1>Installation</h1></span></div></Button>
+
+                    </div>
+
+                </div>
       }
 
     />
@@ -276,7 +286,7 @@ export default function HomePage() {
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
               <video
-                  src="https://cdn.shopify.com/videos/c/o/v/494412b9ebd2437eabf0436cfe01f035.mp4"
+                  src="https://cdn.shopify.com/videos/c/o/v/b9000461edf1448d8302964c736d41f9.mp4"
                   controls
                   autoPlay
                   loop

@@ -57,7 +57,7 @@ const QuickSetupGuide = () => {
   const handleCopy = (key) => {
     navigator.clipboard.writeText(codeSnippets[key].trim());
     setCopied((prev) => ({ ...prev, [key]: true }));
-    setTimeout(() => setCopied((prev) => ({ ...prev, [key]: false })), 2000);
+    setTimeout(() => setCopied((prev) => ({ ...prev, [key]: false })), 300);
   };
 
   return (
@@ -71,7 +71,7 @@ const QuickSetupGuide = () => {
         <p>
           Go to your Shopify theme editor and enable the app embed feature to integrate the app into your store.
         </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/embed.png?v=1733985272"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0._move_to_wishlist.png?v=1734429291"/>
         <div>
         </div>
       </div>
@@ -81,7 +81,7 @@ const QuickSetupGuide = () => {
         <p>
         Add the provided block to your product page to enable the wishlist functionality on individual product pages.
       </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/product_block.png?v=1734068901"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_add_t_owishlist.png?v=1734429291"/>
       </div>
      </div>
      
@@ -92,7 +92,7 @@ const QuickSetupGuide = () => {
         <p>
           Use the "header-icon" block to display a wishlist icon in the store's header for quick access.
         </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/header-icon.png?v=1733985272"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_wishlist_header_icon_cc7c2f29-a64d-4f59-a7e9-129373b69a1d.png?v=1734429291"/>
       </div>
 
       <div className='instruction-points'>
@@ -100,7 +100,10 @@ const QuickSetupGuide = () => {
         <p>
           Create a new page named 'wishlist' in your Shopify store to serve as the dedicated wishlist page. This page will display all the products added to the wishlist.
         </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/wishlist-page.png?v=1733985272"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_wishlist_page.png?v=1734429624"/>
+
+        <h3>After create page add block "Wishlist Product Page".</h3>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_product_page.png?v=1734429291"/>
       </div>
 
       <div className='instruction-points'>

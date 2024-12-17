@@ -20,6 +20,10 @@ export default function App() {
           <QueryProvider>
             <NavigationMenu
               navigationLinks={[
+                {
+                  label: "Installation Steps",
+                  destination: "/install",
+                }
               ]}
             />
             <Routes pages={pages} />
