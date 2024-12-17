@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { AppblockInstallationSteps } from "../components/AppblockInstallationSteps";
 import { MetafieldInstallationSteps } from "../components/MetafieldInstallationSteps";
 import { Addmetafieldinproducts } from "../components/Addmetafieldinproducts";
+import CodeSnippetWithCopy from "../components/CodeSnippetWithCopy";
 
 
 export default function Installation() {
@@ -48,20 +49,17 @@ export default function Installation() {
 
     }
 
-    const gotoSupportPage = () => {
-        navigate("/support");
-    }
-
-    const gotoPricingPage = () => {
-        navigate("/pricing");
-    }
-
     const secondaryMenuMarkup = (
         <TopBar.Menu
             activatorContent={
                 <div className="main-icon">
                     <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
                         <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
+
+                    </div>
+
+                    <div className="main-icon-2"><Button onClick={gotoInstallPage} plain monochrome removeUnderline fullWidth >
+                        <div className="m-icon-show-2"><Icon source={ChecklistMajor} /><span className="m-hover-text-2"> <h1>Installation</h1></span></div></Button>
 
                     </div>
 
@@ -96,7 +94,7 @@ export default function Installation() {
                                     content: 'Installation Steps',
                                     onAction: () => { handleChange() },
                                 }}
-                                description="If you're looking to add a touch of style and sophistication to your store, then installing a lookbook is a great way to do it."
+                                description="If you're looking to enhance your store's functionality and provide a seamless shopping experience, then adding a Move to Wishlist feature is the perfect way to do it."
                             >
                                 <VideoThumbnail
                                     videoLength={120}
@@ -107,8 +105,13 @@ export default function Installation() {
 
                         </Layout.Section>
 
+                        
+
                     </div>
-                    <div className="m-carousel-container">
+
+                    <CodeSnippetWithCopy/>            
+
+                    {/* <div className="m-carousel-container">
                         <h1 className="m-appblock"><b>App Block Installation Steps</b></h1>
                         <Card>
                             <Layout.Section>
@@ -130,9 +133,9 @@ export default function Installation() {
                         </Card>
 
 
-                    </div>
+                    </div> */}
 
-                    {/* <div className="m-carousel-container">
+                    {/* { <div className="m-carousel-container">
                         <h1 className="m-appblock"><b>Metafield Installation Steps</b></h1>
                         <Card>
                             <Layout.Section>
@@ -152,9 +155,9 @@ export default function Installation() {
                                 </div>
                             </Layout.Section>
                         </Card>
-                    </div> */}
+                    </div> } */}
 
-                    {/* <div className="m-carousel-container">
+                    {/* { <div className="m-carousel-container">
                         <h1 className="m-appblock"><b>Add Metafield In Products</b></h1>
                         <Card>
                             <Layout.Section>
@@ -174,7 +177,7 @@ export default function Installation() {
                                 </div>
                             </Layout.Section>
                         </Card>
-                    </div> */}
+                    </div> } */}
                     <div>
                         <Modal
                             open={active}

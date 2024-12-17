@@ -39,7 +39,7 @@
     cursor: pointer;
 }
 
-.wishlist-engine{
+.move-to-wishlist-engine{
     z-index: 2;
     position: absolute;
     right: 10px;
@@ -60,6 +60,7 @@
 .move-to-wishlist{
     display: flex;
     align-items: center;
+    margin: 10px 0;
 }
 
 .wishlist-icon{
@@ -67,12 +68,14 @@
     align-items: center;
     text-decoration: none;
     position: relative;
+    width: 30px;
+    height: 50px;
 }
 
 .wishlist-count{
     font-size: 0.9rem;
     position: absolute;
-    bottom: 6px;
+    bottom: 10px;
     right: 0px;
     left: 12px;
     background: black;
@@ -132,8 +135,9 @@
 .mobile-wishlist-drawer{
     display: flex;
     gap: 15px;
-    padding: 70px 20px 20px;
+    padding: 20px 20px 50px;
     width: 100%;
+    overflow-x: scroll;
 }
 
 .mobile-wishlist-drawer img{
@@ -145,11 +149,10 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    height: 60%;
+    min-height: 25%;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     background-color: white;
-    overflow-x: scroll;
     z-index: 10;
 }
 
@@ -177,7 +180,6 @@
     background-color: white;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    position: fixed;
     z-index: 1;
 }
 
@@ -193,12 +195,13 @@
 }
 
 .mobile-wishlist-drawer .wishlist-item img{
-    width: 140px;
+    width: 158px;
 }
 
-.mobile-wishlist-drawer .wishlist-item:last-child{
-    margin-right: 20px;
+.mobile-wishlist-drawer .wishlist-item {
+  width: 160px;
 }
+
 a.wishlist-free-logo {
     position: absolute;
     top: 0;
@@ -308,16 +311,16 @@ a.wishlist-free-logo {
     transform: translate(-50%);
     background-color: #f7f7f7;
     width: 100%;
-    bottom: 20px;
+    bottom: 10px;
   }
 
 
-  .m-variant-dropdown{
-    /* display: none; */
+  /* .m-variant-dropdown{
+    display: none;
   }
   .add-to-cart-wishlist{
-    /* display: none; */
-  }
+    display: none;
+  } */
   .meroxio-product-grid-logo{
     display: none;
   }
