@@ -1,8 +1,12 @@
-<div class="wishlist-power-by-bar"></div>
-<h1 class="wishlist-page-heading">{{ block.settings.wishlist-page-heading }}</h1>
+<div class="wishlist-page-container">
+  <div class="wishlist-power-by-bar" style="opacity: 1!important; z-index: 3 !important; visibility: visible !important;">
+    <a href="https://meroxio.com/" class="m-powered-meroxio" style="display: block!important; opacity: 1!important; z-index: 3 !important; visibility: visible !important;">Powered By MeroxIO</a>
+  </div>
+  <h1 class="wishlist-page-heading">{{ block.settings.wishlist-page-heading }}</h1>
 
-<div id="wishlist-items">
-  <!-- Placeholder for dynamic wishlist items -->
+  <div id="wishlist-items">
+    <!-- Placeholder for dynamic wishlist items -->
+  </div>
 </div>
 
 {% schema %}
@@ -21,13 +25,8 @@
           "type": "checkbox",
           "id": "compare-price",
           "label": "Show Compare price"
-        },
-        {
-          "type": "checkbox",
-          "id": "floating-button",
-          "label": "Show Floting Button"
         }
-
+        
       ]
     }
 {% endschema %}

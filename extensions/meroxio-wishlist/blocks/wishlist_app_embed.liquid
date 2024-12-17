@@ -5,19 +5,23 @@
       <a href="/pages/wishlist" class="view-all-drawer">View all</a>
     </div>
     <div class="mobile-wishlist-drawer"></div>
+    <div class="drawer-wishlist-power-by-bar" style="opacity: 1!important; z-index: 3 !important; visibility: visible !important;">
+    <a href="https://meroxio.com/" class="m-powered-meroxio" style="display: block!important; opacity: 1!important; z-index: 3 !important; visibility: visible !important;">Powered By MeroxIO</a>
   </div>
-   <div class="meroxio-bar"></div>
+  </div>
 </div>
 
-
 {% comment %} floating wishlist icon  {% endcomment %}
-<div id="wishlist-floating-button" class="m-wishlist-floating-button">
+{% if block.settings.floating-button %} 
+<div id="wishlist-floating-button" class="m-wishlist-floating-button {% if block.settings.button_position == "middle" %}floating-icon-middle{% endif %}">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
         <path 
           d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" 
           fill="none" stroke="white" stroke-width="2"/>
       </svg>
+      <div class="wishlist-count floating-wishlist-count">0</div>
 </div>
+{% endif %}
 
 
 
@@ -53,8 +57,8 @@
     const isSubscribed = await checkSubscription(Shopify.shop);
 
     // Safely check if the elements exist before adding/removing classes
-    const mobileDrawer = document.querySelector(".mobile-wishlist-drawer");
-    const wishlistItems = document.querySelector("#wishlist-items");
+    const mobileDrawer = document.querySelector(".mobile-drawer-container");
+    const wishlistItems = document.querySelector(".wishlist-page-container");
 
     if (mobileDrawer && wishlistItems) {
       if (isSubscribed) {
@@ -108,58 +112,8 @@
   };
 
 
-  // hide add to cart function
-  function hideAddToCartBtn() {
-  const addToCartButtons = document.querySelectorAll('.aadd-to-cart');
-  addToCartButtons.forEach(button => {
-    button.style.display = 'none';
-  });
-}
-
-// hide varaint on product function
-function hideVaraint() {
-  const addToCartButtons = document.querySelectorAll('.m-varaint-dropdown');
-  addToCartButtons.forEach(button => {
-    button.style.display = 'none';
-  });
-}
-
-  //function to add power by merox bar
-  function addPowerByBar() {
-      const wishlistBar = document.querySelectorAll('.wishlist-power-by-bar');
-      if (wishlistBar) {
-        wishlistBar.innerHTML += `
-          <a href="https://meroxio.com/" class="m-powered-meroxio">Powered By MeroxIO</a>
-        `;
-      }
-    }
-    
-    const wishlistContainer = document.querySelector('#wishlist-items');
-    if (!wishlistContainer.classList.contains('premium-active')) {
-    // Call the function to apply the changes
-    setTimeout(() => {
-      addPowerByBar()
-    }, 1000);
-  }
-    
 
 
-  // function to add meroxio log 
-  function addMeroxIOLogo() {
-  const content = `
-    <a class="wishlist-free-logo" href="https://meroxio.com/" style="z-index: 3 !important; visibility: visible !important;">
-      <img loading="lazy" width="20" height="20" src="https://cdn.shopify.com/extensions/d6d8fcee-be53-4964-ac3f-2ba328841b12/meroxio-product-video-feed-6/assets/meroxio-logo.svg" alt="MeroxIO Logo">
-    </a>
-  `;
-
-  // Select all elements with the class 'wishlist-item'
-  const wishlistItems = document.querySelectorAll('.meroxio-product-grid-logo');
-
-  // Iterate through each element and set its content
-  wishlistItems.forEach(item => {
-    item.innerHTML = content;
-  });
-}
 
 
 
@@ -202,26 +156,31 @@ const renderWishlistItems = () => {
         // Render the wishlist item
         return `
           <div class="wishlist-item" data-handle="${handle}" data-variant-id="${defaultVariantId}">
+           <div class="wishlist-card-content">
             <a href="/products/${handle}" class="wishlist-link">
               <img src="${product.featured_image}" alt="${product.title}" />
             </a>
-            <div class="meroxio-product-grid-logo">
-              <!-- Placeholder for additional content -->
+            <div class="meroxio-product-grid-logo" style="opacity: 1!important; z-index: 3 !important; visibility: visible !important;">
+              <a class="wishlist-free-logo" href="https://meroxio.com/" style="display: block!important; opacity: 1!important; z-index: 3 !important; visibility: visible !important;">
+                <img loading="lazy" width="20" height="20" style="display: block!important; opacity: 1!important; z-index: 3 !important; visibility: visible !important;" src="https://cdn.shopify.com/extensions/d6d8fcee-be53-4964-ac3f-2ba328841b12/meroxio-product-video-feed-6/assets/meroxio-logo.svg" alt="MeroxIO Logo">
+              </a>
             </div>
             <a href="/products/${handle}" class="wishlist-link">
               <h3>${product.title}</h3>
             </a>
             <p class="price">
               <span class="current-price">${formattedPrice}</span>
-              ${compareAtPrice ? `<span class="wishlist-compare-at-price">${compareAtPrice}</span>` : ""}
+               {% if block.settings.compare-price  %}<span>${compareAtPrice ? `<span class="wishlist-compare-at-price">${compareAtPrice}</span>` : ""}</span>{% endif %}
             </p>
-            <div class="m-variant-dropdown">${variantsHTML}</div>
-            <button class="aadd-to-cart" data-handle="${handle}">Add to Cart</button>
+             {% if block.settings.show-product-varaint %}  <div class="m-variant-dropdown">${variantsHTML}</div> {% endif %}
+            </div>
+            <button class="add-to-cart-wishlist" data-handle="${handle}">{{ block.settings.wishlist-add-to-cart-btn }}</button>
             <button class="remove-from-wishlist" data-handle="${handle}">
               <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#5f6368">
                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/>
               </svg>
             </button>
+            
           </div>`;
       })
       .catch((error) => {
@@ -240,10 +199,12 @@ const renderWishlistItems = () => {
       const wishlistItem = document.querySelector(`[data-handle="${handle}"]`);
 
       // "Add to Cart" button
-      wishlistItem.querySelector(".aadd-to-cart").addEventListener("click", () => {
+      wishlistItem.querySelector(".add-to-cart-wishlist").addEventListener("click", () => {
         const dropdown = wishlistItem.querySelector(".wishlist-variant-dropdown");
         const selectedVariantId = dropdown ? dropdown.value : wishlistItem.dataset.variantId;
         addToCart(handle, selectedVariantId);
+
+        setTimeout(() => removeFromWishlist(handle), 2000);
       });
 
       // "Remove from Wishlist" button
@@ -252,15 +213,6 @@ const renderWishlistItems = () => {
       });
     });
 
-    // Add logo or additional content with delay
-    // if (!wishlistContainer.classList.contains('premium-active') || !mobileWishlistDrawer.classList.contains('premium-active')) {
-  //   // Call the function to apply the changes
-  setTimeout(() => {
-     addMeroxIOLogo();
-    // hideAddToCartBtn();
-    // hideVaraint();
-    }, 1000);
-  // }
   });
 };
 
@@ -275,7 +227,8 @@ const renderWishlistItems = () => {
       // Show mobile drawer
       if (mobileWishlistDrawer) {
         mobileWishlistDrawer.style.display = "block"; // Show the drawer
-        renderWishlistItems(); // Ensure the drawer is updated
+        renderWishlistItems();// Ensure the drawer is updated
+
       } else {
         console.error("Mobile wishlist drawer element not found in the DOM.");
       }
@@ -293,7 +246,7 @@ const renderWishlistItems = () => {
 
   // Function to add item to the cart
   const addToCart = (handle, variantId) => {
-  const button = document.querySelector(`[data-handle="${handle}"] .aadd-to-cart`);
+  const button = document.querySelector(`[data-handle="${handle}"] .add-to-cart-wishlist`);
 
   if (!variantId) {
     console.error("No variant ID found for this product.");
@@ -328,9 +281,6 @@ const renderWishlistItems = () => {
 };
 
 
-
-
-
   // Function to remove item from wishlist
   const removeFromWishlist = (handle) => {
     wishlistHandles = wishlistHandles.filter((item) => item !== handle);
@@ -359,69 +309,71 @@ const renderWishlistItems = () => {
   };
 
   const outerDrawer = document.querySelector(".mobile-drawer");
-const innerContainer = document.querySelector(".mobile-drawer-container");
-const wishlistIcon = document.querySelector(".wishlist-icon");
-const viewAllDrawer = document.querySelector(".view-all-drawer");
-const wishlistPageLink = document.querySelector(".wishlist-page-link");
+  const innerContainer = document.querySelector(".mobile-drawer-container");
+  const wishlistIcon = document.querySelector(".wishlist-icon");
+  const viewAllDrawer = document.querySelector(".view-all-drawer");
+  const wishlistPageLink = document.querySelector(".wishlist-page-link");
 
-// Function to show the drawer
-function showDrawer(event) {
-  event.preventDefault(); // Prevent the default link behavior
-  outerDrawer.style.display = "block";
+  // Function to show the drawer
+  function showDrawer(event) {
+    event.preventDefault(); // Prevent the default link behavior
+    outerDrawer.style.display = "block";
 
-  // Render wishlist items when the drawer is opened
-  renderWishlistItems();
-}
-
-// Function to close the drawer
-function closeDrawer() {
-  outerDrawer.style.display = "none";
-}
-
-// Close drawer when clicking outside the inner container
-outerDrawer.addEventListener("click", (event) => {
-  if (!innerContainer.contains(event.target)) {
-    closeDrawer();
+    // Render wishlist items when the drawer is opened
+    renderWishlistItems();
+    
   }
-});
 
-// Media query logic
-const mediaQuery = window.matchMedia("(max-width: 600px)");
+  // Function to close the drawer
+  function closeDrawer() {
+    outerDrawer.style.display = "none";
+  }
 
-function handleMediaQueryChange(e) {
-  if (e.matches) {
-    // Attach the event listener for showing the drawer
+  // Close drawer when clicking outside the inner container
+  outerDrawer.addEventListener("click", (event) => {
+    if (!innerContainer.contains(event.target)) {
+      closeDrawer();
+    }
+  });
+
+  // Media query logic
+  const mediaQuery = window.matchMedia("(max-width: 600px)");
+
+  function handleMediaQueryChange(e) {
+    if (e.matches) {
+      // Attach the event listener for showing the drawer
+      wishlistIcon.addEventListener("click", showDrawer);
+    } else {
+      // Remove the event listener for showing the drawer
+      wishlistIcon.removeEventListener("click", showDrawer);
+      closeDrawer(); // Close drawer when resizing to larger screens
+    }
+  }
+
+  // Initial setup
+  if (mediaQuery.matches) {
+    console.log("mobile device");
     wishlistIcon.addEventListener("click", showDrawer);
-  } else {
-    // Remove the event listener for showing the drawer
-    wishlistIcon.removeEventListener("click", showDrawer);
-    closeDrawer(); // Close drawer when resizing to larger screens
   }
-}
 
-// Initial setup
-if (mediaQuery.matches) {
-  wishlistIcon.addEventListener("click", showDrawer);
-}
+  // Listen for media query changes
+  mediaQuery.addEventListener("change", handleMediaQueryChange);
 
-// Listen for media query changes
-mediaQuery.addEventListener("change", handleMediaQueryChange);
-
-// Ensure the wishlist page link works when clicking "View All"
-viewAllDrawer.addEventListener("click", () => {
-  wishlistPageLink.click();
-});
-
-// Handle default link behavior on larger screens
-wishlistIcon.addEventListener("click", (event) => {
-  if (!mediaQuery.matches) {
-    // Allow default navigation on larger screens
+  // Ensure the wishlist page link works when clicking "View All"
+  viewAllDrawer.addEventListener("click", () => {
     wishlistPageLink.click();
-  }
-});
+  });
+
+  // Handle default link behavior on larger screens
+  wishlistIcon.addEventListener("click", (event) => {
+    if (!mediaQuery.matches) {
+      // Allow default navigation on larger screens
+      wishlistPageLink.click();
+    }
+  });
 
 
-});
+  });
   </script>
 
 
@@ -541,7 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Create a new button element
     const cartButton = document.createElement("button");
     cartButton.className = "move-to-wishlist-btn";
-    cartButton.textContent = "Move to Wishlist";
+    cartButton.textContent = "{{ block.settings.btn-cart-text }}";
   
     // Append the button to the current div
     div.appendChild(cartButton);
@@ -603,8 +555,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (productHandle === handle) {
         if (isInWishlist) {
           button.classList.add("wishlist-filled");
+          updateWishlistText();
         } else {
           button.classList.remove("wishlist-filled");
+          updateWishlistText();
         }
       }
     });
@@ -619,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Observe the container that holds the product grid
-  const productGridContainer = document.querySelector(".product-grid-container"); // Replace with your actual product grid container selector
+  const productGridContainer = document.querySelector(".wishlist-engine"); // Replace with your actual product grid container selector
   if (productGridContainer) {
     observer.observe(productGridContainer, { childList: true, subtree: true });
   } else {
@@ -759,14 +713,18 @@ document.addEventListener("DOMContentLoaded", () => {
 const updateWishlistCount = () => {
   const wishlistItems = JSON.parse(localStorage.getItem("wishlist")) || [];
   const wishlistCount = wishlistItems.length; // Get the length of the wishlist array
-  console.log("wishlistCount: "+ wishlistCount);
-  const wishlistCountElement = document.querySelector(".wishlist-count"); // Select the element showing the count
+  console.log("Wishlist Count: " + wishlistCount);
 
-  // Update the wishlist count on the icon
-  if (wishlistCountElement) {
-    wishlistCountElement.textContent = wishlistCount; // Update the count
-  }
+  // Select all elements with the class `.wishlist-count`
+  const wishlistCountElements = document.querySelectorAll(".wishlist-count");
+  if(wishlistCountElements){
+  // Update the wishlist count on all matching elements
+  wishlistCountElements.forEach((element) => {
+    element.textContent = wishlistCount; // Update the count
+  });
+}
 };
+
 
 // Initialize wishlist count when the page loads
 document.addEventListener("DOMContentLoaded", () => {
@@ -802,19 +760,85 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
+<style>
+  .wishlist-filled svg path {
+    fill: {{ block.settings.fill-btn }};
+    stroke: {{ block.settings.fill-btn }};
+}
+
+  .add-to-cart-wishlist{
+    background: {{ block.settings.button_background_color }};
+    color: {{ block.settings.button_text_color }};
+  }
+ 
+</style>
+
 {% schema %}
   {
     "name": "Wishlist Embed",
     "target": "body",
     "stylesheet": "wishlist_block.css",
     "settings": [
+  {
+    "type": "checkbox",
+    "id": "floating-button",
+    "label": "Show Floating Button",
+    "default": true
+  },
+  {
+    "type": "checkbox",
+    "id": "show-product-varaint",
+    "label": "Show Product Variant",
+    "default": true
+  },
+  {
+    "type": "text",
+    "id": "btn-cart-text",
+    "label": "Cart Button Text",
+    "default": "Move to Wishlist"
+  },
+  {
+    "type": "text",
+    "id": "wishlist-add-to-cart-btn",
+    "label": "Add To Cart Button Text",
+    "default": "Add To Bag"
+  },
+  {
+    "type": "color",
+    "id": "fill-btn",
+    "label": "Wishlist Icon Color After Fill",
+    "default": "#000"
+  },
+  {
+    "type": "color",
+    "id": "button_background_color",
+    "label": "Button Background Color",
+    "default": "#ffffff"
+  },
+  {
+    "type": "color",
+    "id": "button_text_color",
+    "label": "Button Text Color",
+    "default": "#000000"
+  },
+  {
+    "type": "select",
+    "id": "button_position",
+    "label": "Button Position",
+    "options": [
       {
-        "type": "text",
-        "id": "btn-cart-text",
-        "label" : "Button Text",
-        "default": "Add to Wishlist"
-      } 
-    ]
+        "value": "middle",
+        "label": "Middle"
+      },
+      {
+        "value": "end",
+        "label": "End"
+      }
+    ],
+    "default": "middle"
+  }
+]
+
   }
   {% endschema %}
   
