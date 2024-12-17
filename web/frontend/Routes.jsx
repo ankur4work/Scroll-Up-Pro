@@ -1,4 +1,7 @@
 import { Routes as ReactRouterRoutes, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./Navigation.css"; 
+
 
 /**
  * File-based routing.
@@ -23,10 +26,12 @@ export default function Routes({ pages }) {
   const NotFound = routes.find(({ path }) => path === "/notFound").component;
 
   return (
-    <ReactRouterRoutes>
+    <div>
+      <ReactRouterRoutes>
       {routeComponents}
       <Route path="*" element={<NotFound />} />
-    </ReactRouterRoutes>
+      </ReactRouterRoutes>
+    </div>
   );
 }
 
@@ -67,3 +72,5 @@ function useRoutes(pages) {
 
   return routes;
 }
+
+

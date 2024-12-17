@@ -39,6 +39,7 @@ import { TotalWishlists } from "../components/TotalWishlists";
 
 
 
+
 export default function HomePage() {
   const emptyToastProps = { content: null };
   const [isLoadingSubscribe, setIsLoadingSubscribe] = useState(false);
@@ -138,12 +139,13 @@ export default function HomePage() {
 
 
   const rows = [
-    ['Cost', 'Free', '$2.99/month'],
-    ['Powered By MeroxIO', '-', tickIcon],
-    ['Customizable Mobile Menu', 'Basic', 'Enhanced'],
-    ['Show/Hide Specific Icons', tickIcon, tickIcon],
-    ['Set Custom URLs', tickIcon, tickIcon],
-    ['Priority Email/Chat Support', '-', tickIcon]
+      ['Cost', 'Free', '$2.99/month'],
+      ['Limit on Wishlist Products', '2 Products', 'Unlimited'],
+      ['NO Powered By MeroxIO Bar', '-', tickIcon],
+      ['No Show MeroxIO Logo in Product Grid', '-', tickIcon],
+      ['Add to Cart Button', '-', tickIcon],
+      ['Variant Selection for Wishlist Items', '-', tickIcon],
+      ['Priority Email/Chat Support', '-', tickIcon]
   ];
   
 
@@ -157,7 +159,7 @@ export default function HomePage() {
     height: 90,
 
     topBarSource:
-      `https://cdn.shopify.com/s/files/1/0629/5522/5264/files/MeroxIO_Comparison_Slider_e567d068-a9dc-4a7d-be5d-19adfc056400.png?v=1703919712`,
+      `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO_Comparison_Slider_1.png?v=1733589020`,
     url: '/',
     accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0627/5727/3793/files/lookbook_logo.png?v=1666164778',
 
@@ -167,12 +169,17 @@ export default function HomePage() {
     navigate("/");
   }
 
+  
 
   const secondaryMenuMarkup = (
     <TopBar.Menu
       activatorContent={
         <div className="main-icon">
+          <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
+              <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
 
+          </div>
+          
         </div>
       }
 
@@ -200,13 +207,13 @@ export default function HomePage() {
           <Layout.Section>
             <div className="custom-callout-container">
               <CalloutCard
-                title="Activate MeroxIO Sticky Mobile Menu"
+                title="Activate Move To Wishlist"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
                 primaryAction={{ content: 'Activate Now - Premium Plan ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Premium Plan' }}
                 secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}
               >
                 <p>
-                Are you prepared to upgrade your store's display? Click 'Enable' to activate the MeroxIO Sticky Mobile Menu. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
+                Are you prepared to upgrade your store's display? Click 'Enable' to activate the Move To Wishlist. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
                 <br/><b>NOTE: Make sure you have subscribed to Premium if you Activate the Premium Plan.</b>
                 </p>
               </CalloutCard>
@@ -217,7 +224,7 @@ export default function HomePage() {
             <TextContainer>
               <DisplayText size="Large"><span>Introduction</span></DisplayText>
 
-              <p>Welcome to Wishlist by MeroxIO! – Redefine the way customers shop and save their favorite products. Elevate your Shopify store with Wishlist – where convenience meets engagement. Create a shopping experience your customers will love and keep them coming back for more!</p>
+              <p>Welcome to Move To Wishlist by MeroxIO! – Redefine the way customers shop and save their favorite products. Elevate your Shopify store with Wishlist – where convenience meets engagement. Create a shopping experience your customers will love and keep them coming back for more!</p>
 
               <h2><b>Key Features:</b></h2>
               <ul className="appFeatures">
@@ -235,6 +242,7 @@ export default function HomePage() {
             </TextContainer>
 
             <div style={{ display: "flex" }}>
+
 
               <Modal
                 activator={activator}
@@ -268,13 +276,13 @@ export default function HomePage() {
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
               <video
-                  src="https://cdn.shopify.com/videos/c/o/v/b11f227af4cd4c5581f8aaae079b0029.mp4"
+                  src="https://cdn.shopify.com/videos/c/o/v/494412b9ebd2437eabf0436cfe01f035.mp4"
                   controls
                   autoPlay
                   loop
                   muted
                   playsInline
-                  style={{ width: '100%', height: 'auto' }}
+                  style={{ width: '100%', height: '100%' }}
                 >
                   Your browser does not support the video tag.
                 </video>
