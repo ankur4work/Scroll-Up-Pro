@@ -23,6 +23,9 @@
 
 <script>
  document.addEventListener("DOMContentLoaded", async () => {
+
+
+
   async function checkSubscription(shop) {
     try {
       const apiUrl = `https://${shop}/apps/meroxio-proxy/hasSubscription?shop=${shop}`;
@@ -60,12 +63,14 @@
         wishlistItems.classList.add("premium-active");
         mobileDrawer.classList.remove("premium-not-active");
         wishlistItems.classList.remove("premium-not-active");
+        localStorage.setItem('wishlistUserPlan', 'premium-active');
       } else {
         console.log("No active subscription. Removing classes...");
         mobileDrawer.classList.remove("premium-active");
         wishlistItems.classList.remove("premium-active");
         mobileDrawer.classList.add("premium-not-active");
         wishlistItems.classList.add("premium-not-active");
+        localStorage.setItem('wishlistUserPlan', 'premium-not-active');
       }
     } else {
       console.warn("One or more target elements are not present on this page.");
@@ -427,7 +432,17 @@ wishlistIcon.addEventListener("click", (event) => {
  // Wishlist Management Functions
 const Wishlist = {
   addToWishlist: (handle) => {
+    const wishlistUserPlan = localStorage.getItem('wishlistUserPlan') || 'premium-active';
+    
     let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+
+    // Apply wishlist limit for free plan
+    if (wishlistUserPlan === 'premium-not-active' && wishlist.length >= 2) {
+      alert("You can only have 2 items in your wishlist on the free plan.");
+      return; // Prevent adding more items
+    }
+    
+
     if (!wishlist.includes(handle)) {
       wishlist.push(handle);
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
@@ -572,10 +587,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const toggleWishlist = (handle) => {
     if (Wishlist.isInWishlist(handle)) {
       Wishlist.removeFromWishlist(handle);
-      updateWishlistButtons(handle, false); // Update all buttons for this handle
+      //update wihlist icons
+      updateWishlistButtons(handle, Wishlist.isInWishlist(handle)); // Update all buttons for this handle
     } else {
       Wishlist.addToWishlist(handle);
-      updateWishlistButtons(handle, true); // Update all buttons for this handle
+      updateWishlistButtons(handle, Wishlist.isInWishlist(handle)); // Update all buttons for this handle
     }
   };
 
