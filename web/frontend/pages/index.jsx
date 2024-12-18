@@ -148,7 +148,7 @@ export default function HomePage() {
     ['No Show MeroxIO Logo in Product Grid', '-', tickIcon],
     ['Add to Cart Button', '-', tickIcon],
     ['Variant Selection for Wishlist Items', '-', tickIcon],
-    ['Priority Email/Chat Support', '-', tickIcon],
+    ['Priority Email/Chat Support', '-', tickIcon]
   ];
   
 
