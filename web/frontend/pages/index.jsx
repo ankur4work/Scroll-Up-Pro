@@ -141,7 +141,7 @@ export default function HomePage() {
   const rows = [
     ['Move to Wishlist Button in Cart', tickIcon, tickIcon],
     ['Wishlist Icon on Every Product Card', tickIcon, tickIcon],
-    ['Product Page Add To Wishlist', tickIcon, tickIcon]
+    ['Product Page Add To Wishlist', tickIcon, tickIcon],
     ['Cost', 'Free', '$2.99/month'],
     ['Limit on Wishlist Products', '2 Products', 'Unlimited'],
     ['NO Powered By MeroxIO Bar', '-', tickIcon],
