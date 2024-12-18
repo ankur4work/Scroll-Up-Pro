@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "753e1004b9f1e261b63f2d6636dac445"
-application_url = "https://baghdad-involved-np-owned.trycloudflare.com"
+application_url = "https://horses-wildlife-excess-norway.trycloudflare.com"
 embedded = true
 name = "ankit-app-dev"
 handle = "ankit-app-dev"
@@ -20,13 +20,13 @@ scopes = ""
 
 [auth]
 redirect_urls = [
-  "https://baghdad-involved-np-owned.trycloudflare.com/auth/callback",
-  "https://baghdad-involved-np-owned.trycloudflare.com/auth/shopify/callback",
-  "https://baghdad-involved-np-owned.trycloudflare.com/api/auth/callback"
+  "https://horses-wildlife-excess-norway.trycloudflare.com/auth/callback",
+  "https://horses-wildlife-excess-norway.trycloudflare.com/auth/shopify/callback",
+  "https://horses-wildlife-excess-norway.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://baghdad-involved-np-owned.trycloudflare.com/api/meroxio-proxy"
+url = "https://horses-wildlife-excess-norway.trycloudflare.com/api/meroxio-proxy"
 subpath = "meroxio-proxy"
 prefix = "apps"
 

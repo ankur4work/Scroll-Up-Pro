@@ -21,10 +21,14 @@ const QuickSetupGuide = () => {
       // No code required here, just create a page named "wishlist"
     `,
     productGrid: `
-      <div class="move-to-wishlist-engine" data-product-handle="{{ card_product.handle }}"></div>
+    <!-- Start Move to wishlist product card code -->
+      <div class="move-to-wishlist-engine" data-product-handle="{{ product.handle }}"></div>
+    <!-- End Move to wishlist product card code -->  
     `,
     moveToWishlistButton: `
+    <!-- Start Move to wishlist cart page/drawer code -->
       <div class="move-to-wishlist" data-handle="{{ item.product.handle }}" data-id="{{ item.variant_id }}"></div>
+    <!-- End Move to wishlist cart page/drawer code -->  
     `,
   };
 
@@ -71,7 +75,7 @@ const QuickSetupGuide = () => {
         <p>
           Go to your Shopify theme editor and enable the app embed feature to integrate the app into your store.
         </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0._move_to_wishlist.png?v=1734429291"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/Screenshot_2024-12-18_113455.png?v=1734502090"/>
         <div>
         </div>
       </div>
@@ -81,7 +85,7 @@ const QuickSetupGuide = () => {
         <p>
         Add the provided block to your product page to enable the wishlist functionality on individual product pages.
       </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_add_t_owishlist.png?v=1734429291"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/Screenshot_2024-12-18_113539.png?v=1734502090"/>
       </div>
      </div>
      
@@ -92,7 +96,7 @@ const QuickSetupGuide = () => {
         <p>
           Use the "header-icon" block to display a wishlist icon in the store's header for quick access.
         </p>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_wishlist_header_icon_cc7c2f29-a64d-4f59-a7e9-129373b69a1d.png?v=1734429291"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/Screenshot_2024-12-18_113628.png?v=1734502090"/>
       </div>
 
       <div className='instruction-points'>
@@ -103,7 +107,7 @@ const QuickSetupGuide = () => {
         <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_wishlist_page.png?v=1734429624"/>
 
         <h3>After create page add block "Wishlist Product Page".</h3>
-        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/0_product_page.png?v=1734429291"/>
+        <img src="https://cdn.shopify.com/s/files/1/0571/4372/2059/files/Screenshot_2024-12-18_113710.png?v=1734502090"/>
       </div>
 
       <div className='instruction-points'>

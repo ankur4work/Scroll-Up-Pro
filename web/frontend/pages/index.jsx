@@ -139,13 +139,16 @@ export default function HomePage() {
 
 
   const rows = [
-      ['Cost', 'Free', '$2.99/month'],
-      ['Limit on Wishlist Products', '2 Products', 'Unlimited'],
-      ['NO Powered By MeroxIO Bar', '-', tickIcon],
-      ['No Show MeroxIO Logo in Product Grid', '-', tickIcon],
-      ['Add to Cart Button', '-', tickIcon],
-      ['Variant Selection for Wishlist Items', '-', tickIcon],
-      ['Priority Email/Chat Support', '-', tickIcon]
+    ['Move to Wishlist Button in Cart', tickIcon, tickIcon],
+    ['Wishlist Icon on Every Product Card', tickIcon, tickIcon],
+    ['Product Page Add To Wishlist', tickIcon, tickIcon]
+    ['Cost', 'Free', '$2.99/month'],
+    ['Limit on Wishlist Products', '2 Products', 'Unlimited'],
+    ['NO Powered By MeroxIO Bar', '-', tickIcon],
+    ['No Show MeroxIO Logo in Product Grid', '-', tickIcon],
+    ['Add to Cart Button', '-', tickIcon],
+    ['Variant Selection for Wishlist Items', '-', tickIcon],
+    ['Priority Email/Chat Support', '-', tickIcon],
   ];
   
 
@@ -159,9 +162,9 @@ export default function HomePage() {
     height: 90,
 
     topBarSource:
-      `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537`,
+      `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO.png?v=1734519087`,
     url: '/',
-    accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537',
+    accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO.png?v=1734519087',
 
   };
 
@@ -219,8 +222,8 @@ export default function HomePage() {
               <CalloutCard
                 title="Activate Move To Wishlist"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
-                primaryAction={{ content: 'Activate Now - Premium Plan ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Premium Plan' }}
-                secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}
+                primaryAction={{ content: 'Activate Now ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Premium Plan' }}
+                // secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}
               >
                 <p>
                 Are you prepared to upgrade your store's display? Click 'Enable' to activate the Move To Wishlist. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
@@ -263,19 +266,19 @@ export default function HomePage() {
                 <Modal.Section>
                   <div>
 
-                    <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/df56f2120323436db9459c9809f936f9.mp4" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
+                    <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/879c7b0f313e4e858abc5c16733670d3.mp4" frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
                   </div>
                 </Modal.Section>
               </Modal>
 
 
-              <Button plain onClick={openThemeEditor} style={{ marginLeft: "auto" }}>
+              {/* <Button plain onClick={openThemeEditor} style={{ marginLeft: "auto" }}>
                 <div className="appEnableBtn"><span>Enable Now</span>
                   <Icon
                     source={ExternalMinor}
                     color="base"
                   /></div>
-              </Button>
+              </Button> */}
             </div>
           </Layout.Section>
 
@@ -286,7 +289,7 @@ export default function HomePage() {
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
               <video
-                  src="https://cdn.shopify.com/videos/c/o/v/b9000461edf1448d8302964c736d41f9.mp4"
+                  src="https://cdn.shopify.com/videos/c/o/v/d332700012ee4a1fa2a9e5fafe2c293f.mp4"
                   controls
                   autoPlay
                   loop
@@ -351,7 +354,7 @@ export default function HomePage() {
 
           <Layout.Section>
 
-            <CalloutCard
+            {/* <CalloutCard
               title="How is your experience with our app ?"
               illustration="https://cdn.shopify.com/s/files/1/0627/5727/3793/files/customer-review.gif?v=1668584409"
               primaryAction={{
@@ -360,7 +363,7 @@ export default function HomePage() {
               }}
             >
               <p>🌟"We're always striving to make our App better for you, and your feedback lights the way! 🚀 Your thoughts and experiences are invaluable to us. If you've enjoyed using our app, we'd be thrilled if you could share your positive experiences with a ⭐⭐⭐⭐⭐ review on the Shopify App Store. Your support not only motivates our team but also helps other merchants discover the benefits of our App! Thank you for being an amazing part of our journey!" 🙌</p>
-            </CalloutCard>
+            </CalloutCard> */}
 
 
           </Layout.Section>

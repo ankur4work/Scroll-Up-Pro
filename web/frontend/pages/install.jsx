@@ -35,9 +35,9 @@ export default function Installation() {
         width: 450,
         height: 90,
         topBarSource:
-            `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537`,
+            `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO.png?v=1734519087`,
         url: '/',
-        accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/move_to_wishlist_app.png?v=1734428537',
+        accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO.png?v=1734519087',
     };
 
     const gotoHomePage = () => {
@@ -185,7 +185,7 @@ export default function Installation() {
                             title="Quick Setup in 2.0 themes"
                         >
                             <Modal.Section>
-                                <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/f51fa15242a64c3aba2fc26f724fe462.mp4?portrait=0&loop=1&title=0&byline=0&sidedock=0&h=881b23983c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
+                                <div style={{ padding: '56% 0 0 0', position: 'relative' }}><iframe src="https://cdn.shopify.com/videos/c/o/v/879c7b0f313e4e858abc5c16733670d3.mp4?portrait=0&loop=1&title=0&byline=0&sidedock=0&h=881b23983c&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;autoplay=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%' }} title="Quick Setup"></iframe></div>
                             </Modal.Section>
                         </Modal>
                     </div>
