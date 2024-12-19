@@ -139,7 +139,7 @@ export default function HomePage() {
 
 
   const rows = [
-    ['Cost', 'Free', '$2.99/month'],
+    ['Cost', 'Free', '$4.49/month'],
     ['Limit on Wishlist Products', '2 Products', 'Unlimited'],
     ['Move to Wishlist Button in Cart', tickIcon, tickIcon],
     ['Wishlist Icon on Every Product Card', tickIcon, tickIcon],
