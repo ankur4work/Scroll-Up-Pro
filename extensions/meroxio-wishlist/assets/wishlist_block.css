@@ -1,7 +1,6 @@
 #wishlist-items{
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
     gap: 25px;
     padding-bottom: 30px;
     
@@ -51,9 +50,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: 5px;
-    border: 1px solid;
     color: black;
 }
 

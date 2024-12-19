@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "753e1004b9f1e261b63f2d6636dac445"
-application_url = "https://gallery-scoop-let-dust.trycloudflare.com"
+application_url = "https://rapidly-bestsellers-mighty-affiliation.trycloudflare.com"
 embedded = true
 name = "ankit-app-dev"
 handle = "ankit-app-dev"
@@ -20,13 +20,13 @@ scopes = ""
 
 [auth]
 redirect_urls = [
-  "https://gallery-scoop-let-dust.trycloudflare.com/auth/callback",
-  "https://gallery-scoop-let-dust.trycloudflare.com/auth/shopify/callback",
-  "https://gallery-scoop-let-dust.trycloudflare.com/api/auth/callback"
+  "https://rapidly-bestsellers-mighty-affiliation.trycloudflare.com/auth/callback",
+  "https://rapidly-bestsellers-mighty-affiliation.trycloudflare.com/auth/shopify/callback",
+  "https://rapidly-bestsellers-mighty-affiliation.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://gallery-scoop-let-dust.trycloudflare.com/api/meroxio-proxy"
+url = "https://rapidly-bestsellers-mighty-affiliation.trycloudflare.com/api/meroxio-proxy"
 subpath = "meroxio-proxy"
 prefix = "apps"
 

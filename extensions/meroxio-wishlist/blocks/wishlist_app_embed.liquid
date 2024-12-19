@@ -129,9 +129,7 @@ const renderWishlistItems = () => {
             .replace(/\.00$/, "")}`
           : null;
 
-        // const formattedPrice = formatMoney(product.variants[0].price, "{{amount}}");
-        // const compareAtPrice = product.variants[0].compare_at_price ? formatMoney(product.variants[0].compare_at_price, "{{amount}}") : null;
-
+        
         const hasMultipleVariants = product.variants.length > 1;
         const defaultVariantId = product.variants[0].id;
 
@@ -739,6 +737,10 @@ document.addEventListener("DOMContentLoaded", () => {
     color: {{ block.settings.button_text_color }};
   }
  
+  #wishlist-items{
+    grid-template-columns: repeat({{ block.settings.product-show-in-wishlist }}, 1fr);
+    
+}
 </style>
 
 {% schema %}
@@ -810,7 +812,16 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     ],
     "default": "end"
-  }
+  },
+  {
+    "type": "range",
+    "id": "product-show-in-wishlist",
+    "label": "No. of Product Show on Wishlist Page",
+    "min": 2,
+    "max": 5,
+    "step": 1,
+    "default": 3
+    }
 ]
 
   }

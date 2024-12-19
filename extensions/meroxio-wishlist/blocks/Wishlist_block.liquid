@@ -14,6 +14,23 @@
 </div>
 
 
+<style>
+  .wishlist-engine-product-page{
+    {% if block.settings.alignment-btn == "start" %}
+    justify-content: start;
+  {% endif %}
+  {% if block.settings.alignment-btn == "center" %}
+        justify-content: center;
+    {% endif %}
+    {% if block.settings.enable_border %}
+    border: 1px solid black;
+    {% endif %}
+    border-radius: {{ block.settings.border_radius}}px;
+    background: {{ block.settings.btn_background-color }};
+    color: {{ block.settings.btn_text_color }}
+}
+</style>
+
 
 {% schema %}
 {
@@ -38,7 +55,50 @@
         "unit": "px",
         "label": "Button Padding",
         "default": 10
-      }
+      },
+      {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Button Border Radius",
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "alignment-btn",
+      "label": "Button Align",
+      "options": [
+        {
+          "value": "start",
+          "label": "Start"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_border",
+      "label": "Enable Button Border",
+      "default": true
+    },
+    {
+    "type": "color",
+    "id": "btn_background-color",
+    "label": "Button Background Color",
+    "default": "#ffffff"
+  },
+  {
+    "type": "color",
+    "id": "btn_text_color",
+    "label": "Button Text Color",
+    "default": "#000"
+  }
   ]
 }
 
