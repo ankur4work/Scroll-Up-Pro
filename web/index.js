@@ -171,7 +171,7 @@ app.get("/api/createSubscription", async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Failed to create subscription:", error);
+    console.log("Failed to create subscription:", error);
     res.status(500).send({
       error: "Failed to create subscription",
     });
