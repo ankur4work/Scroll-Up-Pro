@@ -47,10 +47,10 @@ app.post(
 
 const PREMIUM_PLAN = 'MeroxIO Premium';
 const MEROXIO = "meroxio";
-const PREMIUM_PLAN_KEY = "wishlist_premium";
+const PREMIUM_PLAN_KEY = "share_your_cart_premium";
 const IS_TEST = true;
-const APP_NAME = "Move to Wishlist"
-const ANALYTICS_DB_PREFIX = "wishlist"
+const APP_NAME = "Share Your Cart"
+const ANALYTICS_DB_PREFIX = "share_cart"
 const HTTP_STATUS = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, INTERNAL_SERVER_ERROR: 500 };
 
 app.use(express.json());
@@ -97,7 +97,7 @@ app.get("/api/meroxio-proxy/hasSubscription", async (req, res) => {
 // Function to log events to the generic analytics table
 app.post("/api/meroxio-proxy/:event", async (req, res) => {
   try {
-    const { event } = req.params; // Event type (e.g., wishlist_add, wishlist_remove)
+    const { event } = req.params;
     const { merchantId, ...eventData } = req.body; // Extract merchantId and other event data from the body
 
     // Validate required parameters
@@ -399,35 +399,7 @@ async function storeShopDetails(shopDetails) {
   }
 }
 
-app.get("/api/total-wishlists", async (req, res) => {
-  const session = res.locals.shopify.session;
 
-  // Validate session
-  if (!session) {
-      console.warn("No active session found");
-      return res.status(401).send({ error: "Unauthorized: No session found" });
-  }
-
-  const merchantId = session.shop; // Extract merchant/shop ID from the session
-  const db = createDbConnection(ANALYTICS_DB_PREFIX); // Use the generic DB connection
-
-  // Query the total wishlists for this merchant
-  db.get(
-      `SELECT COUNT(*) AS total FROM ${ANALYTICS_DB_PREFIX}_events WHERE event_type = 'wishlist_add' AND merchant_id = ?`,
-      [merchantId],
-      (err, row) => {
-          if (err) {
-              console.error("Error fetching total wishlists:", err.message);
-              return res.status(500).send({ error: "Failed to fetch total wishlists" });
-          }
-
-          // If no rows are found, return total as 0
-          const totalWishlists = row?.total || 0;
-
-          res.status(200).send({ totalWishlists });
-      }
-  );
-});
 
 
 
