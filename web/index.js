@@ -47,10 +47,10 @@ app.post(
 
 const PREMIUM_PLAN = 'MeroxIO Premium';
 const MEROXIO = "meroxio";
-const PREMIUM_PLAN_KEY = "sticky-atc-premium-plan";
+const PREMIUM_PLAN_KEY = "whatsapp-button-plan";
 const IS_TEST = true;
-const APP_NAME = "Sticky Add to Cart";
-const ANALYTICS_DB_PREFIX = "sticky_atc"
+const APP_NAME = "Whatsapp Button";
+const ANALYTICS_DB_PREFIX = "whatsapp_button"
 const HTTP_STATUS = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, INTERNAL_SERVER_ERROR: 500 };
 
 app.use(express.json());
