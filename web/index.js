@@ -47,10 +47,10 @@ app.post(
 
 const PREMIUM_PLAN = 'MeroxIO Premium';
 const MEROXIO = "meroxio";
-const PREMIUM_PLAN_KEY = "infinite-load-premium";
+const PREMIUM_PLAN_KEY = "scroll-2-top-premium";
 const IS_TEST = true;
-const APP_NAME = "MeroxIO Infinite Load";
-const ANALYTICS_DB_PREFIX = "infinite_load"
+const APP_NAME = "MeroxIO Scroll 2 Top";
+const ANALYTICS_DB_PREFIX = "meroxio-scroll-2-top"
 const HTTP_STATUS = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, INTERNAL_SERVER_ERROR: 500 };
 
 app.use(express.json());
