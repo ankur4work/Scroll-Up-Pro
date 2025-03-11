@@ -183,16 +183,7 @@ export default function HomePage() {
     <TopBar.Menu
       activatorContent={
                 <div className="main-icon">
-                    <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
-                        <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
-
-                    </div>
-
-                    <div className="main-icon-2"><Button onClick={gotoInstallPage} plain monochrome removeUnderline fullWidth >
-                        <div className="m-icon-show-2"><Icon source={ChecklistMajor} /><span className="m-hover-text-2"> <h1>Installation</h1></span></div></Button>
-
-                    </div>
-
+                    
                 </div>
       }
 
@@ -226,8 +217,7 @@ export default function HomePage() {
                 // secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}
               >
                 <p>
-                Are you prepared to upgrade your store's display? Click 'Enable' to activate the Move To Wishlist. Once active, effortlessly adjust settings and tailor the app to complement your store's aesthetic. Enhance your customers' viewing experience now!
-                <br/><b>NOTE: Make sure you have subscribed to Premium if you Activate the Premium Plan.</b>
+                Ready to enhance your store's navigation? Click ‘Enable’ to activate the Scroll to Top button. Once enabled, customize its appearance and behavior to match your store’s style seamlessly. Improve user experience and make browsing smoother today! 🚀
                 </p>
               </CalloutCard>
             </div>
@@ -237,17 +227,15 @@ export default function HomePage() {
             <TextContainer>
               <DisplayText size="Large"><span>Introduction</span></DisplayText>
 
-              <p>Welcome to Move To Wishlist by MeroxIO! – Redefine the way customers shop and save their favorite products. Elevate your Shopify store with Wishlist – where convenience meets engagement. Create a shopping experience your customers will love and keep them coming back for more!</p>
+              <p>The Scroll to Top Button enhances your website’s user experience by allowing visitors to quickly navigate back to the top of the page with a single click. Designed for seamless integration, this button is fully customizable with colors, hover effects, and visibility options. You can enable or disable it on product pages, collection pages, and other standard pages based on your preferences.</p>
 
               <h2><b>Key Features:</b></h2>
               <ul className="appFeatures">
-                <li><strong>Effortless Wishlist Management:</strong> Provide your customers with an easy-to-use wishlist feature that enhances their shopping experience.</li>
-                <li><strong>Mobile Drawer:</strong> Enjoy a sleek and responsive wishlist drawer for mobile, ensuring seamless navigation and accessibility.</li>
-                <li><strong>Floating Icon:</strong> A customizable floating icon allows customers to access their wishlist anytime, anywhere on your store.</li>
-                <li><strong>Wishlist Integration Everywhere:</strong> Enable wishlist functionality across product pages, product grids, and other key sections of your store.</li>
-                <li><strong>Move to Wishlist from Cart:</strong> Give customers the ability to move items from their cart to their wishlist, simplifying decision-making and saving favorites.</li>
-                <li><strong>Dedicated Wishlist Page:</strong> Feature a beautifully designed wishlist page where customers can add items to their cart with variants or remove items as needed.</li>
-                <li><strong>Enhanced Shopping Journey:</strong> Encourage repeat visits and customer loyalty with a wishlist that fits perfectly into your store’s user experience.</li>
+                <li><strong>Smooth Scroll Animation:</strong> Provides a seamless scrolling experience.</li>
+                <li><strong>Customizable Design:</strong> Modify background color, hover effect, and icon color.</li>
+                <li><strong>Visibility Control:</strong> Enable or disable on product, collection, and standard pages.</li>
+                <li><strong>Mobile-Friendly:</strong> Works perfectly across all devices.</li>
+                <li><strong>Lightweight & Fast:</strong> Optimized for speed and performance.</li>
               </ul>
 
 
@@ -308,7 +296,7 @@ export default function HomePage() {
 
 
 
-            <div className="planComparison">
+            {/* <div className="planComparison">
               <Card title="Plan Comparison" sectioned
 
                 primaryFooterAction={{
@@ -345,7 +333,7 @@ export default function HomePage() {
                   hoverable
                 />
               </Card>
-            </div>
+            </div> */}
           </Layout.Section>
 
           <Layout.Section>
