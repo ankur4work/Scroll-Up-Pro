@@ -1,0 +1,19 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "220aaa3f99ef967f2b678b1b63cdd57a"
+application_url = "https://example.com/"
+embedded = true
+name = "MeroxIO Scroll 2 Top"
+handle = "meroxio-scroll-2-top"
+
+[webhooks]
+api_version = "2025-01"
+
+[auth]
+redirect_urls = [ "https://example.com/api/auth" ]
+
+[pos]
+embedded = false
+
+[build]
+include_config_on_deploy = true
