@@ -211,7 +211,7 @@ export default function HomePage() {
           <Layout.Section>
             <div className="custom-callout-container">
               <CalloutCard
-                title="Activate Move To Wishlist"
+                title="Activate scroll 2 top"
                 illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
                 primaryAction={{ content: 'Activate Now ➡️', onAction: openThemeEditor, accessibilityLabel: 'Enable Now - Premium Plan' }}
                 // secondaryAction={{content: 'Activate Now - Free Plan ➡️', onAction: enableFreePlan, accessibilityLabel: 'Enable Now - Free Plan'}}

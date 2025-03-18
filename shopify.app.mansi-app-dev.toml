@@ -1,7 +1,7 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "5ebb25654dd00e6d8bf833ab8b15e9a6"
-application_url = "https://resulted-pharmaceuticals-required-myspace.trycloudflare.com"
+application_url = "https://processed-nuclear-brothers-grande.trycloudflare.com"
 embedded = true
 name = "mansi-app-dev"
 handle = "mansi-app-dev"
@@ -15,9 +15,9 @@ scopes = ""
 
 [auth]
 redirect_urls = [
-  "https://resulted-pharmaceuticals-required-myspace.trycloudflare.com/auth/callback",
-  "https://resulted-pharmaceuticals-required-myspace.trycloudflare.com/auth/shopify/callback",
-  "https://resulted-pharmaceuticals-required-myspace.trycloudflare.com/api/auth/callback"
+  "https://processed-nuclear-brothers-grande.trycloudflare.com/auth/callback",
+  "https://processed-nuclear-brothers-grande.trycloudflare.com/auth/shopify/callback",
+  "https://processed-nuclear-brothers-grande.trycloudflare.com/api/auth/callback"
 ]
 
 [pos]
