@@ -162,9 +162,9 @@ export default function HomePage() {
     height: 90,
 
     topBarSource:
-      `https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO.png?v=1734519087`,
+      `https://cdn.shopify.com/s/files/1/0581/2079/8289/files/MeroxIO_Comparison_Slider_8.png?v=1742363154`,
     url: '/',
-    accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0571/4372/2059/files/MeroxIO.png?v=1734519087',
+    accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0581/2079/8289/files/MeroxIO_Comparison_Slider_8.png?v=1742363154',
 
   };
 
@@ -277,7 +277,7 @@ export default function HomePage() {
             <Card>
               <div className="videoWrapper" style={{ backgroundImage: `url(${shopifyBackground})`, padding: '22px' }}>
               <video
-                  src="https://cdn.shopify.com/videos/c/o/v/d332700012ee4a1fa2a9e5fafe2c293f.mp4"
+                  src="https://cdn.shopify.com/videos/c/o/v/ace71d0f22f04c4e9eb54e470ea7539c.mp4"
                   controls
                   autoPlay
                   loop
