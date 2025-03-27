@@ -336,9 +336,6 @@ export default function HomePage() {
             </div> */}
           </Layout.Section>
 
-          <Layout.Section>
-          <ActiveSubscription />
-        </Layout.Section>
 
           <Layout.Section>
 
