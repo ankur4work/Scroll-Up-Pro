@@ -1,75 +1,168 @@
 <style>
-  /* Scroll to Top Button Styling */
+  /* Default Scroll to Top Button Styling */
   #scrollTopBtn {
-      position: fixed;
-      bottom: -50px; /* Start off-screen */
-      background-color: {{ block.settings.bgcolor }};
-      color: white;
-      border: none;
-      padding: 17px 20px;
-      font-size: 20px;
-      cursor: pointer;
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      visibility: hidden;
-      transition: bottom 0.4s ease, opacity 0.4s ease, visibility 0.4s ease, right 0.4s ease, left 0.4s ease;
-      
-      {% if block.settings.position == "left" %}
-        left: 20px;
-      {% else %}
-        right: 20px;
-      {% endif %}
-      
-      {% if block.settings.shape == "square" %}
-        border-radius: 10px;
-      {% else %}
-        border-radius: 50%;
-      {% endif %}
+    position: fixed;
+    bottom: -50px; /* Start off-screen */
+    right: 20px;
+    background-color: #28A745; /* Default (free plan) */
+    color: white;
+    border: none;
+    padding: 11px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: bottom 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
+    border-radius: 50%;
+    display: none; /* Hidden by default */
   }
 
-  /* Hover effect */
   #scrollTopBtn:hover {
-      background-color: {{ block.settings.hovercolor }};
-      /* transform: scale(1.1);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); */
+    background-color: #1C7530;
   }
 
-  /* Show button with smooth animation */
   #scrollTopBtn.show {
-      bottom: 20px; /* Move up */
-      opacity: 1;
-      visibility: visible;
+    bottom: 20px;
+    opacity: 1;
+    visibility: visible;
   }
 </style>
 
-{% if template != 'index' or block.settings.show_on_home_page %}
-  {% if template != 'product' or block.settings.show_on_product_page %}
-    {% if template != 'collection' or block.settings.show_on_collection_page %}
-      {% if template != 'page' or block.settings.show_on_pages %}
-        <button id="scrollTopBtn" onclick="scrollToTop()">
-
-          <svg id="Layer_1" data-name="Layer 1" fill="{{ block.settings.iconcolor }}" height="30px" width="30px" version="1.1"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-          <title>Trade_Icons</title><polygon points="12.65 11.24 8.46 7.05 4.27 11.24 2.75 9.71 8.46 4 14.17 9.71 12.65 11.24"/></svg>
-        </button>
-      {% endif %}
-    {% endif %}
-  {% endif %}
-{% endif %}
+<!-- Scroll Button -->
+<button id="scrollTopBtn" onclick="scrollToTop()">
+  <svg fill="white" height="30px" width="30px"
+    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <polygon points="12.65 11.24 8.46 7.05 4.27 11.24 2.75 9.71 8.46 4 14.17 9.71 12.65 11.24" />
+  </svg>
+</button>
 
 <script>
-    let scrollBtn = document.getElementById("scrollTopBtn");
+document.addEventListener('DOMContentLoaded', async () => {
+  const scrollBtn = document.querySelector("#scrollTopBtn");
+  const scrollSvg = scrollBtn.querySelector("svg");
+  let plan = "free";
 
-    window.addEventListener("scroll", function () {
-        if (window.scrollY > 100) {
-            scrollBtn.classList.add("show"); // Animate & show
-        } else {
-            scrollBtn.classList.remove("show"); // Hide smoothly
-        }
+  try {
+    const shopUrl = "{{ shop.url }}";
+    const shop = shopUrl.replace(/^https?:\/\//, "");
+    const res = await fetch(`/apps/scroll-to-top/hasSubscription?shop=${shop}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.tier) plan = data.tier;
+    }
+  } catch (err) {
+    console.warn("⚠️ Subscription check failed, defaulting to free:", err);
+  }
+
+  console.log("🎯 Final plan detected:", plan);
+
+  /* ---------------- FREE PLAN ---------------- */
+  if (plan === "free") {
+    {% if template contains 'index' %}
+      scrollBtn.style.display = "block";
+    {% else %}
+      scrollBtn.style.display = "none";
+    {% endif %}
+  }
+
+  /* ---------------- PREMIUM PLAN ---------------- */
+  else if (plan === "premium") {
+    {% if template contains 'index' %}
+      scrollBtn.style.display = "block";
+    {% else %}
+      scrollBtn.style.display = "none";
+    {% endif %}
+
+    // Apply customization
+    scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
+    scrollSvg.style.fill = "{{ block.settings.iconcolor }}";
+
+    scrollBtn.addEventListener("mouseover", () => {
+      scrollBtn.style.backgroundColor = "{{ block.settings.hovercolor }}";
+    });
+    scrollBtn.addEventListener("mouseout", () => {
+      scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
     });
 
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    {% if block.settings.position == "left" %}
+      scrollBtn.style.left = "20px";
+      scrollBtn.style.right = "auto";
+    {% else %}
+      scrollBtn.style.right = "20px";
+      scrollBtn.style.left = "auto";
+    {% endif %}
+
+    {% if block.settings.shape == "square" %}
+      scrollBtn.style.borderRadius = "10px";
+    {% else %}
+      scrollBtn.style.borderRadius = "50%";
+    {% endif %}
+  }
+
+  /* ---------------- UNLIMITED PLAN ---------------- */
+  else if (plan === "unlimited") {
+    let show = false;
+
+    {% if block.settings.show_on_home_page %}
+      if ("{{ template }}" && "{{ template }}" .includes("index")) show = true;
+    {% endif %}
+    {% if block.settings.show_on_product_page %}
+      if ("{{ template }}" && "{{ template }}" .includes("product")) show = true;
+    {% endif %}
+    {% if block.settings.show_on_collection_page %}
+      if ("{{ template }}" && "{{ template }}" .includes("collection")) show = true;
+    {% endif %}
+    {% if block.settings.show_on_pages %}
+      if ("{{ template }}" && "{{ template }}" .includes("page")) show = true;
+    {% endif %}
+
+    if (show) {
+      scrollBtn.style.display = "block";
     }
+
+    // Apply customization
+    scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
+    scrollSvg.style.fill = "{{ block.settings.iconcolor }}";
+
+    scrollBtn.addEventListener("mouseover", () => {
+      scrollBtn.style.backgroundColor = "{{ block.settings.hovercolor }}";
+    });
+    scrollBtn.addEventListener("mouseout", () => {
+      scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
+    });
+
+    {% if block.settings.position == "left" %}
+      scrollBtn.style.left = "20px";
+      scrollBtn.style.right = "auto";
+    {% else %}
+      scrollBtn.style.right = "20px";
+      scrollBtn.style.left = "auto";
+    {% endif %}
+
+    {% if block.settings.shape == "square" %}
+      scrollBtn.style.borderRadius = "10px";
+    {% else %}
+      scrollBtn.style.borderRadius = "50%";
+    {% endif %}
+  }
+});
+</script>
+
+<script>
+  // Scroll visibility
+  const scrollBtn = document.getElementById("scrollTopBtn");
+  window.addEventListener("scroll", () => {
+    if (window.scrollY > 100) scrollBtn.classList.add("show");
+    else scrollBtn.classList.remove("show");
+  });
+
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 </script>
 
 {% schema %}
@@ -77,48 +170,18 @@
   "name": "Scroll-2-Top",
   "target": "body",
   "settings": [
-    {
-      "type": "color",
-      "id": "bgcolor",
-      "label": "Button Background Color",
-      "default": "#28A745"
-    },
-    {
-      "type": "color",
-      "id": "hovercolor",
-      "label": "Button Hover Color",
-      "default": "#1C7530"
-    },
-    {
-      "type": "color",
-      "id": "iconcolor",
-      "label": "Button Icon Color",
-      "default": "#FFFFFF"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_on_home_page",
-      "label": "Show on Home Page",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_on_product_page",
-      "label": "Show on Product Page",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_on_collection_page",
-      "label": "Show on Collection Page",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_on_pages",
-      "label": "Show on Pages",
-      "default": true
-    },
+        {
+  "type": "header",
+  "content": "Plan Information",
+"info": "This customization setting is available on Basic and Premium plans. The Scroll to Top button appears on collection, product, and pages only for Premium plan users."
+},
+    { "type": "color", "id": "bgcolor", "label": "Button Background Color", "default": "#28A745" },
+    { "type": "color", "id": "hovercolor", "label": "Button Hover Color", "default": "#1C7530" },
+    { "type": "color", "id": "iconcolor", "label": "Button Icon Color", "default": "#FFFFFF" },
+    { "type": "checkbox", "id": "show_on_home_page", "label": "Show on Home Page", "default": true },
+    { "type": "checkbox", "id": "show_on_product_page", "label": "Show on Product Page", "default": true },
+    { "type": "checkbox", "id": "show_on_collection_page", "label": "Show on Collection Page", "default": true },
+    { "type": "checkbox", "id": "show_on_pages", "label": "Show on Pages", "default": true },
     {
       "type": "select",
       "id": "shape",
@@ -142,4 +205,3 @@
   ]
 }
 {% endschema %}
-

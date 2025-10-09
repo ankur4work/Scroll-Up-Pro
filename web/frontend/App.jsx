@@ -20,7 +20,7 @@ export default function App() {
           <QueryProvider>
             <NavigationMenu
               navigationLinks={[
-               
+                         { label: "Pricing", destination: "/pricing" }, // ← NEW,
               ]}
             />
             <Routes pages={pages} />

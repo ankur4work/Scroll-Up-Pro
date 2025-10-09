@@ -15,7 +15,7 @@ api_version = "2022-10"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_cart_transforms,write_draft_orders,write_products"
+
 use_legacy_install_flow = true
 
 [auth]
@@ -26,8 +26,8 @@ redirect_urls = [
 ]
 
 [app_proxy]
-url = "https://qui-diffs-hewlett-todd.trycloudflare.com/api/meroxio-proxy"
-subpath = "meroxio-proxy"
+url = "https://qui-diffs-hewlett-todd.trycloudflare.com/api/scroll-to-top"
+subpath = "scroll-to-top"
 prefix = "apps"
 
 [pos]

@@ -1,225 +1,393 @@
+import React, { useEffect, useMemo, useState } from "react";
 import {
-    Page,
-    Card,
-    Layout,
-    Icon,
-    DataTable,
-    TopBar,
-    Button,
-    Frame,
+  Page,
+  Layout,
+  Card,
+  Button,
+  Frame,
+  Icon,
+  Banner,
+  Stack,
+  SkeletonPage,
+  SkeletonBodyText,
+  Modal,
+  TextContainer,
 } from "@shopify/polaris";
-
-import { CircleTickMinor, HomeMajor, ChecklistMajor, QuestionMarkMajor, CashDollarMajor } from '@shopify/polaris-icons';
-
-import { ActiveSubscription } from "../components/ActiveSubscriptionCheck";
-import { shopifyBackground } from "../assets";
-
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { CircleTickMinor, CancelSmallMinor } from "@shopify/polaris-icons";
 import { Redirect } from "@shopify/app-bridge/actions";
-import { ThemeValidate } from "../components/ThemeSelection";
-
-import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { useAppBridge } from "@shopify/app-bridge-react";
-import { Toast } from "@shopify/app-bridge-react";
+import { useAuthenticatedFetch } from "../hooks";
 
 export default function Pricing() {
-    const emptyToastProps = { content: null };
-    const [isLoadingSubscribe, setIsLoadingSubscribe] = useState(false);
-    const [isLoadingCancelSubscribe, setIsLoadingCancelSubscribe] = useState(false);
-    const app = useAppBridge();
-    const fetch = useAuthenticatedFetch();
-    const redirect = Redirect.create(app);
-    const [toastProps, setToastProps] = useState(emptyToastProps);
+  const app = useAppBridge();
+  const fetchAuth = useAuthenticatedFetch();
+  const redirect = Redirect.create(app);
 
+  const tick = useMemo(() => <Icon source={CircleTickMinor} color="success" />, []);
+  const cross = useMemo(() => <Icon source={CancelSmallMinor} color="subdued" />, []);
 
-    const {
-        data,
-    } = useAppQuery({
-        url: "/api/getshop",
-    });
+  const [serverTier, setServerTier] = useState(null);
+  const [loading, setLoading] = useState({ page: true, action: null });
+  const [confirm, setConfirm] = useState({ open: false, target: null, title: "", message: "" });
+  const [banner, setBanner] = useState({ msg: "", status: null });
 
+  const planPrices = {
+    free: "0.00",
+    basic: "10.00",
+    premium: "100.00",
+  };
 
-    function openThemeEditor() {
-        console.log("Shop: " + data?.shop);
-        window.open("https://" + data?.shop + "/admin/themes/current/editor");
-    }
+  const selectedPlan = useMemo(() => {
+    if (!serverTier) return null;
+    if (serverTier === "free") return "free";
+    if (serverTier === "premium") return "basic";
+    if (serverTier === "unlimited") return "premium";
+    return "free";
+  }, [serverTier]);
 
-
-
-    async function subscribePlan() {
-        setIsLoadingSubscribe(true);
-        const res = await fetch("/api/recurringSubscription"); //fetch instance of userLoggedInFetch(app)
-        const data = await res.json();
-        setIsLoadingSubscribe(false);
-        if (data.error) {
-            console.log(data.error);
-            setToastProps({ content: "Redirecting to payment page..", error: true });
-        } else if (data.confirmationUrl) {
-            const { confirmationUrl } = data;
-            setToastProps({ content: "Redirecting to payment page.." });
-            redirect.dispatch(Redirect.Action.REMOTE, confirmationUrl);
-        } else if (data.isActiveSubscription) {
-            console.log("Already subscribed")
-            setToastProps({ content: "You already have a active subscription" });
-        }
-    }
-
-
-
-    async function cancelSubscription() {
-        setIsLoadingCancelSubscribe(true);
-        const res = await fetch("/api/cancelSubscription"); //fetch instance of userLoggedInFetch(app)
-        const data = await res.json();
-        setIsLoadingCancelSubscribe(false);
-        console.log(data.status);
-        if (data.status === "CANCELLED") {
-          setToastProps({ content: "Successfully Cancelled the subscription" });
-          window.location.reload();
-        } else {
-          setToastProps({ content: "Failed to cancel the subscription" });
-        }
-    
+  async function refreshTier() {
+    try {
+      setLoading((s) => ({ ...s, page: true }));
+      const res = await fetchAuth("/api/hasActiveSubscription");
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || "Failed to fetch subscription");
+      if (["free", "premium", "unlimited"].includes(data?.tier)) {
+        setServerTier(data.tier);
+      } else {
+        setServerTier(data?.hasActiveSubscription ? "premium" : "free");
       }
-    
-      
-    const toastMarkup = toastProps.content && (
-        <Toast {...toastProps} onDismiss={() => setToastProps(emptyToastProps)} />
-    );
+    } catch (e) {
+      console.error(e);
+      setServerTier("free");
+      setBanner({ msg: "Failed to fetch subscription status.", status: "critical" });
+    } finally {
+      setLoading((s) => ({ ...s, page: false }));
+    }
+  }
 
-    const tickIcon = <Icon
-        source={CircleTickMinor}
-        color="success"
-    />
+  useEffect(() => {
+    refreshTier();
+  }, []);
 
-    const rows = [
-        ['Cost', 'Free', '$9.99/month',],
-        ['Product Collection Selection ', tickIcon, tickIcon,],
-        ['Bundle product limit per product', '2', '5',],
-        ['Embed button in product image', '-', tickIcon,],
-        ['Product CTA(Add to cart)', tickIcon, tickIcon,],
-        ['No Powered By MeroxIO', '-', tickIcon,],
-        ['Custom Style Settings', '-', tickIcon,],
-        ['Email/Chat Support', '-', tickIcon,],
-        ['Free installation support', '-', tickIcon,],
-        ['Theme Selection', '-', tickIcon,]
-      ];
-    
-    
-
-    // m-lookbook-hearder-part-starting
-
-    const navigate = useNavigate();
-
-    const logo = {
-
-        width: 450,
-        height: 90,
-
-        topBarSource:
-            `https://cdn.shopify.com/s/files/1/0629/5522/5264/files/MeroxIO_Comparison_Slider.png?v=1702290807`,
-        url: '/',
-        accessibilityLabel: 'https://cdn.shopify.com/s/files/1/0627/5727/3793/files/lookbook_logo.png?v=1666164778',
-
-    };
-
-    const gotoHomePage = () => {
-        navigate("/");
+  const openConfirm = (targetPlan) => {
+    if (targetPlan === selectedPlan) {
+      setBanner({
+        msg: `You’re already on the ${labelOf(targetPlan)} plan.`,
+        status: "warning",
+      });
+      return;
     }
 
-    const gotoInstallPage = () => {
-        navigate("/install");
-
+    if (targetPlan === "free") {
+      setConfirm({
+        open: true,
+        target: "free",
+        title: "Switch to Free plan?",
+        message:
+          "You’ll cancel your current subscription and move to the Free plan. Some customization and visibility options will be disabled.",
+      });
+      return;
     }
 
-    const gotoSupportPage = () => {
-        navigate("/support");
+    const title =
+      targetPlan === "basic" ? "Upgrade to Basic?" : "Upgrade to Premium?";
+    const message =
+      targetPlan === "basic"
+        ? "Basic enables design customization options such as color, hover, and icon adjustments. Scroll button remains visible only on the homepage."
+        : "Premium unlocks all customization and visibility settings — showing the Scroll-2-Top button across all pages (home, product, collection, and content pages).";
+    setConfirm({ open: true, target: targetPlan, title, message });
+  };
+
+  const runConfirm = async () => {
+    const target = confirm.target;
+    setConfirm((c) => ({ ...c, open: false }));
+    await changePlan(target);
+  };
+
+  const changePlan = async (targetPlan) => {
+    if (!targetPlan) return;
+    try {
+      setLoading((s) => ({ ...s, action: targetPlan }));
+
+      if (targetPlan === "free") {
+        const res = await fetchAuth("/api/cancelSubscription");
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(data?.error || "Cancel failed");
+        if (data?.status && data?.status !== "No subscription found") {
+          setBanner({ msg: "Subscription cancelled. You’re on Free.", status: "success" });
+        } else {
+          setBanner({ msg: "No active subscription found.", status: "warning" });
+        }
+        await refreshTier();
+        return;
+      }
+
+      const backendPlan = targetPlan === "basic" ? "premium" : "unlimited";
+      const res = await fetchAuth(`/api/createSubscription?plan=${backendPlan}`);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data?.error || "Create subscription failed");
+
+      if (data?.isActiveSubscription) {
+        await refreshTier();
+        setBanner({
+          msg: `${labelOf(targetPlan)} plan is already active.`,
+          status: "success",
+        });
+      } else if (data?.confirmationUrl) {
+        setBanner({ msg: "Redirecting to Shopify billing page…", status: "success" });
+        redirect.dispatch(Redirect.Action.REMOTE, String(data.confirmationUrl));
+      } else {
+        throw new Error("No confirmationUrl returned.");
+      }
+    } catch (e) {
+      console.error(e);
+      setBanner({
+        msg:
+          targetPlan === "free"
+            ? "Failed to cancel subscription."
+            : "Failed to create subscription.",
+        status: "critical",
+      });
+    } finally {
+      setLoading((s) => ({ ...s, action: null }));
     }
+  };
 
-    const gotoPricingPage = () => {
-        navigate("/pricing");
-    }
+  const isCurrent = (plan) => selectedPlan === plan;
+  const labelOf = (plan) =>
+    plan === "free" ? "Free" : plan === "basic" ? "Basic" : "Premium";
 
-    const secondaryMenuMarkup = (
-        <TopBar.Menu
-            activatorContent={
-                <div className="main-icon">
-                    <div className="main-icon-1"><Button onClick={gotoHomePage} plain monochrome removeUnderline fullWidth >
-                        <div className="m-icon-show-1"><Icon source={HomeMajor} /><span className="m-hover-text-1"> <h1>Home</h1></span></div></Button>
+  const Feature = ({ enabled, children }) => (
+    <Stack spacing="tight" alignment="center">
+      {enabled ? tick : cross}
+      <span style={{ color: "#111" }}>{children}</span>
+    </Stack>
+  );
 
-                    </div>
-                </div>
-            }
-
-        />
-    );
-
-
-
-
-    const topBarMarkup = (
-        <TopBar
-            secondaryMenu={secondaryMenuMarkup}
-
-        />
-    );
-
-
-
+  if (loading.page && !selectedPlan) {
     return (
-        <Frame topBar={topBarMarkup} logo={logo} >
-            <Page>
-                {toastMarkup}
-                <Layout>
-                    <Layout.Section>
-                        <div className="planComparison2">
-                            <Card title="Plan Comparison" sectioned
-
-                                primaryFooterAction={{
-                                    content: 'Subscribe to MeroxIO Premium',
-                                    onAction: () => {
-                                        subscribePlan()
-                                    },
-                                    loading: isLoadingSubscribe
-                                }}
-
-                                secondaryFooterActions={[{
-                                    content: 'Cancel Subscription',
-                                    onAction: () => {
-                                      cancelSubscription()
-                                    },
-                                    destructive: true,
-                                    loading: isLoadingCancelSubscribe
-                                  }
-                                  ]}
-                            >
-                                <DataTable
-                                    columnContentTypes={[
-                                        'text',
-                                        'text',
-                                        'text',
-                                    ]}
-                                    headings={[
-                                        'Features',
-                                        'Free version',
-                                        'MeroxIO Premium',
-                                    ]}
-                                    rows={rows}
-                                    increasedTableDensity
-                                    hasZebraStripingOnData
-                                    hoverable
-                                />
-                            </Card>
-                        </div>
-                    </Layout.Section>
-
-
-                </Layout>
-            </Page>
-        </Frame >
-
+      <Frame>
+        <SkeletonPage title="Plans" primaryAction>
+          <Layout>
+            {[1, 2, 3].map((k) => (
+              <Layout.Section oneThird key={k}>
+                <Card sectioned>
+                  <SkeletonBodyText lines={6} />
+                </Card>
+              </Layout.Section>
+            ))}
+          </Layout>
+        </SkeletonPage>
+      </Frame>
     );
+  }
+
+  const commonCardStyle = {
+    borderRadius: 12,
+    border: "1px solid #E3E3E3",
+    position: "relative",
+    overflow: "hidden",
+  };
+  const glowIfCurrent = (plan) =>
+    isCurrent(plan)
+      ? { boxShadow: "0 10px 30px rgba(37,99,235,0.25)", border: "2px solid #2563EB" }
+      : {};
+
+  const FreeWatermark = () => (
+    <div
+      style={{
+        position: "absolute",
+        top: "40%",
+        left: "-15%",
+        transform: "rotate(-30deg)",
+        fontSize: "48px",
+        color: "rgba(0,0,0,0.06)",
+        fontWeight: "700",
+        pointerEvents: "none",
+        userSelect: "none",
+      }}
+    >
+      Free plan
+    </div>
+  );
+
+  const customBadge = {
+    backgroundColor: "#007a5c",
+    color: "white",
+    borderRadius: "12px",
+    padding: "2px 12px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const currentBadge = {
+    backgroundColor: "#2563EB",
+    color: "#FFFFFF",
+    borderRadius: "12px",
+    padding: "2px 8px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  return (
+    <Frame>
+      <Modal
+        open={confirm.open}
+        onClose={() => setConfirm((c) => ({ ...c, open: false }))}
+        title={confirm.title}
+        primaryAction={{
+          content:
+            confirm.target === "free"
+              ? "Yes, switch to Free"
+              : `Subscribe for $${planPrices[confirm.target]} / month`,
+          onAction: runConfirm,
+          loading: loading.action === confirm.target,
+          destructive: confirm.target === "free",
+        }}
+        secondaryActions={[{ content: "Cancel", onAction: () => setConfirm((c) => ({ ...c, open: false })) }]}
+      >
+        <Modal.Section>
+          <TextContainer>
+            <p>{confirm.message}</p>
+          </TextContainer>
+        </Modal.Section>
+      </Modal>
+
+      <Page title="Scroll-2-Top – Plans" subtitle="Choose the right plan for your scrolling button.">
+        {!!banner.msg && !!banner.status && (
+          <Banner status={banner.status} onDismiss={() => setBanner({ msg: "", status: null })}>
+            {banner.msg}
+          </Banner>
+        )}
+
+        <Layout>
+          {/* FREE PLAN */}
+          <Layout.Section oneThird>
+            <Card
+              sectioned
+              style={{ ...commonCardStyle, ...glowIfCurrent("free") }}
+              title={
+                <Stack alignment="center" spacing="tight">
+                  <span>Free</span>
+                  <span style={customBadge}>Starter</span>
+                  {isCurrent("free") && <span style={currentBadge}>Current</span>}
+                </Stack>
+              }
+            >
+              <FreeWatermark />
+              <div style={{ fontSize: 28, fontWeight: 700, marginBottom: 6 }}>$0</div>
+              <p style={{ color: "var(--p-text-subdued)" }}>
+                Smooth scroll animation enabled • Customization not available • Button visible only on the homepage
+              </p>
+
+              <div style={{ height: 12 }} />
+              <Stack vertical spacing="loose">
+                <Feature enabled={true}>Smooth scroll animation</Feature>
+                <Feature enabled={false}>Customizable colors and icons</Feature>
+                <Feature enabled={false}>Hover effects</Feature>
+                <Feature enabled={false}>Page visibility control</Feature>
+                <Feature enabled={true}>Mobile friendly</Feature>
+              </Stack>
+
+              <div style={{ height: 16 }} />
+              <Stack distribution="equalSpacing">
+                <Button
+                  destructive
+                  onClick={() => openConfirm("free")}
+                  disabled={isCurrent("free") || loading.action === "free"}
+                  loading={loading.action === "free"}
+                >
+                  {isCurrent("free") ? "Current plan" : "Switch to Free"}
+                </Button>
+              </Stack>
+            </Card>
+          </Layout.Section>
+
+          {/* BASIC PLAN */}
+          <Layout.Section oneThird>
+            <Card
+              sectioned
+              style={{ ...commonCardStyle, ...glowIfCurrent("basic") }}
+              title={
+                <Stack alignment="center" spacing="tight">
+                  <span>Basic</span>
+                  <span style={customBadge}>Popular</span>
+                  {isCurrent("basic") && <span style={currentBadge}>Current</span>}
+                </Stack>
+              }
+            >
+              <div style={{ fontSize: 28, fontWeight: 700, marginBottom: 6 }}>$10</div>
+              <p style={{ color: "var(--p-text-subdued)" }}>
+                Smooth scroll animation • Customization enabled (colors, hover, icon) • Visible only on the homepage
+              </p>
+
+              <div style={{ height: 12 }} />
+              <Stack vertical spacing="loose">
+                <Feature enabled={true}>Smooth scroll animation</Feature>
+                <Feature enabled={true}>Customizable colors & icons</Feature>
+                <Feature enabled={true}>Hover effects</Feature>
+                <Feature enabled={false}>Visible on product/collection pages</Feature>
+                <Feature enabled={true}>Mobile friendly</Feature>
+              </Stack>
+
+              <div style={{ height: 16 }} />
+              <Stack distribution="equalSpacing">
+                <Button
+                  primary
+                  onClick={() => openConfirm("basic")}
+                  disabled={isCurrent("basic") || loading.action === "basic"}
+                  loading={loading.action === "basic"}
+                >
+                  {isCurrent("basic") ? "Basic Active" : "Upgrade to Basic"}
+                </Button>
+              </Stack>
+            </Card>
+          </Layout.Section>
+
+          {/* PREMIUM PLAN */}
+          <Layout.Section oneThird>
+            <Card
+              sectioned
+              style={{ ...commonCardStyle, ...glowIfCurrent("premium") }}
+              title={
+                <Stack alignment="center" spacing="tight">
+                  <span>Premium</span>
+                  <span style={customBadge}>Full features</span>
+                  {isCurrent("premium") && <span style={currentBadge}>Current</span>}
+                </Stack>
+              }
+            >
+              <div style={{ fontSize: 28, fontWeight: 700, marginBottom: 6 }}>$100</div>
+              <p style={{ color: "var(--p-text-subdued)" }}>
+                All customization options enabled • Visible on homepage, product, collection, and pages • Full control and performance
+              </p>
+
+              <div style={{ height: 12 }} />
+              <Stack vertical spacing="loose">
+                <Feature enabled={true}>Smooth scroll animation</Feature>
+                <Feature enabled={true}>Full customization (colors & icons)</Feature>
+                <Feature enabled={true}>Visibility on all pages</Feature>
+                <Feature enabled={true}>Performance optimized</Feature>
+                <Feature enabled={true}>Mobile friendly</Feature>
+              </Stack>
+
+              <div style={{ height: 16 }} />
+              <Stack distribution="equalSpacing">
+                <Button
+                  primary
+                  onClick={() => openConfirm("premium")}
+                  disabled={isCurrent("premium") || loading.action === "premium"}
+                  loading={loading.action === "premium"}
+                >
+                  {isCurrent("premium") ? "Premium Active" : "Upgrade to Premium"}
+                </Button>
+              </Stack>
+            </Card>
+          </Layout.Section>
+        </Layout>
+      </Page>
+    </Frame>
+  );
 }
-
-
-
