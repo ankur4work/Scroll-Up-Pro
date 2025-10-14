@@ -60,7 +60,7 @@ app.use(express.urlencoded({ extended: true })); // Handles URL-encoded data
 
 app.get("/api/scroll-to-top/hasSubscription", async (req, res) => {
   try {
-    console.log("inside hassubs");
+ 
     const { shop } = req.query;
 
     if (!shop) {
@@ -68,7 +68,7 @@ app.get("/api/scroll-to-top/hasSubscription", async (req, res) => {
       return res.status(400).send({ error: "Missing 'shop' parameter" });
     }
 
-    console.log(`Request received from shop: ${shop}`);
+  
     const collection = await connectToMongoDB();
     const session = await collection.findOne({ shop });
 
@@ -78,7 +78,7 @@ app.get("/api/scroll-to-top/hasSubscription", async (req, res) => {
     }
 
     const tier = await getPlanTier(session);
-    console.log(`Subscription status for shop ${shop}: ${tier}`);
+ 
 
     return res.status(200).send({
       hasActiveSubscription: tier !== "free",
@@ -160,7 +160,7 @@ async function storeShopDetails(shopDetails) {
       }
     );
     if (!response.ok) throw new Error("Network response was not ok.");
-    console.log("Shop details stored successfully.");
+
   } catch (error) {
     console.error("Failed to store shop details:", error.message);
   }
@@ -192,10 +192,10 @@ app.get("/api/createSubscription", async (req, res) => {
     });
 
     if (hasPayment) {
-      console.log(`✅ ${session.shop} is already subscribed to: ${planName}`);
+   
       res.status(200).send({ isActiveSubscription: true, plan: planName });
     } else {
-      console.log(`➡️ ${session.shop} is switching/creating subscription for: ${planName}`);
+      
       const redirectUrl = await shopify.api.billing.request({
         session,
         plan: planName,
@@ -223,7 +223,7 @@ app.get("/api/cancelSubscription", async (req, res) => {
 
     if (hasPremium || hasUnlimited) {
       const planToCancel = hasUnlimited ? UNLIMITED_PLAN : PREMIUM_PLAN;
-      console.log(`⚠️ ${session.shop} cancelling plan: ${planToCancel}`);
+  
 
       const subscriptionStatus = await cancelSubscription(session);
       console.log(`✅ ${session.shop} subscription cancelled. Status: ${subscriptionStatus}`);
@@ -256,14 +256,13 @@ app.get("/api/cancelSubscription", async (req, res) => {
 
       // Downgrade after cancel
       if (["CANCELLED", "ACTIVE_CANCELLED"].includes(subscriptionStatus)) {
-        console.log(`⬇️ Downgrading ${session.shop} to FREE plan...`);
+
         // 👉 Add your downgrade logic here
       }
 
       return res.status(200).send({ status: subscriptionStatus, cancelledPlan: planToCancel });
     }
 
-    console.log(`ℹ️ ${session.shop} has no active subscription to cancel`);
     res.status(200).send({ status: "No subscription found" });
   } catch (error) {
     console.error("❌ Failed to cancel subscription:", error);
@@ -278,7 +277,6 @@ app.get("/api/hasActiveSubscription", async (_req, res) => {
     const tier = await getPlanTier(session);
     const hasActive = tier !== "free";
 
-    console.log(`🔎 ${session.shop} subscription check → Current tier: ${tier}`);
 
     if (!hasActive) {
       return res.status(200).send({ hasActiveSubscription: false });
@@ -340,7 +338,7 @@ async function getStoreId(session) {
 }
 
 async function getCurrentOrderCount(storeId) {
-  console.log(`Fetching current order count for store: ${storeId}`);
+
   return 0; // replace with real count if needed
 }
 
