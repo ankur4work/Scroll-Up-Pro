@@ -16,6 +16,7 @@
     transition: bottom 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
     border-radius: 50%;
     display: none; /* Hidden by default */
+    z-index: 9999;
   }
 
   #scrollTopBtn:hover {
@@ -31,10 +32,58 @@
 
 <!-- Scroll Button -->
 <button id="scrollTopBtn" onclick="scrollToTop()">
-  <svg fill="white" height="30px" width="30px"
-    xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-    <polygon points="12.65 11.24 8.46 7.05 4.27 11.24 2.75 9.71 8.46 4 14.17 9.71 12.65 11.24" />
-  </svg>
+  {% case block.settings.icon_style %}
+    {% when 'chevron' %}
+      <!-- Chevron Up -->
+      <svg fill="white" height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polygon points="3.5 10.8 8 6.3 12.5 10.8 11.3 12 8 8.7 4.7 12" />
+      </svg>
+
+    {% when 'arrow' %}
+      <!-- Arrow Up with stem -->
+      <svg fill="white" height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polygon points="8 3 3 9 6 9 6 13 10 13 10 9 13 9" />
+      </svg>
+
+    {% when 'triangle' %}
+      <!-- Solid triangle arrow -->
+      <svg fill="white" height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polygon points="8 4 3 11 13 11" />
+      </svg>
+
+    {% when 'double_chevron' %}
+      <!-- Double Chevron Up -->
+      <svg fill="white" height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polygon points="3.5 11 8 6.5 12.5 11 11.4 12.1 8 8.7 4.6 12.1" />
+        <polygon points="3.5 8.5 8 4 12.5 8.5 11.4 9.6 8 6.2 4.6 9.6" />
+      </svg>
+
+    {% when 'circle_arrow' %}
+      <!-- Arrow inside a circle -->
+      <svg height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="11" fill="none" stroke="white" stroke-width="1.5" />
+        <polygon fill="white" points="12 7 7 13 10 13 10 17 14 17 14 13 17 13" />
+      </svg>
+
+    {% when 'minimal' %}
+      <!-- Minimal thin caret up -->
+      <svg fill="white" height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polygon points="4.5 11 8 7.5 11.5 11 10.8 11.7 8 8.9 5.2 11.7" />
+      </svg>
+
+    {% else %}
+      <!-- Default icon (fallback) -->
+      <svg fill="white" height="30px" width="30px"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+        <polygon points="8 4 3 10 6 10 6 12 10 12 10 10 13 10" />
+      </svg>
+  {% endcase %}
 </button>
 
 <script>
@@ -62,22 +111,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   /* ---------------- FREE PLAN ---------------- */
   if (plan === "free") {
+    // Free: homepage only, settings ignored
     {% if template contains 'index' %}
       scrollBtn.style.display = "block";
     {% else %}
       scrollBtn.style.display = "none";
     {% endif %}
+
+    scrollSvg.style.fill = "#FFFFFF"; // fixed icon color
   }
 
-  /* ---------------- PREMIUM PLAN ---------------- */
+  /* ---------------- BASIC PLAN (backend: premium) ---------------- */
   else if (plan === "premium") {
-    {% if template contains 'index' %}
-      scrollBtn.style.display = "block";
-    {% else %}
-      scrollBtn.style.display = "none";
+    let show = false;
+
+    // Basic plan: only "Show on Home Page" setting works
+    {% if block.settings.show_on_home_page %}
+      if ("{{ template }}" && "{{ template }}".includes("index")) show = true;
     {% endif %}
 
-    // Apply customization
+    if (show) {
+      scrollBtn.style.display = "block";
+    } else {
+      scrollBtn.style.display = "none";
+    }
+
+    // Apply customization (color, hover, icon, position, shape)
     scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
     scrollSvg.style.fill = "{{ block.settings.iconcolor }}";
 
@@ -103,25 +162,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     {% endif %}
   }
 
-  /* ---------------- UNLIMITED PLAN ---------------- */
+  /* ---------------- PREMIUM PLAN (backend: unlimited) ---------------- */
   else if (plan === "unlimited") {
     let show = false;
 
+    // Premium: all four visibility settings work
     {% if block.settings.show_on_home_page %}
-      if ("{{ template }}" && "{{ template }}" .includes("index")) show = true;
+      if ("{{ template }}" && "{{ template }}".includes("index")) show = true;
     {% endif %}
     {% if block.settings.show_on_product_page %}
-      if ("{{ template }}" && "{{ template }}" .includes("product")) show = true;
+      if ("{{ template }}" && "{{ template }}".includes("product")) show = true;
     {% endif %}
     {% if block.settings.show_on_collection_page %}
-      if ("{{ template }}" && "{{ template }}" .includes("collection")) show = true;
+      if ("{{ template }}" && "{{ template }}".includes("collection")) show = true;
     {% endif %}
     {% if block.settings.show_on_pages %}
-      if ("{{ template }}" && "{{ template }}" .includes("page")) show = true;
+      if ("{{ template }}" && "{{ template }}".includes("page")) show = true;
     {% endif %}
 
     if (show) {
       scrollBtn.style.display = "block";
+    } else {
+      scrollBtn.style.display = "none";
     }
 
     // Apply customization
@@ -170,11 +232,25 @@ document.addEventListener('DOMContentLoaded', async () => {
   "name": "Scroll-2-Top",
   "target": "body",
   "settings": [
-        {
-  "type": "header",
-  "content": "Plan Information",
-"info": "This customization setting is available on Basic and Premium plans. The Scroll to Top button appears on collection, product, and pages only for Premium plan users."
-},
+    {
+      "type": "header",
+      "content": "Plan Information",
+      "info": "Customization options (colors, hover, icon style) work on Basic and Premium plans. Page-level visibility (product, collection, and pages) is available only for Premium plan users."
+    },
+    {
+      "type": "select",
+      "id": "icon_style",
+      "label": "Icon style",
+      "options": [
+        { "value": "chevron",        "label": "Chevron Up" },
+        { "value": "arrow",          "label": "Arrow Up" },
+        { "value": "triangle",       "label": "Triangle Up" },
+        { "value": "double_chevron", "label": "Double Chevron Up" },
+        { "value": "circle_arrow",   "label": "Arrow in Circle" },
+        { "value": "minimal",        "label": "Minimal Caret Up" }
+      ],
+      "default": "chevron"
+    },
     { "type": "color", "id": "bgcolor", "label": "Button Background Color", "default": "#28A745" },
     { "type": "color", "id": "hovercolor", "label": "Button Hover Color", "default": "#1C7530" },
     { "type": "color", "id": "iconcolor", "label": "Button Icon Color", "default": "#FFFFFF" },

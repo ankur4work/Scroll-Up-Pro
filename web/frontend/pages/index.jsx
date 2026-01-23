@@ -14,6 +14,9 @@ import {
   Toast,
   SkeletonBodyText,
   Banner,
+  Stack,
+  ButtonGroup,
+  Badge,
 } from "@shopify/polaris";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { useNavigate } from "react-router-dom";
@@ -47,13 +50,19 @@ export default function HomePage() {
     premium: "100.00",
   };
 
+  const planLabels = {
+    free: "Free",
+    basic: "Basic",
+    premium: "Premium",
+  };
+
   // Fetch current plan
   const { data: subscriptionData, isLoading } = useAppQuery({
     url: "/api/hasActiveSubscription",
   });
 
   useEffect(() => {
-    if (subscriptionData?.tier) {
+    if (subscriptionData && subscriptionData.tier) {
       // Map backend tiers → frontend tiers
       let frontendTier = "free";
       if (subscriptionData.tier === "premium") frontendTier = "basic";
@@ -73,7 +82,7 @@ export default function HomePage() {
 
     // Case 1: Already on this plan
     if (selectedPlan === confirmPlan) {
-      setToastProps({ content: `You are already on the ${confirmPlan} plan ✅` });
+      setToastProps({ content: `You’re already using the ${planLabels[confirmPlan]} plan ✅` });
       setShowConfirm(false);
       return;
     }
@@ -87,12 +96,14 @@ export default function HomePage() {
 
         if (data.status && data.status !== "No subscription found") {
           setSelectedPlan("free");
-          setToastProps({ content: "Subscription cancelled, switched to Free plan ✅" });
+          setToastProps({
+            content: "Subscription cancelled and moved to the Free plan ✅",
+          });
         } else {
-          setToastProps({ content: "Failed to cancel subscription", error: true });
+          setToastProps({ content: "Unable to cancel the subscription", error: true });
         }
       } catch (err) {
-        setToastProps({ content: "Cancel failed ❌", error: true });
+        setToastProps({ content: "Cancellation failed ❌", error: true });
       } finally {
         setLoadingPlan(null);
         setShowConfirm(false);
@@ -112,13 +123,13 @@ export default function HomePage() {
       const res = await fetch(`/api/createSubscription?plan=${backendPlan}`);
       const data = await res.json();
       if (data.confirmationUrl) {
-        setToastProps({ content: "Redirecting to payment page..." });
+        setToastProps({ content: "Taking you to Shopify billing to confirm…" });
         redirect.dispatch(Redirect.Action.REMOTE, data.confirmationUrl);
       } else if (data.error) {
         setToastProps({ content: data.error, error: true });
       }
     } catch (err) {
-      setToastProps({ content: "Something went wrong ❌", error: true });
+      setToastProps({ content: "Something went wrong during subscription ❌", error: true });
     } finally {
       setLoadingPlan(null);
       setShowConfirm(false);
@@ -130,11 +141,10 @@ export default function HomePage() {
     setActivateError(null);
     try {
       const response = await fetch("/api/getshop");
-      if (!response.ok) throw new Error("Failed to get shop URL");
+      if (!response.ok) throw new Error("Could not detect shop domain");
       const data = await response.json();
-      if (!data.shop) throw new Error("Shop URL not available");
+      if (!data.shop) throw new Error("Shop domain is missing");
 
-      // ✅ Redirect to Theme Editor → App embeds → Scroll to Top Button
       window.open(
         `https://${data.shop}/admin/themes/current/editor?context=apps&activateAppId=b355dba7-d415-49dc-8399-11206b10c9ca/scroll-to-top-embed`,
         "_blank"
@@ -147,96 +157,143 @@ export default function HomePage() {
 
   const toastMarkup =
     toastProps.content && (
-      <Toast {...toastProps} onDismiss={() => setToastProps(emptyToastProps)} />
+      <Toast
+        {...toastProps}
+        onDismiss={() => setToastProps(emptyToastProps)}
+      />
     );
 
   // --- Header setup ---
   const logo = {
     width: 450,
     height: 90,
-    topBarSource: `https://cdn.shopify.com/s/files/1/0908/8562/0025/files/1_2efac025-bda0-4756-9aa2-fbe5bf1d3405.png?v=1760009662`,
+    topBarSource:
+      "https://cdn.shopify.com/s/files/1/0908/8562/0025/files/1_2efac025-bda0-4756-9aa2-fbe5bf1d3405.png?v=1760009662",
     url: "/",
-    accessibilityLabel: "MeroxIO Logo",
+    accessibilityLabel: "App logo",
   };
 
   const topBarMarkup = <TopBar />;
+
   const plans = ["free", "basic", "premium"];
+  const currentPlanLabel = planLabels[selectedPlan] || "Free";
+
+  // Shared wrapper style for “big sections”
+  const sectionShellStyle = {
+    background: "#ffffff",
+    borderRadius: 16,
+    padding: 18,
+    boxShadow: "0 12px 30px rgba(15, 23, 42, 0.08)",
+    border: "1px solid #e5e7eb",
+  };
+
+  const sectionAccentBar = (
+    <div
+      style={{
+        height: 4,
+        width: 64,
+        borderRadius: 999,
+        background:
+          "linear-gradient(90deg, #008060 0%, #36a3ff 50%, #ffb347 100%)",
+        marginBottom: 12,
+      }}
+    />
+  );
 
   return (
     <Frame topBar={topBarMarkup} logo={logo}>
       <Page>
         {toastMarkup}
         <Layout>
-          {/* Plan Selector */}
+          {/* PLAN SELECTOR CARD */}
           <Layout.Section>
-            <Card title="Scroll to Top Plans" sectioned>
-              {isLoading ? (
-                <div style={{ display: "flex", gap: "12px" }}>
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} style={{ flex: 1 }}>
-                      <SkeletonBodyText lines={1} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ display: "flex", gap: "12px" }}>
-                  {plans.map((plan) => (
-                    <Button
-                      key={plan}
-                      primary={selectedPlan === plan}
-                      pressed={selectedPlan === plan}
-                      loading={loadingPlan === plan}
-                      onClick={() => requestPlanChange(plan)}
-                    >
-                      {plan === "free"
-                        ? "Free"
-                        : plan === "basic"
-                        ? "Basic"
-                        : "Premium"}
-                    </Button>
-                  ))}
-                </div>
-              )}
-            </Card>
+            <div style={sectionShellStyle}>
+              {sectionAccentBar}
+              <Card title="Your current plan" sectioned>
+                {isLoading ? (
+                  <div style={{ display: "flex", gap: "12px" }}>
+                    {[1, 2, 3].map((i) => (
+                      <div key={i} style={{ flex: 1 }}>
+                        <SkeletonBodyText lines={1} />
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <Stack vertical spacing="loose">
+                    <Stack alignment="center" spacing="tight">
+                      <span>Active plan:</span>
+                      <Badge status="success">{currentPlanLabel}</Badge>
+                    </Stack>
+
+                    <TextContainer spacing="tight">
+                      <p>
+                        You can upgrade at any time to unlock additional
+                        controls and faster support. All charges are processed
+                        securely through Shopify Billing.
+                      </p>
+                    </TextContainer>
+
+                    <ButtonGroup>
+                      {plans.map((plan) => (
+                        <Button
+                          key={plan}
+                          primary={selectedPlan === plan}
+                          pressed={selectedPlan === plan}
+                          loading={loadingPlan === plan}
+                          onClick={() => requestPlanChange(plan)}
+                        >
+                          {plan === "free"
+                            ? "Free"
+                            : plan === "basic"
+                            ? "Basic – $10/mo"
+                            : "Premium – $100/mo"}
+                        </Button>
+                      ))}
+                    </ButtonGroup>
+                  </Stack>
+                )}
+              </Card>
+            </div>
           </Layout.Section>
 
           {/* Confirmation Modal */}
           <Modal
             open={showConfirm}
             onClose={() => setShowConfirm(false)}
-            title="Confirm Subscription"
+            title="Confirm plan change"
             primaryAction={{
               content:
                 selectedPlan === confirmPlan
-                  ? "Okay, Got it"
+                  ? "Okay, got it"
                   : confirmPlan === "free"
-                  ? "Yes, Cancel Subscription"
-                  : `Subscribe for $${planPrices[confirmPlan] || "0.00"}`,
+                  ? "Yes, cancel my subscription"
+                  : `Subscribe for $${planPrices[confirmPlan] || "0.00"}/month`,
               onAction: confirmSubscription,
               loading: loadingPlan === confirmPlan,
             }}
             secondaryActions={
               selectedPlan !== confirmPlan
-                ? [{ content: "No, Go Back", onAction: () => setShowConfirm(false) }]
+                ? [{ content: "No, go back", onAction: () => setShowConfirm(false) }]
                 : []
             }
           >
             <Modal.Section>
               {selectedPlan === confirmPlan ? (
                 <p>
-                  You are already on the <b>{confirmPlan?.toUpperCase()}</b> plan ✅
+                  You’re already on the{" "}
+                  <b>{(confirmPlan || "").toUpperCase()}</b> plan ✅
                 </p>
               ) : confirmPlan === "free" ? (
                 <p>
-                  Are you sure you want to cancel your current{" "}
-                  <b>{selectedPlan?.toUpperCase()}</b> subscription and switch to{" "}
-                  <b>FREE</b>?
+                  Are you sure you want to cancel your{" "}
+                  <b>{selectedPlan.toUpperCase()}</b> subscription and move to the{" "}
+                  <b>FREE</b> plan?
                 </p>
               ) : (
                 <p>
-                  Are you sure you want to subscribe to the{" "}
-                  <b>{confirmPlan?.toUpperCase()}</b> plan for{" "}
-                  <b>${planPrices[confirmPlan]}</b> per month?
+                  Do you want to switch to the{" "}
+                  <b>{(confirmPlan || "").toUpperCase()}</b> plan for{" "}
+                  <b>${planPrices[confirmPlan] || "0.00"}</b> per month?
                 </p>
               )}
             </Modal.Section>
@@ -251,116 +308,158 @@ export default function HomePage() {
             </Layout.Section>
           )}
 
-          {/* Scroll to Top Callout */}
+          {/* HERO INTRODUCTION CARD (text + video preview) */}
           <Layout.Section>
-            <CalloutCard
-              title="Activate Scroll to Top Button"
-              illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
-              primaryAction={{
-                content: "Activate Now ➡️",
-                onAction: openThemeEditor,
-                accessibilityLabel: "Enable Scroll to Top Button",
-              }}
-            >
-              <p>
-                Ready to enhance your store's navigation? Click “Activate Now” to enable
-                the Scroll to Top button. Once activated, you can customize its design,
-                behavior, and visibility to fit your brand perfectly. 🚀
-              </p>
-            </CalloutCard>
-          </Layout.Section>
+            <div style={sectionShellStyle}>
+              {sectionAccentBar}
+              <Card sectioned>
+                <Stack
+                  alignment="center"
+                  distribution="fill"
+                  wrap
+                  spacing="loose"
+                >
+                  {/* Left side: introduction text */}
+                  <div style={{ flex: 1, minWidth: 260, maxWidth: 520 }}>
+                    <TextContainer spacing="tight">
+                      <DisplayText size="Large">
+                        <span>Welcome to Scroll to Top Button</span>
+                      </DisplayText>
+                      <p>
+                        The Scroll to Top Button adds a clean, floating shortcut
+                        that lets shoppers instantly jump back to the top of the
+                        page. It keeps long pages easy to navigate and makes
+                        browsing feel faster and more polished on every device.
+                      </p>
 
-          {/* Introduction */}
-          <Layout.Section>
-            <TextContainer>
-              <DisplayText size="Large">
-                <span>Introduction</span>
-              </DisplayText>
-              <p>
-                The Scroll to Top Button improves your website’s user experience by
-                allowing visitors to quickly return to the top of the page with a single
-                click. Designed for smooth performance and full customization, it helps
-                maintain seamless navigation across your store.
-              </p>
+                      <h2>
+                        <b>Main highlights:</b>
+                      </h2>
+                      <ul className="appFeatures">
+                        <li>
+                          <strong>Smooth return-to-top motion:</strong> Delivers a
+                          fluid scroll-back experience instead of a sudden jump.
+                        </li>
+                        <li>
+                          <strong>Fully customizable styling:</strong> Tweak
+                          colors, icons, and hover states to match your brand.
+                        </li>
+                        <li>
+                          <strong>Page-level visibility rules:</strong> Decide
+                          where the button should appear – collections, products,
+                          blog posts, or standard pages.
+                        </li>
+                        <li>
+                          <strong>Optimized for mobile:</strong> Looks great and
+                          stays reachable on phones and tablets.
+                        </li>
+                        <li>
+                          <strong>Lightweight implementation:</strong> Built to
+                          stay fast and not slow down your storefront.
+                        </li>
+                      </ul>
+                    </TextContainer>
 
-              <h2>
-                <b>Key Features:</b>
-              </h2>
-              <ul className="appFeatures">
-                <li>
-                  <strong>Smooth Scroll Animation:</strong> Creates a seamless scrolling
-                  experience.
-                </li>
-                <li>
-                  <strong>Customizable Design:</strong> Adjust colors, hover effects, and
-                  icon style.
-                </li>
-                <li>
-                  <strong>Visibility Control:</strong> Choose where to show it — product,
-                  collection, or standard pages.
-                </li>
-                <li>
-                  <strong>Mobile-Friendly:</strong> Works flawlessly on all devices.
-                </li>
-                <li>
-                  <strong>Lightweight & Fast:</strong> Optimized for performance.
-                </li>
-              </ul>
-            </TextContainer>
-
-            {/* Setup Video Modal */}
-            <div style={{ marginTop: "20px" }}>
-              <Button onClick={toggleVideoModal} primary>
-                Watch Quick Setup ▶️
-              </Button>
-
-              <Modal open={videoModalActive} onClose={toggleVideoModal} title="Quick Setup in Online Store 2.0">
-                <Modal.Section>
-                  <div style={{ padding: "56% 0 0 0", position: "relative" }}>
-                    <iframe
-                      src="https://cdn.shopify.com/videos/c/o/v/879c7b0f313e4e858abc5c16733670d3.mp4"
-                      frameBorder="0"
-                      allow="autoplay; fullscreen; picture-in-picture"
-                      allowFullScreen
-                      style={{
-                        position: "absolute",
-                        top: "0",
-                        left: "0",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                      title="Quick Setup"
-                    ></iframe>
+                    <div style={{ marginTop: 20 }}>
+                      <Button onClick={toggleVideoModal} primary>
+                        Watch quick setup guide ▶️
+                      </Button>
+                    </div>
                   </div>
-                </Modal.Section>
-              </Modal>
+
+                  {/* Right side: phone / video preview */}
+                  <div
+                    style={{
+                      flex: 1,
+                      minWidth: 260,
+                      maxWidth: 320,
+                      display: "flex",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: "100%",
+                        borderRadius: 12,
+                        overflow: "hidden",
+                        boxShadow: "0 6px 18px rgba(0,0,0,0.08)",
+                        backgroundImage: `url(${shopifyBackground})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        padding: 18,
+                      }}
+                    >
+                      <video
+                        src="https://cdn.shopify.com/videos/c/o/v/3b1a1e7263994b299f3af4f19630ef5f.mp4"
+                        controls
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: 8,
+                          display: "block",
+                        }}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                  </div>
+                </Stack>
+              </Card>
             </div>
           </Layout.Section>
 
-          {/* Video Preview */}
-          <Layout.Section secondary>
-            <Card>
-              <div
-                className="videoWrapper"
-                style={{
-                  backgroundImage: `url(${shopifyBackground})`,
-                  padding: "22px",
+          {/* Scroll to Top Callout */}
+          <Layout.Section>
+            <div style={sectionShellStyle}>
+              {sectionAccentBar}
+              <CalloutCard
+                title="Enable the app embed to start using the button"
+                illustration="https://cdn.shopify.com/s/assets/admin/checkout/settings-customizecart-705f57c725ac05be5a34ec20c05b94298cb8afd10aac7bd9c7ad02030f48cfa0.svg"
+                primaryAction={{
+                  content: "Open theme editor",
+                  onAction: openThemeEditor,
+                  accessibilityLabel: "Enable the Scroll to Top app embed",
                 }}
               >
-                <video
-                  src="https://cdn.shopify.com/videos/c/o/v/ace71d0f22f04c4e9eb54e470ea7539c.mp4"
-                  controls
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{ width: "100%", height: "100%" }}
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            </Card>
+                <p>
+                  To make the Scroll to Top button appear on your storefront, turn
+                  on the app embed inside your current theme. Once it’s enabled,
+                  you can fine-tune placement, styling, and visibility directly in
+                  the theme editor.
+                </p>
+              </CalloutCard>
+            </div>
           </Layout.Section>
+
+          {/* Setup Video Modal (full-screen) */}
+          <Modal
+            open={videoModalActive}
+            onClose={toggleVideoModal}
+            title="Quick setup in Online Store 2.0"
+          >
+            <Modal.Section>
+              <div style={{ padding: "56% 0 0 0", position: "relative" }}>
+                <iframe
+                  src="https://cdn.shopify.com/videos/c/o/v/bd24b7a578304e96a9fcfaaf27fabdc0.mp4"
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                  style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: "50%",
+                  }}
+                  title="Quick Setup"
+                ></iframe>
+              </div>
+            </Modal.Section>
+          </Modal>
         </Layout>
       </Page>
     </Frame>

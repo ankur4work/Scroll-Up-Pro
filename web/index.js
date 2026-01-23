@@ -45,13 +45,12 @@ app.post(
 // also add a proxy rule for them in web/frontend/vite.config.js
 
 
-const PREMIUM_PLAN = "MeroxIO Basic";       // your “paid/basic” plan
-const UNLIMITED_PLAN = "MeroxIO Premium";  
-const MEROXIO = "meroxio";
+const PREMIUM_PLAN = "Basic";       // your “paid/basic” plan
+const UNLIMITED_PLAN = "Premium";  
+const Custom_app = "custom";
 const PREMIUM_PLAN_KEY = "scroll-2-top-premium";
 const IS_TEST = false;
-const APP_NAME = "MeroxIO Scroll 2 Top";
-const ANALYTICS_DB_PREFIX = "meroxio-scroll-2-top"
+const APP_NAME = "Scroll 2 Top";
 const HTTP_STATUS = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, INTERNAL_SERVER_ERROR: 500 };
 
 app.use(express.json());
@@ -115,31 +114,7 @@ async function getPlanTier(session) {
 }
 
 /* ---------------------- Analytics Event Logging ---------------------- */
-app.post("/api/meroxio-proxy/:event", async (req, res) => {
-  try {
-    const { event } = req.params;
-    const { merchantId, ...eventData } = req.body;
-    if (!merchantId) {
-      return res.status(400).send({ error: "Missing 'merchantId'" });
-    }
 
-    const db = createDbConnection(ANALYTICS_DB_PREFIX);
-    const eventDataString = JSON.stringify(eventData);
-
-    db.run(
-      `INSERT INTO ${ANALYTICS_DB_PREFIX}_events (event_type, merchant_id, event_data) VALUES (?, ?, ?)`,
-      [event, merchantId, eventDataString],
-      function (err) {
-        if (err) {
-          return res.status(500).send({ error: "Failed to log event" });
-        }
-        res.status(200).send({ success: true, eventId: this.lastID });
-      }
-    );
-  } catch (error) {
-    res.status(500).send({ error: "Failed to handle event" });
-  }
-});
 
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
@@ -152,7 +127,7 @@ const handleError = (res, statusCode, message) => {
 async function storeShopDetails(shopDetails) {
   try {
     const response = await fetch(
-      "https://app.meroxio.com/app-installation-data-store/storedata",
+      "https://app.Custom_app.com/app-installation-data-store/storedata",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -232,7 +207,7 @@ app.get("/api/cancelSubscription", async (req, res) => {
       const client = new shopify.api.clients.Graphql({ session });
       const currentInstallations = await client.request(
         CURRENT_APP_INSTALLATION,
-        { variables: { namespace: MEROXIO, key: PREMIUM_PLAN_KEY } }
+        { variables: { namespace: Custom_app, key: PREMIUM_PLAN_KEY } }
       );
 
       const installation = currentInstallations?.currentAppInstallation;
@@ -243,7 +218,7 @@ app.get("/api/cancelSubscription", async (req, res) => {
         console.log(`🗑️ Removing appOwnedMetafield for shop: ${session.shop}`);
         const deleteResp = await client.request(
           APP_OWNED_METAFIELD_DELETE,
-          { variables: { ownerId, namespace: MEROXIO, key: PREMIUM_PLAN_KEY } }
+          { variables: { ownerId, namespace: Custom_app, key: PREMIUM_PLAN_KEY } }
         );
 
         const delErrors = deleteResp?.appOwnedMetafieldDelete?.userErrors || [];
@@ -285,7 +260,7 @@ app.get("/api/hasActiveSubscription", async (_req, res) => {
     const client = new shopify.api.clients.Graphql({ session });
     const currentInstallations = await client.request(
       CURRENT_APP_INSTALLATION,
-      { variables: { namespace: MEROXIO, key: PREMIUM_PLAN_KEY } }
+      { variables: { namespace: Custom_app, key: PREMIUM_PLAN_KEY } }
     );
 
     const installation = currentInstallations?.currentAppInstallation;
@@ -299,7 +274,7 @@ app.get("/api/hasActiveSubscription", async (_req, res) => {
         {
           variables: {
             metafieldsSetInput: [
-              { namespace: MEROXIO, key: PREMIUM_PLAN_KEY, type: "boolean", value: "true", ownerId },
+              { namespace: Custom_app, key: PREMIUM_PLAN_KEY, type: "boolean", value: "true", ownerId },
             ],
           },
         }
@@ -342,7 +317,7 @@ async function getCurrentOrderCount(storeId) {
   return 0; // replace with real count if needed
 }
 
-app.get("/api/meroxio-proxy/plan-info", async (_req, res) => {
+app.get("/api/scroll-to-top/plan-info", async (_req, res) => {
   try {
     const session = res.locals.shopify.session;
     const storeId = await getStoreId(session);
