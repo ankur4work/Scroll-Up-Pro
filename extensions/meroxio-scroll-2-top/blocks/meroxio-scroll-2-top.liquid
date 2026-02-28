@@ -31,35 +31,35 @@
 </style>
 
 <!-- Scroll Button -->
-<button id="scrollTopBtn" onclick="scrollToTop()">
+<button id="scrollTopBtn" onclick="scrollToTop()" style="background: {{ block.settings.bgcolor }};">
   {% case block.settings.icon_style %}
     {% when 'chevron' %}
       <!-- Chevron Up -->
-      <svg fill="white" height="30px" width="30px"
+      <svg height="30px" width="30px"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <polygon points="3.5 10.8 8 6.3 12.5 10.8 11.3 12 8 8.7 4.7 12" />
+        <polygon fill="white" points="3.5 10.8 8 6.3 12.5 10.8 11.3 12 8 8.7 4.7 12" />
       </svg>
 
     {% when 'arrow' %}
       <!-- Arrow Up with stem -->
-      <svg fill="white" height="30px" width="30px"
+      <svg height="30px" width="30px"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <polygon points="8 3 3 9 6 9 6 13 10 13 10 9 13 9" />
+        <polygon fill="white" points="8 3 3 9 6 9 6 13 10 13 10 9 13 9" />
       </svg>
 
     {% when 'triangle' %}
       <!-- Solid triangle arrow -->
-      <svg fill="white" height="30px" width="30px"
+      <svg height="30px" width="30px"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <polygon points="8 4 3 11 13 11" />
+        <polygon fill="white" points="8 4 3 11 13 11" />
       </svg>
 
     {% when 'double_chevron' %}
       <!-- Double Chevron Up -->
-      <svg fill="white" height="30px" width="30px"
+      <svg height="30px" width="30px"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <polygon points="3.5 11 8 6.5 12.5 11 11.4 12.1 8 8.7 4.6 12.1" />
-        <polygon points="3.5 8.5 8 4 12.5 8.5 11.4 9.6 8 6.2 4.6 9.6" />
+        <polygon fill="white" points="3.5 11 8 6.5 12.5 11 11.4 12.1 8 8.7 4.6 12.1" />
+        <polygon fill="white" points="3.5 8.5 8 4 12.5 8.5 11.4 9.6 8 6.2 4.6 9.6" />
       </svg>
 
     {% when 'circle_arrow' %}
@@ -72,16 +72,16 @@
 
     {% when 'minimal' %}
       <!-- Minimal thin caret up -->
-      <svg fill="white" height="30px" width="30px"
+      <svg height="30px" width="30px"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <polygon points="4.5 11 8 7.5 11.5 11 10.8 11.7 8 8.9 5.2 11.7" />
+        <polygon fill="white" points="4.5 11 8 7.5 11.5 11 10.8 11.7 8 8.9 5.2 11.7" />
       </svg>
 
     {% else %}
       <!-- Default icon (fallback) -->
-      <svg fill="white" height="30px" width="30px"
+      <svg height="30px" width="30px"
         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-        <polygon points="8 4 3 10 6 10 6 12 10 12 10 10 13 10" />
+        <polygon fill="white" points="8 4 3 10 6 10 6 12 10 12 10 10 13 10" />
       </svg>
   {% endcase %}
 </button>
@@ -119,6 +119,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     {% endif %}
 
     scrollSvg.style.fill = "#FFFFFF"; // fixed icon color
+    scrollBtn.style.backgroundColor = "#28A745";
+    scrollBtn.style.borderRadius = "50%";
   }
 
   /* ---------------- BASIC PLAN (backend: premium) ---------------- */
@@ -130,11 +132,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if ("{{ template }}" && "{{ template }}".includes("index")) show = true;
     {% endif %}
 
-    if (show) {
-      scrollBtn.style.display = "block";
-    } else {
-      scrollBtn.style.display = "none";
-    }
+    scrollBtn.style.display = show ? "block" : "none";
 
     // Apply customization (color, hover, icon, position, shape)
     scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
@@ -180,11 +178,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       if ("{{ template }}" && "{{ template }}".includes("page")) show = true;
     {% endif %}
 
-    if (show) {
-      scrollBtn.style.display = "block";
-    } else {
-      scrollBtn.style.display = "none";
-    }
+    scrollBtn.style.display = show ? "block" : "none";
 
     // Apply customization
     scrollBtn.style.backgroundColor = "{{ block.settings.bgcolor }}";
@@ -211,20 +205,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       scrollBtn.style.borderRadius = "50%";
     {% endif %}
   }
-});
-</script>
 
-<script>
-  // Scroll visibility
-  const scrollBtn = document.getElementById("scrollTopBtn");
+  /* -------- Scroll visibility + click behavior (all plans) -------- */
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 100) scrollBtn.classList.add("show");
-    else scrollBtn.classList.remove("show");
+    // Only animate if button is allowed to show by plan logic
+    if (scrollBtn.style.display === "block" && window.scrollY > 100) {
+      scrollBtn.classList.add("show");
+    } else {
+      scrollBtn.classList.remove("show");
+    }
   });
 
-  function scrollToTop() {
+  window.scrollToTop = function() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  };
+});
 </script>
 
 {% schema %}
