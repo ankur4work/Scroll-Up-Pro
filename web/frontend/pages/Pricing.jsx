@@ -248,10 +248,10 @@ export default function Pricing() {
   const glowIfCurrent = (plan) =>
     isCurrent(plan)
       ? {
-          boxShadow: "0 18px 45px rgba(37,99,235,0.22)", // stronger glow
-          border: "2px solid #2563EB",
-          transform: "translateY(-4px)",
-        }
+        boxShadow: "0 18px 45px rgba(37,99,235,0.22)", // stronger glow
+        border: "2px solid #2563EB",
+        transform: "translateY(-4px)",
+      }
       : {};
 
   const FreeWatermark = () => (
@@ -372,276 +372,115 @@ export default function Pricing() {
         </Modal.Section>
       </Modal>
 
-      <Page
-        title="Scroll-2-Top – Plans & billing"
-        subtitle="Pick the plan that matches how far you want your scroll button to go."
-      >
-        {!!banner.msg && !!banner.status && (
-          <div style={{ marginBottom: 12 }}>
-            <Banner
-              status={banner.status}
-              onDismiss={() => setBanner({ msg: "", status: null })}
-            >
-              {banner.msg}
-            </Banner>
+      <div className="premium-dashboard">
+        <div className="content-wrapper" style={{ paddingTop: '48px', maxWidth: '1000px', margin: '0 auto' }}>
+
+          {!!banner.msg && !!banner.status && (
+            <div style={{ marginBottom: 24 }}>
+              <Banner
+                status={banner.status}
+                onDismiss={() => setBanner({ msg: "", status: null })}
+              >
+                {banner.msg}
+              </Banner>
+            </div>
+          )}
+
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <h1 className="hero-heading" style={{ color: '#171717', marginBottom: '12px' }}>
+              Simple, transparent pricing
+            </h1>
+            <p className="hero-text" style={{ color: '#525252', margin: '0 auto' }}>
+              Pick the plan that matches how far you want your scroll button to go.
+            </p>
           </div>
-        )}
 
-        <Layout>
-          {/* FREE PLAN */}
-          <Layout.Section oneThird>
-            <Card
-              sectioned={false}
-              title={null}
-              style={{ ...commonCardStyle, ...glowIfCurrent("free") }}
-            >
-              {/* Accent bar */}
-              <div
-                style={{
-                  height: 6,
-                  width: "100%",
-                  background: getAccentColor("free"),
-                }}
-              />
-              <FreeWatermark />
+          <div className="plan-grid">
+            {/* FREE PLAN */}
+            <div className={`plan-card ${isCurrent("free") ? "active" : ""}`}>
+              {isCurrent("free") && <div className="plan-badge">Current Plan</div>}
+              <span className="plan-name" style={{ color: getAccentColor("free") }}>Free Forever</span>
+              <div className="plan-price">$0</div>
+              <p style={{ color: "#737373", fontSize: 14, marginBottom: 24, minHeight: 60 }}>
+                A beautiful, smooth scroll-to-top button on your homepage to get you started.
+              </p>
 
-              <div style={cardInner}>
-                <div style={headerRow}>
-                  <Stack alignment="center" spacing="tight">
-                    <span style={{ fontWeight: 600 }}>Free</span>
-                    <span style={badgeStarter}>Good to start</span>
-                  </Stack>
-                  {isCurrent("free") && (
-                    <span style={badgeCurrent}>Current</span>
-                  )}
-                </div>
-
-                <div style={priceRow}>
-                  <div
-                    style={{
-                      fontSize: 30,
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    $0
-                  </div>
-                  <div style={{ fontSize: 12, color: "#6B7280" }}>
-                    Ideal for trying out Scroll-2-Top
-                  </div>
-                </div>
-
-                <p style={{ color: "var(--p-text-subdued)", fontSize: 13 }}>
-                  Add a basic Scroll-2-Top button with smooth scrolling. Styling
-                  is fixed and the button appears on the homepage only.
-                </p>
-
-                <div style={featureBlock}>
-                  <Stack vertical spacing="loose">
-                    <Feature enabled={true}>
-                      Smooth scroll-to-top animation
-                    </Feature>
-                    <Feature enabled={false}>Change button color or icon</Feature>
-                    <Feature enabled={false}>Custom hover appearance</Feature>
-                    <Feature enabled={false}>
-                      Show on product or collection pages
-                    </Feature>
-                    <Feature enabled={true}>
-                      Works on mobile and desktop
-                    </Feature>
-                  </Stack>
-                </div>
-
-                <div style={buttonRow}>
-                  <Button
-                    destructive
-                    onClick={() => openConfirm("free")}
-                    disabled={isCurrent("free") || loading.action === "free"}
-                    loading={loading.action === "free"}
-                    fullWidth
-                  >
-                    {isCurrent("free") ? "Current plan" : "Switch to Free"}
-                  </Button>
-                </div>
+              <div style={{ padding: '24px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea', marginBottom: 24, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Feature enabled={true}>Smooth scroll animation</Feature>
+                <Feature enabled={false}>Custom colors & sizing</Feature>
+                <Feature enabled={false}>Custom icon styling</Feature>
+                <Feature enabled={false}>Product & Collection pages</Feature>
+                <Feature enabled={true}>Mobile friendly</Feature>
               </div>
-            </Card>
-          </Layout.Section>
 
-          {/* BASIC PLAN */}
-          <Layout.Section oneThird>
-            <Card
-              sectioned={false}
-              title={null}
-              style={{
-                ...commonCardStyle,
-                ...glowIfCurrent("basic"),
-                background:
-                  "linear-gradient(180deg, #F9FAFB 0%, #FFFFFF 45%, #FFFFFF 100%)",
-              }}
-            >
-              {/* Accent bar */}
-              <div
-                style={{
-                  height: 6,
-                  width: "100%",
-                  background: getAccentColor("basic"),
-                }}
-              />
+              <button
+                className={isCurrent("free") ? "btn-light" : "btn-dark"}
+                style={{ width: '100%' }}
+                onClick={() => openConfirm("free")}
+                disabled={isCurrent("free") || loading.action === "free"}
+              >
+                {isCurrent("free") ? "Active Plan" : "Downgrade to Free"}
+              </button>
+            </div>
 
-              <div style={cardInner}>
-                <div style={headerRow}>
-                  <Stack alignment="center" spacing="tight">
-                    <span style={{ fontWeight: 600 }}>Basic</span>
-                    <span style={badgePopular}>Most chosen</span>
-                  </Stack>
-                  {isCurrent("basic") && (
-                    <span style={badgeCurrent}>Current</span>
-                  )}
-                </div>
+            {/* BASIC PLAN */}
+            <div className={`plan-card ${isCurrent("basic") ? "active" : ""}`} style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)', borderColor: isCurrent("basic") ? '#171717' : '#d4d4d4', transform: 'scale(1.02)', zIndex: 2 }}>
+              {!isCurrent("basic") && <div className="plan-badge" style={{ background: '#2563EB', color: '#fff' }}>Most Popular</div>}
+              {isCurrent("basic") && <div className="plan-badge">Current Plan</div>}
 
-                <div style={priceRow}>
-                  <div
-                    style={{
-                      fontSize: 30,
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    $10
-                  </div>
-                  <div style={{ fontSize: 12, color: "#6B7280" }}>
-                    Best for custom branded scroll buttons
-                  </div>
-                </div>
+              <span className="plan-name" style={{ color: getAccentColor("basic") }}>Basic</span>
+              <div className="plan-price">$10 <span style={{ fontSize: 16, color: '#a3a3a3', fontWeight: 400 }}>/ mo</span></div>
+              <p style={{ color: "#737373", fontSize: 14, marginBottom: 24, minHeight: 60 }}>
+                Unlock full design controls to perfectly match your brand's aesthetic.
+              </p>
 
-                <p style={{ color: "var(--p-text-subdued)", fontSize: 13 }}>
-                  Unlock design controls for the Scroll-2-Top button. Adjust
-                  colors, hover styles, and icon while keeping it active on your
-                  homepage.
-                </p>
-
-                <div style={featureBlock}>
-                  <Stack vertical spacing="loose">
-                    <Feature enabled={true}>
-                      Smooth scroll-to-top animation
-                    </Feature>
-                    <Feature enabled={true}>
-                      Custom colors and icon style
-                    </Feature>
-                    <Feature enabled={true}>
-                      Hover effects and visual feedback
-                    </Feature>
-                    <Feature enabled={false}>
-                      Show on collection or product pages
-                    </Feature>
-                    <Feature enabled={true}>
-                      Mobile-friendly experience
-                    </Feature>
-                  </Stack>
-                </div>
-
-                <div style={buttonRow}>
-                  <Button
-                    primary
-                    onClick={() => openConfirm("basic")}
-                    disabled={isCurrent("basic") || loading.action === "basic"}
-                    loading={loading.action === "basic"}
-                    fullWidth
-                  >
-                    {isCurrent("basic") ? "Basic active" : "Upgrade to Basic"}
-                  </Button>
-                </div>
+              <div style={{ padding: '24px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea', marginBottom: 24, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Feature enabled={true}>Smooth scroll animation</Feature>
+                <Feature enabled={true}>Custom colors & sizing</Feature>
+                <Feature enabled={true}>Custom icon styling</Feature>
+                <Feature enabled={false}>Product & Collection pages</Feature>
+                <Feature enabled={true}>Mobile friendly</Feature>
               </div>
-            </Card>
-          </Layout.Section>
 
-          {/* PREMIUM PLAN */}
-          <Layout.Section oneThird>
-            <Card
-              sectioned={false}
-              title={null}
-              style={{
-                ...commonCardStyle,
-                ...glowIfCurrent("premium"),
-              }}
-            >
-              {/* Accent bar */}
-              <div
-                style={{
-                  height: 6,
-                  width: "100%",
-                  background: getAccentColor("premium"),
-                }}
-              />
+              <button
+                className="btn-dark"
+                style={{ width: '100%', background: isCurrent("basic") ? '#ffffff' : '#171717', color: isCurrent("basic") ? '#171717' : '#ffffff', border: isCurrent("basic") ? '1px solid #d4d4d4' : 'none' }}
+                onClick={() => openConfirm("basic")}
+                disabled={isCurrent("basic") || loading.action === "basic"}
+              >
+                {isCurrent("basic") ? "Active Plan" : "Upgrade to Basic"}
+              </button>
+            </div>
 
-              <div style={cardInner}>
-                <div style={headerRow}>
-                  <Stack alignment="center" spacing="tight">
-                    <span style={{ fontWeight: 600 }}>Premium</span>
-                    <span style={badgeFull}>All features</span>
-                  </Stack>
-                  {isCurrent("premium") && (
-                    <span style={badgeCurrent}>Current</span>
-                  )}
-                </div>
+            {/* PREMIUM PLAN */}
+            <div className={`plan-card ${isCurrent("premium") ? "active" : ""}`}>
+              {isCurrent("premium") && <div className="plan-badge">Current Plan</div>}
+              <span className="plan-name" style={{ color: getAccentColor("premium") }}>Premium</span>
+              <div className="plan-price">$100 <span style={{ fontSize: 16, color: '#a3a3a3', fontWeight: 400 }}>/ mo</span></div>
+              <p style={{ color: "#737373", fontSize: 14, marginBottom: 24, minHeight: 60 }}>
+                Maximum visibility. Let shoppers instantly jump back on any page across your store.
+              </p>
 
-                <div style={priceRow}>
-                  <div
-                    style={{
-                      fontSize: 30,
-                      fontWeight: 700,
-                      lineHeight: 1.1,
-                    }}
-                  >
-                    $100
-                  </div>
-                  <div style={{ fontSize: 12, color: "#6B7280" }}>
-                    Full control and visibility across your store
-                  </div>
-                </div>
-
-                <p style={{ color: "var(--p-text-subdued)", fontSize: 13 }}>
-                  Get full control of Scroll-2-Top — customize the button and
-                  display it across all key pages, including home, product, and
-                  collection.
-                </p>
-
-                <div style={featureBlock}>
-                  <Stack vertical spacing="loose">
-                    <Feature enabled={true}>
-                      Smooth scroll-to-top animation
-                    </Feature>
-                    <Feature enabled={true}>
-                      Advanced styling (colors & icon)
-                    </Feature>
-                    <Feature enabled={true}>
-                      Hover and interaction control
-                    </Feature>
-                    <Feature enabled={true}>
-                      Visibility on all key storefront pages
-                    </Feature>
-                    <Feature enabled={true}>
-                      Optimized for speed and mobile
-                    </Feature>
-                  </Stack>
-                </div>
-
-                <div style={buttonRow}>
-                  <Button
-                    primary
-                    onClick={() => openConfirm("premium")}
-                    disabled={isCurrent("premium") || loading.action === "premium"}
-                    loading={loading.action === "premium"}
-                    fullWidth
-                  >
-                    {isCurrent("premium") ? "Premium active" : "Upgrade to Premium"}
-                  </Button>
-                </div>
+              <div style={{ padding: '24px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea', marginBottom: 24, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <Feature enabled={true}>Smooth scroll animation</Feature>
+                <Feature enabled={true}>Custom colors & sizing</Feature>
+                <Feature enabled={true}>Custom icon styling</Feature>
+                <Feature enabled={true}>Product & Collection pages</Feature>
+                <Feature enabled={true}>Priority Support</Feature>
               </div>
-            </Card>
-          </Layout.Section>
-        </Layout>
-      </Page>
+
+              <button
+                className={isCurrent("premium") ? "btn-light" : "btn-dark"}
+                style={{ width: '100%' }}
+                onClick={() => openConfirm("premium")}
+                disabled={isCurrent("premium") || loading.action === "premium"}
+              >
+                {isCurrent("premium") ? "Active Plan" : "Upgrade to Premium"}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </Frame>
   );
 }

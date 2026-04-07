@@ -11,11 +11,10 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import crypto from "crypto";
 import dotenv from "dotenv";
 
-
 import createDbConnection  from './analytics-db.js'; // Database initialization
 import { connectToMongoDB } from "./mongodb.js"; // Import the MongoDB utility
 
-dotenv.config();
+dotenv.config({ path: join(process.cwd(), '../.env') });
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
@@ -45,12 +44,12 @@ app.post(
 // also add a proxy rule for them in web/frontend/vite.config.js
 
 
-const PREMIUM_PLAN = "Basic";       // your “paid/basic” plan
-const UNLIMITED_PLAN = "Premium";  
+const PREMIUM_PLAN = "Premium";
+const UNLIMITED_PLAN = "Unlimited";
 const Custom_app = "custom";
 const PREMIUM_PLAN_KEY = "scroll-2-top-premium";
-const IS_TEST = false;
-const APP_NAME = "Scroll 2 Top";
+const IS_TEST = true; // Use true for testing billing in Development
+const APP_NAME = "Scroll Up Pro";
 const HTTP_STATUS = { OK: 200, BAD_REQUEST: 400, UNAUTHORIZED: 401, INTERNAL_SERVER_ERROR: 500 };
 
 app.use(express.json());
@@ -127,7 +126,9 @@ const handleError = (res, statusCode, message) => {
 async function storeShopDetails(shopDetails) {
   try {
     const response = await fetch(
-      "https://app.Custom_app.com/app-installation-data-store/storedata",
+       // Send shop installation details to external analytics or data storage API,
+""
+    ,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -392,7 +393,7 @@ app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res) => {
     .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 
-app.listen(PORT, () => console.log(`🚀 Server running  on http://localhost:${PORT}`));
+app.listen(PORT, '127.0.0.1', () => console.log(`🚀 Server running  on http://127.0.0.1:${PORT}`));
 
 /* --------------------------- GraphQL Queries --------------------------- */
 

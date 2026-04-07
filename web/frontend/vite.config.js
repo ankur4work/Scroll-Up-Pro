@@ -58,7 +58,7 @@ export default defineConfig({
     preserveSymlinks: true,
   },
   server: {
-    host: "localhost",
+    host: "127.0.0.1",
     port: process.env.FRONTEND_PORT,
     hmr: hmrConfig,
     proxy: {

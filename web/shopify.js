@@ -2,30 +2,25 @@ import { BillingInterval, LATEST_API_VERSION } from "@shopify/shopify-api";
 import { shopifyApp } from "@shopify/shopify-app-express";
 import {MongoDBSessionStorage} from '@shopify/shopify-app-session-storage-mongodb';
 import { restResources } from "@shopify/shopify-api/rest/admin/2023-04";
+import { join } from "path";
 import dotenv from "dotenv";
 
-
-dotenv.config();
+dotenv.config({ path: join(process.cwd(), '../.env') });
 
 
 // The transactions with Shopify will always be marked as test transactions, unless NODE_ENV is production.
 // See the ensureBilling helper to learn more about billing in this template.
 const billingConfig = {
-  "Basic": {
-    // This is an example configuration that would do a one-time charge for $5 (only USD is currently supported)
-    amount: 10.00,
-    currencyCode: "USD",
-    trialDays: 0,
-    interval: BillingInterval.Every30Days,
-  },
- 
   "Premium": {
-    // Added second plan with the same structure, at $99.99 (USD)
-    amount: 100.00,
-    currencyCode: "USD",
-    trialDays: 0,
+    amount: 10.0,
+    currencyCode: 'USD',
     interval: BillingInterval.Every30Days,
   },
+  "Unlimited": {
+    amount: 100.0,
+    currencyCode: 'USD',
+    interval: BillingInterval.Every30Days,
+  }
 };
 
 const shopify = shopifyApp({
@@ -47,8 +42,8 @@ const shopify = shopifyApp({
   },
   // This should be replaced with your preferred storage strategy
   sessionStorage: new MongoDBSessionStorage(
-    'mongodb+srv://meroxio:%40%23MeroxIO%23%40@cluster0.xcu2ogt.mongodb.net/?retryWrites=true&w=majority',
-    'meroxio-scroll-2-top',
+    process.env.MONGO_URI || "mongodb://127.0.0.1:27017",
+    process.env.MONGO_DB_NAME || "shopify_sessions"
   ),
 });
 
