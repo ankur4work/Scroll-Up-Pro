@@ -1,6 +1,9 @@
 {
   "name": "Scroll Up Pro",
   "name_app": "Scroll Up Pro",
+  "app_embed": {
+    "name": "Scroll Up Pro"
+  },
   "ratings": {
     "stars": {
       "label": "Ratings"

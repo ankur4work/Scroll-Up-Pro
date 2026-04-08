@@ -13,7 +13,6 @@ import { Redirect } from "@shopify/app-bridge/actions";
 import { useAppBridge } from "@shopify/app-bridge-react";
 
 import "./index.css";
-import logoImage from "../assets/logo.png";
 
 export default function HomePage() {
   const emptyToastProps = { content: null };
@@ -137,7 +136,7 @@ export default function HomePage() {
       if (!data.shop) throw new Error("Shop domain is missing");
 
       window.open(
-        `https://${data.shop}/admin/themes/current/editor?context=apps&activateAppId=b355dba7-d415-49dc-8399-11206b10c9ca/scroll-to-top-embed`,
+        `https://${data.shop}/admin/themes/current/editor?context=apps`,
         "_blank"
       );
     } catch (error) {
@@ -165,19 +164,18 @@ export default function HomePage() {
         {/* DARK HIGH-END HERO SECTION */}
         <div className="hero-section" style={{ display: 'flex', flexWrap: 'wrap', gap: '48px', alignItems: 'center' }}>
           <div style={{ flex: '1 1 300px', position: 'relative', zIndex: 1 }}>
-            <img src={logoImage} alt="Scroll Up Pro Logo" style={{ height: 'auto', maxWidth: '300px', marginBottom: '24px', display: 'block' }} />
-            <span className="kicker">Navigation Toolkit</span>
+            <span className="kicker">Scroll Up Pro</span>
             <h1 className="hero-heading">
-              Welcome to Scroll Up Pro
+              One-tap back to top.<br />Smooth & beautiful.
             </h1>
             <p className="hero-text">
-              Enhance your store's navigation with a beautiful, floating shortcut. Let shoppers instantly jump back to the top of your long pages for a seamless, professional browsing experience.
+              Give your customers a polished, floating scroll button that matches your brand. Fully customizable, lightning fast, and works everywhere.
             </p>
-            
+
             <ul className="dark-list">
-              <li><strong>Fluid Animation:</strong> A smooth return-to-top motion.</li>
-              <li><strong>Premium Customization:</strong> Tweak colors and icons to suit your brand perfectly.</li>
-              <li><strong>Smart Visibility:</strong> Control exactly which pages the button appears on.</li>
+              <li><strong>Buttery smooth</strong> scroll animation out of the box.</li>
+              <li><strong>Brand-matched</strong> colors, icons & shapes you control.</li>
+              <li><strong>Page-level rules</strong> — show it only where it matters.</li>
             </ul>
 
             <div style={{ marginTop: '32px' }}>
@@ -208,8 +206,8 @@ export default function HomePage() {
           {/* THEME EDITOR BANNER */}
           <div className="setup-banner">
             <div>
-              <h2>Enable the App Embed</h2>
-              <p>Turn on the app embed inside your current theme to make the button visible on your live storefront.</p>
+              <h2>Activate on Your Store</h2>
+              <p>Enable the app embed in your theme to make the scroll button visible on your live storefront.</p>
             </div>
             <button className="btn-light" style={{ width: 'auto' }} onClick={openThemeEditor}>
               Open Theme Editor
@@ -226,8 +224,8 @@ export default function HomePage() {
           {/* PRICING PLANS */}
           <div className="saas-card">
             <div style={{ marginBottom: '8px' }}>
-              <h2 className="section-heading">Subscription Plans</h2>
-              <p className="section-subheading">Choose the tier that best fits your store. Processed securely through Shopify Billing.</p>
+              <h2 className="section-heading">Choose Your Plan</h2>
+              <p className="section-subheading">Start free, upgrade anytime. All billing handled securely by Shopify.</p>
             </div>
 
             {isLoading ? (
@@ -245,7 +243,7 @@ export default function HomePage() {
                         <span style={{ fontSize: '16px', color: '#a3a3a3', fontWeight: '500', marginLeft: '4px' }}>/ mo</span>
                       </div>
                       <p style={{ color: '#737373', fontSize: '14px', marginBottom: '32px', minHeight: '44px', lineHeight: '1.5' }}>
-                        {plan === "free" ? "Basic customization for small stores on the homepage." : plan === "basic" ? "Advanced customization and colors for the homepage." : "Premium display features across all store pages."}
+                        {plan === "free" ? "A clean scroll button on your homepage — zero cost." : plan === "basic" ? "Full design control — colors, icons & shapes." : "Every feature, every page, priority support."}
                       </p>
                       
                       {/* Pushes button to bottom if text heights vary slightly */}

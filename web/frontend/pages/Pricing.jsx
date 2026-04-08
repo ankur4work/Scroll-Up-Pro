@@ -236,21 +236,22 @@ export default function Pricing() {
   // Shared card styles
   const commonCardStyle = {
     borderRadius: 18,
-    border: "1px solid #E5E7EB",
+    border: "1.5px solid #e8ecf1",
     position: "relative",
     overflow: "hidden",
     paddingTop: 0,
-    boxShadow: "0 4px 14px rgba(15,23,42,0.06)", // base subtle shadow
-    transition: "all 0.18s ease",
+    boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.02)",
+    transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
     backgroundColor: "#FFFFFF",
   };
 
   const glowIfCurrent = (plan) =>
     isCurrent(plan)
       ? {
-        boxShadow: "0 18px 45px rgba(37,99,235,0.22)", // stronger glow
-        border: "2px solid #2563EB",
+        boxShadow: "0 16px 40px rgba(79,70,229,0.18)",
+        border: "2px solid #4f46e5",
         transform: "translateY(-4px)",
+        background: "linear-gradient(180deg, #faf9ff 0%, #ffffff 100%)",
       }
       : {};
 
@@ -284,32 +285,32 @@ export default function Pricing() {
 
   const badgeStarter = {
     ...pillBase,
-    backgroundColor: "#047857",
-    color: "#FFFFFF",
+    backgroundColor: "#e5e7eb",
+    color: "#374151",
   };
 
   const badgePopular = {
     ...pillBase,
-    backgroundColor: "#FB923C",
-    color: "#111827",
+    backgroundColor: "#4f46e5",
+    color: "#ffffff",
   };
 
   const badgeFull = {
     ...pillBase,
-    backgroundColor: "#7C3AED",
-    color: "#F9FAFB",
+    backgroundColor: "#7c3aed",
+    color: "#ffffff",
   };
 
   const badgeCurrent = {
     ...pillBase,
-    backgroundColor: "#2563EB",
-    color: "#FFFFFF",
+    backgroundColor: "#4f46e5",
+    color: "#ffffff",
   };
 
   const getAccentColor = (plan) => {
-    if (plan === "free") return "#047857";
-    if (plan === "basic") return "#F97316";
-    return "#7C3AED";
+    if (plan === "free") return "#6b7280";
+    if (plan === "basic") return "#4f46e5";
+    return "#7c3aed";
   };
 
   const cardInner = {
@@ -387,11 +388,11 @@ export default function Pricing() {
           )}
 
           <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <h1 className="hero-heading" style={{ color: '#171717', marginBottom: '12px' }}>
-              Simple, transparent pricing
+            <h1 className="hero-heading" style={{ color: '#1a1a2e', marginBottom: '12px' }}>
+              Plans that grow with you
             </h1>
-            <p className="hero-text" style={{ color: '#525252', margin: '0 auto' }}>
-              Pick the plan that matches how far you want your scroll button to go.
+            <p className="hero-text" style={{ color: '#6b7280', margin: '0 auto' }}>
+              Start free, unlock more when you're ready. No hidden fees.
             </p>
           </div>
 
@@ -401,8 +402,8 @@ export default function Pricing() {
               {isCurrent("free") && <div className="plan-badge">Current Plan</div>}
               <span className="plan-name" style={{ color: getAccentColor("free") }}>Free Forever</span>
               <div className="plan-price">$0</div>
-              <p style={{ color: "#737373", fontSize: 14, marginBottom: 24, minHeight: 60 }}>
-                A beautiful, smooth scroll-to-top button on your homepage to get you started.
+              <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 24, minHeight: 60, lineHeight: 1.6 }}>
+                A clean scroll button on your homepage — zero cost, zero hassle.
               </p>
 
               <div style={{ padding: '24px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea', marginBottom: 24, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -424,14 +425,14 @@ export default function Pricing() {
             </div>
 
             {/* BASIC PLAN */}
-            <div className={`plan-card ${isCurrent("basic") ? "active" : ""}`} style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)', borderColor: isCurrent("basic") ? '#171717' : '#d4d4d4', transform: 'scale(1.02)', zIndex: 2 }}>
-              {!isCurrent("basic") && <div className="plan-badge" style={{ background: '#2563EB', color: '#fff' }}>Most Popular</div>}
+            <div className={`plan-card ${isCurrent("basic") ? "active" : ""}`} style={{ boxShadow: '0 20px 40px -10px rgba(79,70,229,0.12)', borderColor: isCurrent("basic") ? '#4f46e5' : '#c7d2fe', transform: 'scale(1.02)', zIndex: 2 }}>
+              {!isCurrent("basic") && <div className="plan-badge" style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', color: '#fff' }}>Most Popular</div>}
               {isCurrent("basic") && <div className="plan-badge">Current Plan</div>}
 
               <span className="plan-name" style={{ color: getAccentColor("basic") }}>Basic</span>
               <div className="plan-price">$10 <span style={{ fontSize: 16, color: '#a3a3a3', fontWeight: 400 }}>/ mo</span></div>
-              <p style={{ color: "#737373", fontSize: 14, marginBottom: 24, minHeight: 60 }}>
-                Unlock full design controls to perfectly match your brand's aesthetic.
+              <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 24, minHeight: 60, lineHeight: 1.6 }}>
+                Full design control — colors, icons & shapes to match your brand.
               </p>
 
               <div style={{ padding: '24px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea', marginBottom: 24, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -444,7 +445,7 @@ export default function Pricing() {
 
               <button
                 className="btn-dark"
-                style={{ width: '100%', background: isCurrent("basic") ? '#ffffff' : '#171717', color: isCurrent("basic") ? '#171717' : '#ffffff', border: isCurrent("basic") ? '1px solid #d4d4d4' : 'none' }}
+                style={{ width: '100%', background: isCurrent("basic") ? '#ffffff' : undefined, color: isCurrent("basic") ? '#4f46e5' : undefined, border: isCurrent("basic") ? '1.5px solid #c7d2fe' : 'none' }}
                 onClick={() => openConfirm("basic")}
                 disabled={isCurrent("basic") || loading.action === "basic"}
               >
@@ -457,8 +458,8 @@ export default function Pricing() {
               {isCurrent("premium") && <div className="plan-badge">Current Plan</div>}
               <span className="plan-name" style={{ color: getAccentColor("premium") }}>Premium</span>
               <div className="plan-price">$100 <span style={{ fontSize: 16, color: '#a3a3a3', fontWeight: 400 }}>/ mo</span></div>
-              <p style={{ color: "#737373", fontSize: 14, marginBottom: 24, minHeight: 60 }}>
-                Maximum visibility. Let shoppers instantly jump back on any page across your store.
+              <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 24, minHeight: 60, lineHeight: 1.6 }}>
+                Every feature, every page, priority support included.
               </p>
 
               <div style={{ padding: '24px 0', borderTop: '1px solid #eaeaea', borderBottom: '1px solid #eaeaea', marginBottom: 24, flexGrow: 1, display: 'flex', flexDirection: 'column', gap: 12 }}>

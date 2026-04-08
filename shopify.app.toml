@@ -8,7 +8,7 @@ handle = "staging-76"
 
 [build]
 automatically_update_urls_on_dev = true
-dev_store_url = "shivam-development-store.myshopify.com"
+dev_store_url = "test311-2.myshopify.com"
 
 [webhooks]
 api_version = "2022-10"

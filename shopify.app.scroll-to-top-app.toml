@@ -18,3 +18,7 @@ scopes = ""
 [auth]
 redirect_urls = [ "https://example.com/api/auth" ]
 
+[app_proxy]
+url = "https://example.com/api/scroll-to-top"
+subpath = "scroll-to-top"
+prefix = "apps"
