@@ -2,7 +2,7 @@
 
 client_id = "866588ebf1c791f58652afae4e8cb9f2"
 name = "Scroll Up Pro"
-application_url = "https://example.com"
+application_url = "https://scrollup.solnix.store"
 embedded = true
 
 [build]
@@ -16,9 +16,13 @@ api_version = "2026-04"
 scopes = ""
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://scrollup.solnix.store/auth/callback",
+  "https://scrollup.solnix.store/auth/shopify/callback",
+  "https://scrollup.solnix.store/api/auth/callback"
+]
 
 [app_proxy]
-url = "https://example.com/api/scroll-to-top"
+url = "https://scrollup.solnix.store/api/scroll-to-top"
 subpath = "scroll-to-top"
 prefix = "apps"
