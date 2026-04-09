@@ -386,7 +386,23 @@ app.get("/api/store-details", async (_req, res) => {
 /* --------------------------- Serve Frontend --------------------------- */
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
-app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res) => {
+
+// Middleware to handle the empty 410 bounce from ensureInstalledOnShop
+// by serving index.html so the CDN app-bridge can redirect to auth
+const ensureInstalled = shopify.ensureInstalledOnShop();
+app.use("/*", (req, res, next) => {
+  const originalSend = res.send.bind(res);
+  res.send = function (body) {
+    // If ensureInstalledOnShop sends a 410 with empty body, serve the HTML page instead
+    // so the app-bridge CDN script can handle the auth redirect
+    if (res.statusCode === 410 && (!body || body.length === 0)) {
+      res.status(410);
+      return originalSend(readFileSync(join(STATIC_PATH, "index.html")));
+    }
+    return originalSend(body);
+  };
+  ensureInstalled(req, res, next);
+}, async (_req, res) => {
   return res
     .status(200)
     .set("Content-Type", "text/html")
