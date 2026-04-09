@@ -56,11 +56,8 @@ export default defineConfig({
   },
   resolve: {
     preserveSymlinks: true,
-  },
-  build: {
-    commonjsOptions: {
-      transformMixedEsModules: true,
-      include: [/node_modules/],
+    alias: {
+      "@shopify/app-bridge-core": dirname(fileURLToPath(import.meta.url)) + "/node_modules/@shopify/app-bridge-core",
     },
   },
   server: {
