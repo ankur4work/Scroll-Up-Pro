@@ -57,6 +57,18 @@ export default defineConfig({
   resolve: {
     preserveSymlinks: true,
   },
+  optimizeDeps: {
+    include: [
+      "@shopify/app-bridge",
+      "@shopify/app-bridge-react",
+      "@shopify/app-bridge/actions",
+    ],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/node_modules/],
+    },
+  },
   server: {
     host: "127.0.0.1",
     port: process.env.FRONTEND_PORT,

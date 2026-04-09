@@ -8,5 +8,5 @@ EXPOSE 3000
 WORKDIR /app
 COPY web .
 RUN npm install
-RUN cd frontend && npm install && npm run build
+RUN cd frontend && npm install --legacy-peer-deps && npm run build
 CMD ["npm", "run", "serve"]
