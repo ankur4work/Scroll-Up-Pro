@@ -57,15 +57,9 @@ export default defineConfig({
   resolve: {
     preserveSymlinks: true,
   },
-  optimizeDeps: {
-    include: [
-      "@shopify/app-bridge",
-      "@shopify/app-bridge-react",
-      "@shopify/app-bridge/actions",
-    ],
-  },
   build: {
     commonjsOptions: {
+      transformMixedEsModules: true,
       include: [/node_modules/],
     },
   },
