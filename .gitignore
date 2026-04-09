@@ -23,6 +23,7 @@ config/tunnel.pid
 
 # vite build output
 dist/
+!web/frontend/dist/
 
 # extensions build output
 extensions/*/build
