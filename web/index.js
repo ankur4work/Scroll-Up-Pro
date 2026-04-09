@@ -387,17 +387,18 @@ app.get("/api/store-details", async (_req, res) => {
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
-// Intercept empty 410 from ensureInstalledOnShop and serve index.html
-// so CDN app-bridge can handle the auth redirect
+// Intercept 410 from ensureInstalledOnShop and redirect to auth server-side
 const ensureInstalled = shopify.ensureInstalledOnShop();
 app.use("/*", (req, res, next) => {
   const originalEnd = res.end.bind(res);
   res.end = function (chunk, encoding) {
-    if (res.statusCode === 410 && (!chunk || chunk.length === 0)) {
-      const html = readFileSync(join(STATIC_PATH, "index.html"));
-      res.setHeader("Content-Type", "text/html");
-      res.setHeader("Content-Length", html.length);
-      return originalEnd(html);
+    if (res.statusCode === 410) {
+      const shop = req.query.shop;
+      if (shop) {
+        res.statusCode = 302;
+        res.setHeader("Location", `/api/auth?shop=${shop}`);
+        return originalEnd();
+      }
     }
     return originalEnd(chunk, encoding);
   };
