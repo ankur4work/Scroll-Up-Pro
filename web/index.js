@@ -33,6 +33,20 @@ app.get(shopify.config.auth.path, shopify.auth.begin());
 app.get(
   shopify.config.auth.callbackPath,
   shopify.auth.callback(),
+  // Ensure scope is saved to the session after OAuth
+  async (_req, res, next) => {
+    try {
+      const session = res.locals?.shopify?.session;
+      if (session && !session.scope) {
+        session.scope = process.env.SCOPES;
+        await shopify.config.sessionStorage.storeSession(session);
+        console.log(`✅ Fixed missing scope for ${session.shop}`);
+      }
+    } catch (e) {
+      console.error("Scope fix error:", e.message);
+    }
+    next();
+  },
   shopify.redirectToShopifyOrAppRoot()
 );
 app.post(
@@ -387,23 +401,7 @@ app.get("/api/store-details", async (_req, res) => {
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
-// Intercept 410 from ensureInstalledOnShop and redirect to auth server-side
-const ensureInstalled = shopify.ensureInstalledOnShop();
-app.use("/*", (req, res, next) => {
-  const originalEnd = res.end.bind(res);
-  res.end = function (chunk, encoding) {
-    if (res.statusCode === 410) {
-      const shop = req.query.shop;
-      if (shop) {
-        res.statusCode = 302;
-        res.setHeader("Location", `/api/auth?shop=${shop}`);
-        return originalEnd();
-      }
-    }
-    return originalEnd(chunk, encoding);
-  };
-  ensureInstalled(req, res, next);
-}, async (_req, res) => {
+app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res) => {
   return res
     .status(200)
     .set("Content-Type", "text/html")
